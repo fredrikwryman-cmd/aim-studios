@@ -133,6 +133,8 @@
   .hero h1 { font-size: clamp(38px, 5.8vw, 64px); font-weight: 900; margin: 22px 0 20px; color: #fff; transform-style: preserve-3d; will-change: transform; }
   .hero h1 .hl { color: transparent; background: linear-gradient(120deg, #fff 30%, #8b8bff); -webkit-background-clip: text; background-clip: text; }
   .scramble { font-variant-numeric: tabular-nums; }
+  @keyframes blurIn { from { opacity: 0; filter: blur(16px); transform: translateY(10px); } to { opacity: 1; filter: blur(0); transform: none; } }
+  .hero h1.blur-in { animation: blurIn 1.1s var(--ease) both; }
   .hero-sub { font-size: 19px; color: #b6b6c8; max-width: 520px; margin-bottom: 26px; }
   .trust-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 30px; }
   .trust-list li { display: flex; align-items: center; gap: 11px; font-size: 16px; font-weight: 500; color: #fff; }
@@ -995,7 +997,12 @@ document.querySelectorAll('.countup').forEach(el=>cio.observe(el));
 
 /* ---------- Text scramble ---------- */
 (function(){
-  const el=document.querySelector('.scramble'); if(!el||reduce) return;
+  const el=document.querySelector('.scramble'); if(!el) return;
+  if(reduce || matchMedia('(max-width:700px)').matches || matchMedia('(pointer:coarse)').matches){
+    el.textContent=el.dataset.text;
+    if(!reduce){ const h1=el.closest('h1'); if(h1) requestAnimationFrame(()=>h1.classList.add('blur-in')); }
+    return;
+  }
   const target=el.dataset.text, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcåäö#%&@';
   let frame=0; const queue=[];
   for(let i=0;i<target.length;i++){queue.push({to:target[i],start:Math.floor(Math.random()*20),end:20+Math.floor(Math.random()*40)});}
