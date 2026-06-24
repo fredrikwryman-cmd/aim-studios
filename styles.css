@@ -568,6 +568,7 @@
   .kinetic-hero.typed .k-line { opacity: 1; transform: none; animation: none; filter: none; }
   .kinetic-hero.typed .tc { visibility: hidden; position: relative; }
   .kinetic-hero.typed .tc.on { visibility: visible; }
+  .kinetic-hero.typed .hl, .kinetic-hero.typed .hl .tc { color: #8b8bff; -webkit-text-fill-color: #8b8bff; background: none; }
   .kinetic-hero.typed .tc.cursor::after { content: ''; position: absolute; right: -0.06em; top: 10%; height: 80%; width: 3px; background: #8b8bff; border-radius: 2px; box-shadow: 0 0 10px rgba(139,139,255,0.8); animation: caretBlink 1.05s steps(1) infinite; }
   @keyframes caretBlink { 50% { opacity: 0; } }
   @keyframes kineticDrop { 0% { opacity: 0; transform: translateY(-60px) rotateX(-40deg) scale(0.8); filter: blur(8px); } 60% { opacity: 1; transform: translateY(4px) rotateX(2deg) scale(1.02); filter: blur(0); } 100% { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0); } }
