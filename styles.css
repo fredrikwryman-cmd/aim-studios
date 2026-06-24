@@ -107,7 +107,7 @@
   .theme-toggle svg { width: 18px; height: 18px; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
 
-  .nav-cta { position: relative; overflow: hidden; padding: 11px 20px; font-size: 15px; }
+  .nav-cta { position: relative; overflow: hidden; padding: 11px 20px; font-size: 15px; transition: padding .3s var(--ease), font-size .3s var(--ease); }
   .nav-cta .cta-shimmer { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transform: skewX(-20deg); animation: shimmer 3s ease-in-out infinite; }
   @keyframes shimmer { 0% { left: -100%; } 50% { left: 200%; } 100% { left: 200%; } }
   .btn-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
@@ -127,6 +127,8 @@
   @property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
   header.scrolled .logo-status { display: none; }
   header.scrolled .nav-links { gap: 12px; }
+  header.scrolled .nav-cta { padding: 8px 17px; font-size: 13.5px; gap: 6px; border-radius: 100px; }
+  header.scrolled .nav-cta .btn-arrow { font-size: 14px; }
 
   @media (max-width: 880px) {
     .nav-center { display: none; }
