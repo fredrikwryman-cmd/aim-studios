@@ -165,21 +165,20 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
   btn.addEventListener('click',()=>{ btn.classList.add('rotated'); setTimeout(()=>btn.classList.remove('rotated'),500); });
 })();
 
-/* ---------- Easter egg: neon-läge (5 klick på logga / Konami) + navbar-puls ---------- */
+/* ---------- Easter egg: neon-läge (förstärkt) ---------- */
 (function(){
   const logo=document.getElementById('logoLink'), toast=document.getElementById('eggToast'); if(!logo) return;
+  function fireNeon(){
+    const on=document.body.classList.toggle('neon');
+    if(toast){ toast.textContent=on?'🌈 Neon-läge på!':'Neon-läge av'; toast.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove('show'),1800); }
+    if(on && typeof burst==='function') burst();
+    const nav=document.getElementById('navBar'); if(nav){ nav.style.animation='neonPulse 0.6s ease'; setTimeout(()=>{nav.style.animation='';},600); }
+    if(on){ document.querySelectorAll('.iridescent').forEach((card,i)=>{ setTimeout(()=>{ card.style.transform='scale(1.02)'; setTimeout(()=>{card.style.transform='';},200); }, i*60); }); }
+  }
   let clicks=0,last=0;
-  logo.addEventListener('click',()=>{
-    const now=Date.now(); if(now-last>800) clicks=0; last=now;
-    if(++clicks>=5){ clicks=0;
-      const on=document.body.classList.toggle('neon');
-      if(toast){ toast.textContent=on?'🌈 Neon-läge på!':'Neon-läge av'; toast.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove('show'),1800); }
-      if(on && typeof burst==='function') burst();
-      const nav=document.getElementById('navBar'); if(nav){ nav.style.animation='neonPulse 0.6s ease'; setTimeout(()=>{nav.style.animation='';},600); }
-    }
-  });
+  logo.addEventListener('click',()=>{ const now=Date.now(); if(now-last>800) clicks=0; last=now; if(++clicks>=5){ clicks=0; fireNeon(); } });
   const seq=['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a']; let idx=0;
-  addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(k===seq[idx]){ if(++idx===seq.length){ idx=0; for(let i=0;i<5;i++) logo.click(); } } else { idx=(k===seq[0])?1:0; } });
+  addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(k===seq[idx]){ if(++idx===seq.length){ idx=0; fireNeon(); } } else { idx=(k===seq[0])?1:0; } });
 })();
 
 /* ---------- Pricing calculator ---------- */
@@ -329,4 +328,18 @@ function burst(){
   const start=performance.now();
   function draw(now){const t=(now-start)/1000;gl.uniform2f(uRes,cv.width,cv.height);gl.uniform1f(uT,reduce?0.0:t);gl.uniform2f(uM,mx,my);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);if(!reduce)requestAnimationFrame(draw);}
   if(reduce){draw(start);} else {requestAnimationFrame(draw);}
+})();
+
+/* ---------- Iridescent hover på kort ---------- */
+document.querySelectorAll('.iridescent').forEach(card=>{
+  card.addEventListener('mousemove',e=>{ const r=card.getBoundingClientRect(); card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%'); card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%'); });
+});
+
+/* ---------- Ambient grid (mus-följande, lerp) ---------- */
+(function(){
+  const grid=document.getElementById('ambientGrid'); if(!grid) return;
+  if(matchMedia('(pointer:coarse)').matches) return;
+  let gx=50,gy=50,tx=50,ty=50;
+  document.addEventListener('mousemove',e=>{ tx=(e.clientX/innerWidth)*100; ty=(e.clientY/innerHeight)*100; },{passive:true});
+  (function update(){ gx+=(tx-gx)*0.05; gy+=(ty-gy)*0.05; grid.style.setProperty('--gx',gx+'%'); grid.style.setProperty('--gy',gy+'%'); requestAnimationFrame(update); })();
 })();

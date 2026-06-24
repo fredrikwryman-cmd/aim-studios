@@ -48,6 +48,7 @@
 </script>
 </head>
 <body>
+<div class="ambient-grid" id="ambientGrid" aria-hidden="true"></div>
 <div id="preloader" aria-hidden="true">
   <svg viewBox="0 0 100 100" width="84" height="84" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs><linearGradient id="plg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs>
@@ -113,7 +114,7 @@
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <span class="eyebrow"><span class="dot"></span> AI Management Studios</span>
-      <h1>Hemsidor som gör att dina kunder <span class="hl scramble" data-text="väljer dig före konkurrenten">väljer dig före konkurrenten</span></h1>
+      <h1 class="kinetic-hero"><span class="k-line">Hemsidor som gör att</span><span class="k-line">dina kunder <span class="hl">väljer dig</span></span><span class="k-line">före konkurrenten</span></h1>
       <p class="hero-sub">Vi bygger moderna, snabba och säljande hemsidor för svenska företag. Klara på 7 dagar.</p>
       <ul class="trust-list">
         <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Fast pris från 9 995 kr</li>
@@ -189,7 +190,7 @@
       <p>Vi tar hand om hela resan – från första intryck till färdig kund.</p>
     </div>
     <div class="bento">
-      <div class="svc-card big tilt reveal">
+      <div class="svc-card big tilt reveal iridescent">
         <div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
           <h3>Webbdesign</h3>
@@ -199,21 +200,21 @@
         <div class="big-visual"><div class="ai-orb"></div></div>
         <div class="glare"></div>
       </div>
-      <div class="svc-card tilt reveal">
+      <div class="svc-card tilt reveal iridescent">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
         <h3>SEO</h3>
         <p class="desc">Synlighet på Google.</p>
         <p class="svc-benefit">→ Hittas av kunder som söker</p>
         <div class="glare"></div>
       </div>
-      <div class="svc-card tilt reveal">
+      <div class="svc-card tilt reveal iridescent">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M9 10h.01M15 10h.01M9 15h6"/></svg></div>
         <h3>AI-integrationer</h3>
         <p class="desc">Chatbots &amp; automation.</p>
         <p class="svc-benefit">→ Svara kunder dygnet runt</p>
         <div class="glare"></div>
       </div>
-      <div class="svc-card wide tilt reveal">
+      <div class="svc-card wide tilt reveal iridescent">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="16" cy="16" r="2.5"/><path d="m11 8-3 2.5m4 4 1.5 1"/></svg></div>
         <h3>Branding</h3>
         <p class="desc">Logotyp + komplett visuell identitet som får ditt varumärke att kännas dyrare.</p>
@@ -271,7 +272,7 @@
   <div class="cases-pin" id="casesPin">
     <div class="cases-sticky">
       <div class="cases-track" id="casesTrack">
-        <div class="case-card">
+        <div class="case-card iridescent">
           <div class="case-visual"><img width="820" height="458" src="assets/case-1.jpg" alt="Exempel på hemsida för byggföretag – modern redesign av AIM Studios" loading="lazy"></div>
           
           <div class="case-body">
@@ -282,7 +283,7 @@
             <p class="case-quote">”Telefonen ringer på ett helt annat sätt nu.”</p>
           </div>
         </div>
-        <div class="case-card">
+        <div class="case-card iridescent">
           <div class="case-visual"><img width="820" height="458" src="assets/case-2.jpg" alt="Exempel på e-handelssida – ökad konvertering" loading="lazy"></div>
           
           <div class="case-body">
@@ -293,7 +294,7 @@
             <p class="case-quote">”Samma trafik, dubbel försäljning.”</p>
           </div>
         </div>
-        <div class="case-card">
+        <div class="case-card iridescent">
           <div class="case-visual"><img width="820" height="458" src="assets/case-3.jpg" alt="Exempel på konsulthemsida – stärkt trovärdighet" loading="lazy"></div>
           
           <div class="case-body">
@@ -304,7 +305,7 @@
             <p class="case-quote">”Nu vågar vi ta betalt för det vi är värda.”</p>
           </div>
         </div>
-        <div class="case-card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(160deg, rgba(79,70,229,0.18), var(--bg-card));">
+        <div class="case-card iridescent" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(160deg, rgba(79,70,229,0.18), var(--bg-card));">
           <div style="padding:40px;">
             <h3 style="font-size:26px;margin-bottom:12px;">Ditt företag härnäst?</h3>
             <p style="color:var(--muted);margin-bottom:24px;">Låt oss visa vad vi kan göra för din affär.</p>
@@ -406,20 +407,20 @@
       <div class="calc-total"><span class="lbl">Uppskattat pris</span><span class="amt"><span id="calcAmt">9 995</span><span class="kr"> kr</span></span></div>
     </div>
     <div class="price-grid">
-      <div class="price-card reveal">
+      <div class="price-card reveal iridescent">
         <div class="price-name">Starter</div><div class="price-amount">9 995<span class="kr"> kr</span></div>
         <p class="price-desc">En enkel professionell hemsida.</p>
         <ul class="price-feats"><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Upp till 5 sidor</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Mobilanpassad design</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Kontaktformulär</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Leverans 7–10 dagar</li></ul>
         <a href="#boka" class="btn btn-secondary form-submit magnetic">Välj Starter</a>
       </div>
-      <div class="price-card featured reveal">
+      <div class="price-card featured reveal iridescent">
         <span class="pop">Mest populär</span>
         <div class="price-name">Business</div><div class="price-amount">19 995<span class="kr"> kr</span></div>
         <p class="price-desc">Säljoptimerad hemsida + SEO.</p>
         <ul class="price-feats"><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Allt i Starter</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Konverteringsoptimering</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> SEO-grundpaket</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Analys &amp; uppföljning</li></ul>
         <a href="#boka" class="btn btn-primary form-submit magnetic">Välj Business</a>
       </div>
-      <div class="price-card reveal">
+      <div class="price-card reveal iridescent">
         <div class="price-name">Premium</div><div class="price-amount">39 995<span class="kr"> kr</span></div>
         <p class="price-desc">Fullt paket + branding + AI.</p>
         <ul class="price-feats"><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Allt i Business</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Komplett branding</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> AI-chatbot &amp; automation</li><li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Prioriterad support</li></ul>
@@ -439,9 +440,9 @@
       <p>Exempelomdömen – byts ut mot dina riktiga kundröster.</p>
     </div>
     <div class="tst-grid">
-      <div class="tst-card reveal"><div class="stars">★★★★★</div><p class="tst-quote">”Vi gick från en hemsida vi skämdes över till något kunderna litar på. Skillnaden märks direkt.”</p><p class="tst-result">+3 nya kunder första månaden</p><div class="tst-person"><div class="avatar" style="background:linear-gradient(135deg,#6366F1,#4F46E5)">JA</div><div class="tst-meta"><div class="nm">Johan Andersson</div><div class="rl">Byggfirma · Exempel</div></div></div></div>
-      <div class="tst-card reveal"><div class="stars">★★★★★</div><p class="tst-quote">”Snabbt, proffsigt och utan krångel. De förstod vad min butik behövde bättre än jag själv.”</p><p class="tst-result">2,4x fler köp på samma trafik</p><div class="tst-person"><div class="avatar" style="background:linear-gradient(135deg,#22C55E,#16a34a)">SL</div><div class="tst-meta"><div class="nm">Sara Lind</div><div class="rl">E-handel · Exempel</div></div></div></div>
-      <div class="tst-card reveal"><div class="stars">★★★★★</div><p class="tst-quote">”Äntligen en sida som matchar kvaliteten på det vi levererar. Bokningarna kommer in av sig själva.”</p><p class="tst-result">+180% bokade möten</p><div class="tst-person"><div class="avatar" style="background:linear-gradient(135deg,#8b5cf6,#6366F1)">EN</div><div class="tst-meta"><div class="nm">Erik Nilsson</div><div class="rl">Konsult · Exempel</div></div></div></div>
+      <div class="tst-card reveal iridescent"><div class="stars">★★★★★</div><p class="tst-quote">”Vi gick från en hemsida vi skämdes över till något kunderna litar på. Skillnaden märks direkt.”</p><p class="tst-result">+3 nya kunder första månaden</p><div class="tst-person"><div class="avatar" style="background:linear-gradient(135deg,#6366F1,#4F46E5)">JA</div><div class="tst-meta"><div class="nm">Johan Andersson</div><div class="rl">Byggfirma · Exempel</div></div></div></div>
+      <div class="tst-card reveal iridescent"><div class="stars">★★★★★</div><p class="tst-quote">”Snabbt, proffsigt och utan krångel. De förstod vad min butik behövde bättre än jag själv.”</p><p class="tst-result">2,4x fler köp på samma trafik</p><div class="tst-person"><div class="avatar" style="background:linear-gradient(135deg,#22C55E,#16a34a)">SL</div><div class="tst-meta"><div class="nm">Sara Lind</div><div class="rl">E-handel · Exempel</div></div></div></div>
+      <div class="tst-card reveal iridescent"><div class="stars">★★★★★</div><p class="tst-quote">”Äntligen en sida som matchar kvaliteten på det vi levererar. Bokningarna kommer in av sig själva.”</p><p class="tst-result">+180% bokade möten</p><div class="tst-person"><div class="avatar" style="background:linear-gradient(135deg,#8b5cf6,#6366F1)">EN</div><div class="tst-meta"><div class="nm">Erik Nilsson</div><div class="rl">Konsult · Exempel</div></div></div></div>
     </div>
   </div>
 </section>
@@ -473,7 +474,7 @@
           <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svar inom 24 timmar</li>
         </ul>
       </div>
-      <div class="form-card">
+      <div class="form-card iridescent">
         <form id="bookForm" action="https://formspree.io/f/DITT_FORMSPREE_ID" method="POST" novalidate>
           <h3>Boka ditt strategi-möte</h3>
           <p class="sub">Fyll i formuläret så hör vi av oss.</p>
