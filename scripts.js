@@ -245,13 +245,26 @@ if(menuBtn){
   btn.addEventListener('click',()=>{const light=root.getAttribute('data-theme')==='light';root.setAttribute('data-theme',light?'dark':'light');icon.innerHTML=light?sun:moon;});
 })();
 
-/* ---------- Pinned horizontal cases ---------- */
+/* ---------- Pinned horizontal cases (längre + cover-flow) ---------- */
 (function(){
   const pin=document.getElementById('casesPin'),track=document.getElementById('casesTrack');
   if(!pin||!track) return;
-  if(matchMedia('(max-width:900px)').matches){return;} // mobile uses native scroll
-  function setH(){const dist=track.scrollWidth - innerWidth + 80;pin.style.height=(innerHeight + Math.max(0,dist))+'px';}
-  function move(){const r=pin.getBoundingClientRect();const dist=track.scrollWidth - innerWidth + 80;let p=(-r.top)/(pin.offsetHeight - innerHeight);p=Math.max(0,Math.min(1,p));track.style.transform=`translateX(${-(p*Math.max(0,dist))}px)`;}
+  if(matchMedia('(max-width:900px)').matches){return;} // mobil använder native scroll
+  const FACTOR=1.8; // högre = längre/långsammare scroll
+  const cards=[...track.querySelectorAll('.case-card')];
+  function setH(){const dist=track.scrollWidth - innerWidth + 80;pin.style.height=(innerHeight + Math.max(0,dist)*FACTOR)+'px';}
+  function move(){
+    const r=pin.getBoundingClientRect();
+    const dist=track.scrollWidth - innerWidth + 80;
+    let p=(-r.top)/(pin.offsetHeight - innerHeight);p=Math.max(0,Math.min(1,p));
+    track.style.transform=`translateX(${-(p*Math.max(0,dist))}px)`;
+    const cx=innerWidth/2;
+    cards.forEach(c=>{
+      const b=c.getBoundingClientRect();const d=Math.min(1,Math.abs((b.left+b.width/2)-cx)/(innerWidth*0.55));
+      c.style.transform=`scale(${1-0.09*d})`;
+      c.style.opacity=`${1-0.5*d}`;
+    });
+  }
   setH();move();
   addEventListener('resize',()=>{setH();move();});
   addEventListener('scroll',move,{passive:true});
