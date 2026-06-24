@@ -245,6 +245,52 @@ if(menuBtn){
   btn.addEventListener('click',()=>{const light=root.getAttribute('data-theme')==='light';root.setAttribute('data-theme',light?'dark':'light');icon.innerHTML=light?sun:moon;});
 })();
 
+/* ---------- Hero typewriter (stavar fram texten, behåller gradient) ---------- */
+(function(){
+  const h1=document.querySelector('.hero h1.kinetic-hero');
+  if(!h1) return;
+  const LINES=[
+    [{t:'Hemsidor som får'}],
+    [{t:'fler kunder att'}],
+    [{t:'välja dig',hl:true}]
+  ];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; // HTML visar full text
+  h1.classList.add('typing');
+  h1.innerHTML=LINES.map(()=>'<span class="k-line"></span>').join('');
+  const lineEls=[...h1.querySelectorAll('.k-line')];
+  const caret=document.createElement('span'); caret.className='type-caret';
+  function html(li,seg,chars){
+    let out='';const segs=LINES[li];
+    for(let s=0;s<segs.length;s++){
+      const txt = s<seg?segs[s].t : s===seg?segs[s].t.slice(0,chars) : '';
+      if(!txt) continue;
+      out += segs[s].hl?`<span class="hl">${txt}</span>`:txt;
+    }
+    return out;
+  }
+  let li=0,seg=0,ch=0;
+  lineEls[0].appendChild(caret);
+  function step(){
+    const segs=LINES[li];
+    ch++;
+    if(ch>segs[seg].t.length){
+      seg++; ch=1;
+      if(seg>=segs.length){
+        lineEls[li].innerHTML=html(li,segs.length,0);
+        li++; seg=0; ch=0;
+        if(li>=LINES.length){ lineEls[LINES.length-1].appendChild(caret); h1.classList.add('done'); return; }
+        lineEls[li].appendChild(caret);
+        setTimeout(step,240); return;
+      }
+    }
+    lineEls[li].innerHTML=html(li,seg,ch);
+    lineEls[li].appendChild(caret);
+    const c=segs[seg].t[ch-1]||'';
+    setTimeout(step, c===' '?75:46+Math.random()*52);
+  }
+  setTimeout(step,420);
+})();
+
 /* ---------- Pinned horizontal cases (längre + cover-flow) ---------- */
 (function(){
   const pin=document.getElementById('casesPin'),track=document.getElementById('casesTrack');

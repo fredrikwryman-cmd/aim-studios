@@ -271,7 +271,7 @@
   .cases-track { display: flex; gap: 26px; padding: 0 max(24px, calc((100vw - var(--max)) / 2 + 24px)); will-change: transform; }
   .case-card { width: 380px; flex: none; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; }
   .case-visual { position: relative; height: 190px; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(34,197,94,0.10)); display: flex; }
-  .case-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .case-half { flex: 1; position: relative; display: grid; place-items: center; }
   .case-half.before { background: repeating-linear-gradient(45deg, #1a1a22, #1a1a22 8px, #16161d 8px, #16161d 16px); }
   .case-half.after { background: linear-gradient(135deg, rgba(79,70,229,0.30), rgba(34,197,94,0.16)); }
@@ -565,6 +565,9 @@
   .k-line:nth-child(1) { animation-delay: 0.2s; }
   .k-line:nth-child(2) { animation-delay: 0.4s; }
   .k-line:nth-child(3) { animation-delay: 0.6s; }
+  .kinetic-hero.typing .k-line { opacity: 1; transform: none; animation: none; filter: none; }
+  .type-caret { display: inline-block; width: 3px; height: 0.92em; background: #8b8bff; margin-left: 6px; border-radius: 2px; vertical-align: -0.1em; box-shadow: 0 0 10px rgba(139,139,255,0.8); animation: caretBlink 1.05s steps(1) infinite; }
+  @keyframes caretBlink { 50% { opacity: 0; } }
   @keyframes kineticDrop { 0% { opacity: 0; transform: translateY(-60px) rotateX(-40deg) scale(0.8); filter: blur(8px); } 60% { opacity: 1; transform: translateY(4px) rotateX(2deg) scale(1.02); filter: blur(0); } 100% { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0); } }
 
   /* Ambient grid (mus-följande punkt-grid) */
