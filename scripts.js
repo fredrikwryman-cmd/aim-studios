@@ -245,7 +245,7 @@ if(menuBtn){
   btn.addEventListener('click',()=>{const light=root.getAttribute('data-theme')==='light';root.setAttribute('data-theme',light?'dark':'light');icon.innerHTML=light?sun:moon;});
 })();
 
-/* ---------- Hero typewriter (stavar fram texten, behåller gradient) ---------- */
+/* ---------- Hero typewriter (per-tecken, layout alltid reserverad) ---------- */
 (function(){
   const h1=document.querySelector('.hero h1.kinetic-hero');
   if(!h1) return;
@@ -254,45 +254,32 @@ if(menuBtn){
     [{t:'fler kunder att'}],
     [{t:'välja dig',hl:true}]
   ];
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; // HTML visar full text
-  h1.classList.add('typing');
-  // reservera full höjd FÖRST så underrubrik/listan inte hoppar upp bakom rubriken
-  h1.innerHTML=LINES.map(l=>'<span class="k-line">'+l.map(s=>s.hl?`<span class="hl">${s.t}</span>`:s.t).join('')+'</span>').join('');
-  const fullH=h1.offsetHeight;
-  if(fullH) h1.style.minHeight=fullH+'px';
-  h1.innerHTML=LINES.map(()=>'<span class="k-line"></span>').join('');
-  const lineEls=[...h1.querySelectorAll('.k-line')];
-  const caret=document.createElement('span'); caret.className='type-caret';
-  function html(li,seg,chars){
-    let out='';const segs=LINES[li];
-    for(let s=0;s<segs.length;s++){
-      const txt = s<seg?segs[s].t : s===seg?segs[s].t.slice(0,chars) : '';
-      if(!txt) continue;
-      out += segs[s].hl?`<span class="hl">${txt}</span>`:txt;
-    }
-    return out;
+  function charSpans(txt){
+    let s='';
+    for(const ch of txt){ s+=`<span class="tc">${ch===' '?'&nbsp;':ch}</span>`; }
+    return s;
   }
-  let li=0,seg=0,ch=0;
-  lineEls[0].appendChild(caret);
+  // Hela texten ligger i DOM:en (höjd reserverad), tecknen döljs och tänds ett i taget
+  h1.innerHTML=LINES.map(line=>{
+    const inner=line.map(seg=>{
+      const cs=charSpans(seg.t);
+      return seg.hl?`<span class="hl">${cs}</span>`:cs;
+    }).join('');
+    return `<span class="k-line">${inner}</span>`;
+  }).join('');
+  h1.classList.add('typed');
+  const chars=[...h1.querySelectorAll('.tc')];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ chars.forEach(c=>c.classList.add('on')); return; }
+  let i=0;
   function step(){
-    const segs=LINES[li];
-    ch++;
-    if(ch>segs[seg].t.length){
-      seg++; ch=1;
-      if(seg>=segs.length){
-        lineEls[li].innerHTML=html(li,segs.length,0);
-        li++; seg=0; ch=0;
-        if(li>=LINES.length){ lineEls[LINES.length-1].appendChild(caret); h1.classList.add('done'); return; }
-        lineEls[li].appendChild(caret);
-        setTimeout(step,240); return;
-      }
-    }
-    lineEls[li].innerHTML=html(li,seg,ch);
-    lineEls[li].appendChild(caret);
-    const c=segs[seg].t[ch-1]||'';
-    setTimeout(step, c===' '?75:46+Math.random()*52);
+    if(i>0) chars[i-1].classList.remove('cursor');
+    if(i>=chars.length){ const last=chars[chars.length-1]; if(last){last.classList.add('on','cursor');} return; }
+    const c=chars[i]; c.classList.add('on','cursor');
+    const space=c.textContent==='\u00a0';
+    i++;
+    setTimeout(step, space?70:44+Math.random()*52);
   }
-  setTimeout(step,420);
+  setTimeout(step,400);
 })();
 
 /* ---------- Pinned horizontal cases (längre + cover-flow) ---------- */
