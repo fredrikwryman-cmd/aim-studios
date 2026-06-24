@@ -256,6 +256,10 @@ if(menuBtn){
   ];
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; // HTML visar full text
   h1.classList.add('typing');
+  // reservera full höjd FÖRST så underrubrik/listan inte hoppar upp bakom rubriken
+  h1.innerHTML=LINES.map(l=>'<span class="k-line">'+l.map(s=>s.hl?`<span class="hl">${s.t}</span>`:s.t).join('')+'</span>').join('');
+  const fullH=h1.offsetHeight;
+  if(fullH) h1.style.minHeight=fullH+'px';
   h1.innerHTML=LINES.map(()=>'<span class="k-line"></span>').join('');
   const lineEls=[...h1.querySelectorAll('.k-line')];
   const caret=document.createElement('span'); caret.className='type-caret';
