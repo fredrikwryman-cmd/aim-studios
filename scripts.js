@@ -150,17 +150,36 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
   b.querySelector('#cbAccept').addEventListener('click',()=>close('all'));
   b.querySelector('#cbDecline').addEventListener('click',()=>close('necessary'));
 })();
+/* ---------- Navbar: spotlight följer musen ---------- */
 (function(){
-  const toast=document.getElementById('eggToast');
-  function fire(){
-    const on=document.body.classList.toggle('neon');
-    if(toast){ toast.textContent=on?'🌈 Neon-läge på!':'Neon-läge av'; toast.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove('show'),1800); }
-    if(on && typeof burst==='function') burst();
-  }
+  const center=document.getElementById('navCenter'), spotlight=document.getElementById('navSpotlight');
+  if(!center||!spotlight) return;
+  center.addEventListener('mousemove',e=>{ const rect=center.getBoundingClientRect(); spotlight.style.transform='translateX('+(e.clientX-rect.left-40)+'px)'; });
+  center.addEventListener('mouseenter',()=>spotlight.style.opacity='1');
+  center.addEventListener('mouseleave',()=>spotlight.style.opacity='0');
+})();
+
+/* ---------- Theme-toggle rotation ---------- */
+(function(){
+  const btn=document.getElementById('themeBtn'); if(!btn) return;
+  btn.addEventListener('click',()=>{ btn.classList.add('rotated'); setTimeout(()=>btn.classList.remove('rotated'),500); });
+})();
+
+/* ---------- Easter egg: neon-läge (5 klick på logga / Konami) + navbar-puls ---------- */
+(function(){
+  const logo=document.getElementById('logoLink'), toast=document.getElementById('eggToast'); if(!logo) return;
   let clicks=0,last=0;
-  document.querySelectorAll('.logo').forEach(l=>l.addEventListener('click',()=>{ const now=Date.now(); if(now-last>800)clicks=0; last=now; if(++clicks>=5){clicks=0;fire();} }));
+  logo.addEventListener('click',()=>{
+    const now=Date.now(); if(now-last>800) clicks=0; last=now;
+    if(++clicks>=5){ clicks=0;
+      const on=document.body.classList.toggle('neon');
+      if(toast){ toast.textContent=on?'🌈 Neon-läge på!':'Neon-läge av'; toast.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove('show'),1800); }
+      if(on && typeof burst==='function') burst();
+      const nav=document.getElementById('navBar'); if(nav){ nav.style.animation='neonPulse 0.6s ease'; setTimeout(()=>{nav.style.animation='';},600); }
+    }
+  });
   const seq=['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a']; let idx=0;
-  addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(k===seq[idx]){ if(++idx===seq.length){idx=0;fire();} } else { idx=(k===seq[0])?1:0; } });
+  addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(k===seq[idx]){ if(++idx===seq.length){ idx=0; for(let i=0;i<5;i++) logo.click(); } } else { idx=(k===seq[0])?1:0; } });
 })();
 
 /* ---------- Pricing calculator ---------- */
