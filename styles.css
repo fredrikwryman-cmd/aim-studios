@@ -549,16 +549,7 @@
   .form-error.show { display: block; }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9995; }
 
-  /* footer */
-  footer { border-top: 1px solid var(--line); padding: 50px 0 36px; background: var(--bg-soft); }
-  .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
-  .foot-brand { max-width: 280px; }
-  .foot-brand p { color: var(--muted); font-size: 14px; margin-top: 12px; }
-  .foot-badges { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-  .foot-badge { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--accent); border: 1px solid var(--line-strong); border-radius: 7px; padding: 5px 9px; display: flex; align-items: center; gap: 6px; }
-  .foot-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-dim); margin-bottom: 14px; font-weight: 600; }
-  .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 9px; transition: color .2s; }
-  .foot-col a:hover { color: var(--text); }
+  /* footer – se Terminal Boot-block längst ner */
   .foot-socials { display: flex; gap: 10px; }
   .foot-socials a { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--muted); transition: color .2s, border-color .2s; }
   .foot-socials a:hover { color: var(--text); border-color: rgba(120,120,160,0.5); }
@@ -779,3 +770,44 @@
     .orb-core { font-size: 20px; }
   }
   @media (max-width: 560px) { .station-glass { padding: 20px; } .station-glass h3 { font-size: 18px; } }
+
+  /* ---------- Footer – Terminal Boot (indigo) ---------- */
+  .footer-terminal { position: relative; border-top: 1px solid var(--line); background: var(--bg-soft); overflow: hidden; }
+  .terminal-boot { position: relative; padding: 48px 24px 8px; display: flex; flex-direction: column; align-items: center; }
+  .boot-screen { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; color: #818cf8; max-width: 640px; width: 100%; }
+  .boot-line { text-shadow: 0 0 10px rgba(99,102,241,0.25); white-space: pre-wrap; word-break: break-word; }
+  .boot-cursor { display: inline-block; color: #818cf8; font-size: 16px; animation: blinkCursor 1s step-end infinite; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
+  @keyframes blinkCursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+  .boot-progress { width: 100%; max-width: 640px; height: 2px; background: rgba(99,102,241,0.1); border-radius: 1px; margin-top: 20px; overflow: hidden; }
+  .boot-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #4F46E5, #818cf8); border-radius: 1px; box-shadow: 0 0 10px rgba(99,102,241,0.4); transition: width 0.25s ease; }
+  .footer-content { position: relative; }
+  .footer-glow-line { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #4F46E5, #818cf8, #4F46E5, transparent); opacity: 0.6; animation: glowLinePulse 3s ease-in-out infinite; }
+  @keyframes glowLinePulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.75; } }
+  .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; padding: 44px 0 36px; }
+  .foot-brand { max-width: 320px; }
+  .foot-brand p { color: var(--muted); font-size: 14px; margin-top: 12px; line-height: 1.6; }
+  .foot-badges { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .foot-badge { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #818cf8; border: 1px solid rgba(99,102,241,0.2); border-radius: 7px; padding: 5px 9px; display: flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.05); transition: all 0.3s ease; }
+  .foot-badge:hover { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.4); box-shadow: 0 0 12px -4px rgba(99,102,241,0.3); }
+  .foot-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-dim); margin-bottom: 14px; font-weight: 600; }
+  .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 9px; transition: color 0.2s, transform 0.2s; }
+  .foot-col a:hover { color: var(--text); transform: translateX(4px); }
+  .foot-socials { display: flex; gap: 10px; }
+  .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--muted); transition: all 0.3s ease; background: var(--glass); position: relative; overflow: hidden; }
+  .social-icon::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, var(--item-color, #6366F1), transparent 70%); opacity: 0; transition: opacity 0.3s; }
+  .social-icon:hover::before { opacity: 0.15; }
+  .social-icon:hover { color: var(--text); border-color: var(--item-color, var(--line-strong)); transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.3); }
+  .social-icon:nth-child(1) { --item-color: #E4405F; }
+  .social-icon:nth-child(2) { --item-color: #0A66C2; }
+  .social-icon:nth-child(3) { --item-color: #1877F2; }
+  .foot-bottom { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--muted-dim); font-size: 13px; }
+  .footer-matrix-hint { cursor: pointer; transition: color 0.3s, text-shadow 0.3s; opacity: 0.5; user-select: none; }
+  .footer-matrix-hint:hover { color: #818cf8; opacity: 1; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
+  .matrix-rain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+  .matrix-rain.active { opacity: 0.16; }
+  body.neon .boot-line { color: #c4b5fd; text-shadow: 0 0 15px rgba(168,85,247,0.5); }
+  body.neon .boot-cursor { color: #c4b5fd; text-shadow: 0 0 15px rgba(168,85,247,0.8); }
+  body.neon .boot-progress-bar { background: linear-gradient(90deg, #818cf8, #a855f7); box-shadow: 0 0 15px rgba(168,85,247,0.6); }
+  body.neon .footer-glow-line { background: linear-gradient(90deg, transparent, #818cf8, #a855f7, #818cf8, transparent); }
+  @media (prefers-reduced-motion: reduce) { .boot-cursor { animation: none; } .footer-glow-line { animation: none; } }
+  @media (max-width: 768px) { .foot-grid { flex-direction: column; gap: 32px; } .boot-screen { font-size: 12px; } .terminal-boot { padding: 36px 18px 4px; } }
