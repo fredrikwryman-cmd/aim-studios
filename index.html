@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=38" />
+<link rel="stylesheet" href="styles.css?v=39" />
 <meta name="author" content="AIM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -104,6 +104,7 @@
       <a href="#priser">Priser</a>
       <a href="#ai">AI</a>
       <a href="#process">Process</a>
+      <a href="om-oss.html">Om oss</a>
     </nav>
     <a class="mobile-cta" href="#boka">Starta projekt →</a>
     <button class="mobile-theme" id="themeBtnM">Byt tema</button>
@@ -123,7 +124,7 @@
       <ul class="trust-list">
         <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Fast pris från 9 995 kr</li>
         <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Leverans på 7–10 dagar</li>
-        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> <span class="countup" data-to="100" data-suffix="+">0</span> byggda hemsidor</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Design, kod &amp; SEO ingår</li>
       </ul>
       <div class="hero-cta">
         <a href="#boka" class="btn btn-primary magnetic">Boka gratis strategi-möte <span class="btn-arrow">→</span></a>
@@ -479,7 +480,7 @@
         </ul>
       </div>
       <div class="form-card iridescent">
-        <form id="bookForm" action="https://formspree.io/f/DITT_FORMSPREE_ID" method="POST" novalidate>
+        <form id="bookForm" action="https://formspree.io/f/placeholder" method="POST" data-formspree-pending="true" novalidate>
           <h3>Boka ditt strategi-möte</h3>
           <p class="sub">Fyll i formuläret så hör vi av oss.</p>
           <input type="hidden" name="_subject" value="Ny bokningsförfrågan – AIM Studios">
@@ -489,6 +490,7 @@
           <div class="field"><label for="meddelande">Vad vill du uppnå?</label><textarea id="meddelande" name="meddelande" placeholder="Berätta kort om ditt företag och mål..."></textarea></div>
           <button type="submit" class="btn btn-primary form-submit magnetic">Boka gratis strategi-möte →</button>
           <p class="form-fine">Vi använder dina uppgifter endast för att kontakta dig.</p>
+          <p class="form-pending" style="text-align:center;color:var(--accent);font-size:13px;margin-top:10px;">Formuläret aktiveras inom kort – mejla oss på <a href="mailto:info@aimstudios.se" style="color:inherit;text-decoration:underline;">info@aimstudios.se</a> så länge.</p>
           <p class="form-error" id="formError">Något gick fel – mejla oss direkt på info@aimstudios.se.</p>
         </form>
         <div class="form-success" id="formSuccess">
@@ -540,6 +542,6 @@
 <canvas id="confetti"></canvas>
 <div class="egg-toast" id="eggToast"></div>
 
-<script src="scripts.js?v=38" defer></script>
+<script src="scripts.js?v=39" defer></script>
 </body>
 </html>
