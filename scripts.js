@@ -216,7 +216,6 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
     const on=document.body.classList.toggle('neon');
     if(toast){ toast.textContent=on?'🌈 Neon-läge på!':'Neon-läge av'; toast.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove('show'),1800); }
     if(on && typeof burst==='function') burst();
-    const nav=document.getElementById('navBar'); if(nav){ nav.style.animation='neonPulse 0.6s ease'; setTimeout(()=>{nav.style.animation='';},600); }
     if(on){ document.querySelectorAll('.iridescent').forEach((card,i)=>{ setTimeout(()=>{ card.style.transform='scale(1.02)'; setTimeout(()=>{card.style.transform='';},200); }, i*60); }); }
   }
   let clicks=0,last=0;
