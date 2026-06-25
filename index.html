@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=47" />
+<link rel="stylesheet" href="styles.css?v=48" />
 <meta name="author" content="AIM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -374,21 +374,86 @@
 </section>
 
 <!-- PROCESS -->
-<section class="section-pad" id="process">
+<section class="section-pad process-sec" id="process">
+  <div class="process-bg" aria-hidden="true">
+    <div class="process-grid-overlay"></div>
+    <div class="process-particles" id="processParticles"></div>
+  </div>
   <div class="wrap">
     <div class="section-head center reveal">
       <span class="eyebrow"><span class="dot"></span> Processen</span>
-      <h2>Från idé till lansering på en vecka</h2>
+      <h2 class="process-headline">Från idé till <span class="process-neon">lansering</span> på en vecka</h2>
       <p>Enkelt, tydligt och utan krångel. Du vet alltid var vi är.</p>
     </div>
-    <div class="timeline" id="timeline">
-      <div class="timeline-line"></div>
-      <div class="timeline-fill" id="tlFill"></div>
-      <div class="step is-key reveal"><div class="step-num">1</div><div class="step-body"><h3>Gratis strategi-samtal</h3><p>Vi går igenom dina mål och vad sidan ska prestera.</p><p class="step-meta">Kostnadsfritt · ingen bindning</p></div></div>
-      <div class="step reveal"><div class="step-num">2</div><div class="step-body"><h3>Design inom 48 timmar</h3><p>Du får se ett första förslag riktigt snabbt.</p></div></div>
-      <div class="step reveal"><div class="step-num">3</div><div class="step-body"><h3>Godkännande &amp; justeringar</h3><p>Vi finslipar tills allt sitter precis rätt.</p></div></div>
-      <div class="step reveal"><div class="step-num">4</div><div class="step-body"><h3>Lansering på 7 dagar</h3><p>Sidan går live – redo att generera affärer.</p></div></div>
-      <div class="step reveal"><div class="step-num">5</div><div class="step-body"><h3>Support &amp; förbättringar</h3><p>Vi finns kvar och optimerar löpande.</p></div></div>
+    <div class="pipeline" id="pipeline">
+      <div class="pipeline-track" id="pipelineTrack"><div class="pipeline-fill" id="pipelineFill"></div></div>
+      <div class="pipeline-stations">
+        <div class="station reveal" data-step="1">
+          <div class="station-orb">
+            <div class="orb-liquid"></div>
+            <div class="orb-core">1</div>
+            <div class="orb-ring"></div>
+          </div>
+          <div class="station-card">
+            <div class="station-glass">
+              <h3>Gratis strategi-samtal</h3>
+              <p>Vi går igenom dina mål och vad sidan ska prestera.</p><span class="station-meta">Kostnadsfritt · ingen bindning</span>
+            </div>
+          </div>
+        </div>
+        <div class="station reveal" data-step="2">
+          <div class="station-orb">
+            <div class="orb-liquid"></div>
+            <div class="orb-core">2</div>
+            <div class="orb-ring"></div>
+          </div>
+          <div class="station-card">
+            <div class="station-glass">
+              <h3>Design inom 48 timmar</h3>
+              <p>Du får se ett första förslag riktigt snabbt.</p>
+            </div>
+          </div>
+        </div>
+        <div class="station reveal" data-step="3">
+          <div class="station-orb">
+            <div class="orb-liquid"></div>
+            <div class="orb-core">3</div>
+            <div class="orb-ring"></div>
+          </div>
+          <div class="station-card">
+            <div class="station-glass">
+              <h3>Godkännande &amp; justeringar</h3>
+              <p>Vi finslipar tills allt sitter precis rätt.</p>
+            </div>
+          </div>
+        </div>
+        <div class="station reveal" data-step="4">
+          <div class="station-orb">
+            <div class="orb-liquid"></div>
+            <div class="orb-core">4</div>
+            <div class="orb-ring"></div>
+          </div>
+          <div class="station-card">
+            <div class="station-glass">
+              <h3>Lansering på 7 dagar</h3>
+              <p>Sidan går live – redo att generera affärer.</p>
+            </div>
+          </div>
+        </div>
+        <div class="station reveal" data-step="5">
+          <div class="station-orb">
+            <div class="orb-liquid"></div>
+            <div class="orb-core">5</div>
+            <div class="orb-ring"></div>
+          </div>
+          <div class="station-card">
+            <div class="station-glass">
+              <h3>Support &amp; förbättringar</h3>
+              <p>Vi finns kvar och optimerar löpande.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -613,6 +678,6 @@
     <div class="pkg-body" id="pkgBody"></div>
   </div>
 </div>
-<script src="scripts.js?v=47" defer></script>
+<script src="scripts.js?v=48" defer></script>
 </body>
 </html>

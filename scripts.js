@@ -103,7 +103,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
 (function(){const ba=document.getElementById('ba'),before=document.getElementById('baBefore'),handle=document.getElementById('baHandle');if(!ba)return;let drag=false;function set(x){const r=ba.getBoundingClientRect();let p=((x-r.left)/r.width)*100;p=Math.max(2,Math.min(98,p));before.style.clipPath=`inset(0 ${100-p}% 0 0)`;handle.style.left=p+'%';}ba.addEventListener('mousedown',e=>{drag=true;set(e.clientX);});addEventListener('mousemove',e=>drag&&set(e.clientX));addEventListener('mouseup',()=>drag=false);ba.addEventListener('touchstart',e=>{drag=true;set(e.touches[0].clientX);},{passive:true});addEventListener('touchmove',e=>{if(drag)set(e.touches[0].clientX);},{passive:true});addEventListener('touchend',()=>drag=false);})();
 
 /* ---------- Timeline fill ---------- */
-(function(){const tl=document.getElementById('timeline'),fill=document.getElementById('tlFill');if(!tl)return;function upd(){const r=tl.getBoundingClientRect();const vh=innerHeight;const start=vh*0.8, end=vh*0.2;let p=(start-r.top)/(r.height-(end-start));p=Math.max(0,Math.min(1,p));fill.style.height=(p*100)+'%';}addEventListener('scroll',upd,{passive:true});upd();})();
+
 
 /* ---------- Style switcher + namn-generator ---------- */
 (function(){
@@ -526,4 +526,34 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     const fIo=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){ const i=[...cards].indexOf(e.target); setTimeout(()=>e.target.classList.add('flipped'), 700+i*180); fIo.unobserve(e.target); } });},{threshold:0.3});
     cards.forEach(c=>fIo.observe(c));
   }
+})();
+
+/* ---------- Process pipeline (scroll-fyllning, rAF-throttlad) ---------- */
+(function(){
+  const pipeline=document.getElementById('pipeline'), fill=document.getElementById('pipelineFill');
+  const stations=document.querySelectorAll('.station'), particles=document.getElementById('processParticles');
+  if(!pipeline||!fill) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(particles && !reduce){
+    for(let i=0;i<16;i++){ const p=document.createElement('div'); p.className='particle';
+      p.style.left=(Math.random()*100)+'%'; p.style.top=(Math.random()*100)+'%';
+      p.style.animationDelay=(Math.random()*4)+'s'; p.style.animationDuration=(3+Math.random()*3)+'s';
+      particles.appendChild(p); }
+  }
+  let ticking=false;
+  function update(){
+    const rect=pipeline.getBoundingClientRect(), vh=innerHeight;
+    const start=vh*0.8, end=vh*0.2;
+    let progress=(start-rect.top)/(rect.height-(end-start));
+    progress=Math.max(0,Math.min(1,progress));
+    fill.style.height=(progress*100)+'%';
+    stations.forEach(s=>{ const r=s.getBoundingClientRect(); if((vh*0.6 - r.top)/(r.height+100) > 0){ s.classList.add('active'); s.classList.add('in'); } });
+    ticking=false;
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',onScroll,{passive:true});
+  update();
+  stations.forEach(s=>{ const orb=s.querySelector('.station-orb'); if(!orb) return;
+    orb.addEventListener('mouseenter',()=>{ const liquid=orb.querySelector('.orb-liquid'); if(liquid){ liquid.style.transform='scale(1.18)'; setTimeout(()=>liquid.style.transform='',300); } }); });
 })();
