@@ -48,7 +48,12 @@ window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
     ring.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%) rotate(${ang}deg) scale(${s.toFixed(3)}, ${(1/s).toFixed(3)})`;
     // Magnet
     if(magEl){
-      if(!releasing){ const r=magEl.getBoundingClientRect(); tx=(mx-r.left-r.width/2)*0.32; ty=(my-r.top-r.height/2)*0.42; }
+      if(!releasing){
+        const r=magEl.getBoundingClientRect();
+        tx=(mx-r.left-r.width/2)*0.32; ty=(my-r.top-r.height/2)*0.42;
+        // I hopkrympt navbar: begränsa rörelsen hårt så knappen aldrig spiller ut ur kapseln
+        if(magEl.closest('header.scrolled')){ tx=Math.max(-7,Math.min(7,tx)); ty=Math.max(-3,Math.min(3,ty)); }
+      }
       cx+=(tx-cx)*0.22; cy+=(ty-cy)*0.22;
       magEl.style.transform=`translate3d(${cx.toFixed(2)}px,${cy.toFixed(2)}px,0)`;
       if(releasing && Math.hypot(cx,cy)<0.4){ magEl.style.transform=''; magEl=null; releasing=false; cx=cy=0; }

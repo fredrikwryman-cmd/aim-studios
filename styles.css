@@ -127,7 +127,7 @@
   @property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
   header.scrolled .logo-status { display: none; }
   header.scrolled .nav-links { gap: 12px; }
-  header.scrolled .nav-cta { padding: 0 18px; height: 36px; font-size: 13.5px; line-height: 1; gap: 6px; border-radius: 100px; box-shadow: none; align-self: center; }
+  header.scrolled .nav-cta { padding: 0 17px; height: 36px; font-size: 13px; line-height: 1; gap: 6px; border-radius: 100px; box-shadow: none; align-self: center; }
   header.scrolled .nav-cta .btn-arrow { font-size: 14px; }
 
   @media (max-width: 880px) {
