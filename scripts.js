@@ -14,7 +14,6 @@ function onScroll(){
   const h = document.documentElement;
   const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
   progress.style.width = (p*100)+'%';
-  header.classList.toggle('scrolled', h.scrollTop > 8);
 }
 window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
@@ -155,20 +154,60 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
   b.querySelector('#cbAccept').addEventListener('click',()=>close('all'));
   b.querySelector('#cbDecline').addEventListener('click',()=>close('necessary'));
 })();
-/* ---------- Navbar: spotlight följer musen ---------- */
+/* ---------- Navbar v2 (dock via IntersectionObserver + scroll-spy + tema + mobil-overlay) ---------- */
 (function(){
-  const center=document.getElementById('navCenter'), spotlight=document.getElementById('navSpotlight');
-  if(!center||!spotlight) return;
-  center.addEventListener('mousemove',e=>{ const rect=center.getBoundingClientRect(); spotlight.style.transform='translateX('+(e.clientX-rect.left-40)+'px)'; });
-  center.addEventListener('mouseenter',()=>spotlight.style.opacity='1');
-  center.addEventListener('mouseleave',()=>spotlight.style.opacity='0');
+  const header=document.getElementById('header');
+  const sentinel=document.getElementById('navSentinel');
+  // Dock-läge: stabil IntersectionObserver istället för scroll-listener
+  if(header && sentinel && 'IntersectionObserver' in window){
+    new IntersectionObserver(([e])=>{ header.classList.toggle('scrolled', !e.isIntersecting); },{rootMargin:'-72px 0px 0px 0px'}).observe(sentinel);
+  } else if(header){
+    addEventListener('scroll',()=>header.classList.toggle('scrolled',(document.documentElement.scrollTop||window.scrollY)>72),{passive:true});
+  }
+
+  // Aktiv-sektion-indikator som glider under länkarna (transform inom containern)
+  const center=document.getElementById('navCenter'), ind=document.getElementById('navInd');
+  if(center && ind){
+    const links=[...center.querySelectorAll('.navlink')];
+    const map={}; links.forEach(l=>{ const id=(l.getAttribute('href')||'').slice(1); if(id) map[id]=l; });
+    let active=null, hovering=false;
+    function place(el){ if(!el||!el.offsetWidth){ ind.style.opacity='0'; return; } ind.style.opacity='1'; ind.style.width=el.offsetWidth+'px'; ind.style.transform='translateX('+(el.offsetLeft-4)+'px)'; }
+    function setActive(el){ active=el; links.forEach(l=>l.classList.toggle('active',l===el)); if(!hovering) place(el); }
+    links.forEach(l=>l.addEventListener('mouseenter',()=>{ hovering=true; place(l); }));
+    center.addEventListener('mouseleave',()=>{ hovering=false; place(active); });
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ const l=map[e.target.id]; if(l) setActive(l); } }); },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+      Object.keys(map).forEach(id=>{ const s=document.getElementById(id); if(s) io.observe(s); });
+    }
+    addEventListener('resize',()=>{ if(!hovering) place(active); });
+  }
+
+  // Tema-toggle (med minne, funkar i baren + i mobilmenyn)
+  const rootEl=document.documentElement;
+  const moon='<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>';
+  const sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+  function applyTheme(t){
+    rootEl.setAttribute('data-theme',t);
+    const icon=document.getElementById('themeIcon'); if(icon) icon.innerHTML = t==='light'?sun:moon;
+    document.querySelectorAll('#themeBtn,#themeBtnM').forEach(b=>b.classList.toggle('rotated', t==='light'));
+  }
+  let theme='dark'; try{ theme=localStorage.getItem('aim-theme')||'dark'; }catch(e){}
+  applyTheme(theme);
+  function toggleTheme(){ theme=theme==='light'?'dark':'light'; applyTheme(theme); try{ localStorage.setItem('aim-theme',theme); }catch(e){} }
+  document.querySelectorAll('#themeBtn,#themeBtnM').forEach(b=>b.addEventListener('click',toggleTheme));
+
+  // Mobil: fullskärms-overlay (fade)
+  const menuBtn=document.getElementById('menuBtn'), overlay=document.getElementById('mobileMenu'), closeBtn=document.getElementById('menuClose');
+  if(overlay){
+    const open=()=>{ overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false'); menuBtn&&menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
+    const close=()=>{ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); menuBtn&&menuBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+    menuBtn&&menuBtn.addEventListener('click',open);
+    closeBtn&&closeBtn.addEventListener('click',close);
+    overlay.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+    addEventListener('keydown',e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+  }
 })();
 
-/* ---------- Theme-toggle rotation ---------- */
-(function(){
-  const btn=document.getElementById('themeBtn'); if(!btn) return;
-  btn.addEventListener('click',()=>{ btn.classList.add('rotated'); setTimeout(()=>btn.classList.remove('rotated'),500); });
-})();
 
 /* ---------- Easter egg: neon-läge (förstärkt) ---------- */
 (function(){
@@ -219,36 +258,10 @@ const fabAsk=chatEngine(document.getElementById('fabBody'),document.getElementBy
 const fab=document.getElementById('fab'),fabPanel=document.getElementById('fabPanel');
 fab.addEventListener('click',()=>fabPanel.classList.toggle('open'));
 
-/* ---------- Mobilmeny ---------- */
-const menuBtn=document.getElementById('menuBtn'), mobileMenu=document.getElementById('mobileMenu');
-if(menuBtn){
-  menuBtn.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
-  mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
-}
-
 /* ---------- Navbar-indikator (scroll-spy + hover) ---------- */
-(function(){
-  const center=document.querySelector('.nav-center'); if(!center) return;
-  const ind=document.getElementById('navInd');
-  const links=[...center.querySelectorAll('a.link')];
-  const map={}; links.forEach(l=>map[l.getAttribute('href').slice(1)]=l);
-  let active=null, hovering=false;
-  function place(el){ if(!el||!el.offsetWidth){ind.style.opacity='0';return;} ind.style.opacity='1'; ind.style.width=el.offsetWidth+'px'; ind.style.transform='translateX('+el.offsetLeft+'px)'; }
-  function setActive(el){ active=el; links.forEach(l=>l.classList.toggle('active',l===el)); if(!hovering) place(el); }
-  links.forEach(l=>l.addEventListener('mouseenter',()=>{hovering=true; place(l);}));
-  center.addEventListener('mouseleave',()=>{hovering=false; place(active);});
-  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const l=map[e.target.id]; if(l) setActive(l);}});},{rootMargin:'-45% 0px -50% 0px',threshold:0});
-  Object.keys(map).forEach(id=>{const s=document.getElementById(id); if(s) io.observe(s);});
-  addEventListener('resize',()=>{ if(!hovering) place(active); });
-})();
 
-/* ---------- Theme toggle ---------- */
-(function(){
-  const btn=document.getElementById('themeBtn'),icon=document.getElementById('themeIcon'),root=document.documentElement;
-  const moon='<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>';
-  const sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
-  btn.addEventListener('click',()=>{const light=root.getAttribute('data-theme')==='light';root.setAttribute('data-theme',light?'dark':'light');icon.innerHTML=light?sun:moon;});
-})();
+/* (scroll-spy, tema & mobilmeny hanteras nu i Navbar v2-IIFE högre upp) */
+
 
 /* ---------- Hero typewriter (per-tecken, layout alltid reserverad) ---------- */
 (function(){
