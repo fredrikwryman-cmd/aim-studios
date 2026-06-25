@@ -376,7 +376,9 @@
   input[type=range].slider { -webkit-appearance: none; appearance: none; width: 160px; height: 5px; border-radius: 100px; background: var(--line-strong); outline: none; }
   input[type=range].slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary); cursor: pointer; box-shadow: 0 0 0 4px rgba(79,70,229,0.2); }
   input[type=range].slider::-moz-range-thumb { width: 20px; height: 20px; border: 0; border-radius: 50%; background: var(--primary); cursor: pointer; }
-  .calc-total { display: flex; align-items: baseline; justify-content: space-between; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line-strong); }
+  .calc-total { display: flex; align-items: center; justify-content: space-between; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line-strong); }
+  .calc-total-l { display: flex; flex-direction: column; gap: 3px; }
+  .calc-pkg { font-size: 13px; font-weight: 600; color: var(--primary-soft); }
   .calc-total .lbl { color: var(--muted); }
   .calc-total .amt { font-family: 'Inter Tight'; font-weight: 800; font-size: 34px; }
   .calc-total .amt .kr { font-size: 16px; color: var(--muted); }

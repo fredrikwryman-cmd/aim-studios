@@ -224,14 +224,33 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
   addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(k===seq[idx]){ if(++idx===seq.length){ idx=0; fireNeon(); } } else { idx=(k===seq[0])?1:0; } });
 })();
 
-/* ---------- Pricing calculator ---------- */
+/* ---------- Pricing calculator (speglar paketnivåerna) ---------- */
 (function(){
-  const base=14995,pages=document.getElementById('pages'),pagesLbl=document.getElementById('pagesLbl'),amt=document.getElementById('calcAmt');
-  const toggles=[...document.querySelectorAll('.toggle')];
+  const PRICE={starter:14995,business:24995,premium:44995};
+  const INCL ={starter:5,    business:10,   premium:15};
+  const NAME ={starter:'Starter',business:'Business',premium:'Premium'};
+  const pages=document.getElementById('pages'), pagesLbl=document.getElementById('pagesLbl'),
+        amt=document.getElementById('calcAmt'), pkgLbl=document.getElementById('calcPkg');
+  const seoT=document.getElementById('seoT'), aiT=document.getElementById('aiT'), brandT=document.getElementById('brandT');
+  if(!pages) return;
   function fmt(n){return n.toLocaleString('sv-SE').replace(/\u00a0/g,' ');}
-  function calc(){let t=base+(+pages.value-5)*900;toggles.forEach(tg=>{if(tg.classList.contains('on'))t+=+tg.dataset.add;});pagesLbl.textContent=pages.value+(pages.value==1?' sida':' sidor');amt.textContent=fmt(Math.max(base,t));}
+  const on=el=>el&&el.classList.contains('on');
+  function calc(){
+    let tier='starter';
+    if(on(seoT)) tier='business';
+    if(on(aiT)||on(brandT)) tier='premium';
+    const p=+pages.value, incl=INCL[tier], extra=Math.max(0,p-incl);
+    const total=PRICE[tier]+extra*900;
+    pagesLbl.textContent=p+(p==1?' sida':' sidor');
+    amt.textContent=fmt(total);
+    if(pkgLbl){
+      let t='Motsvarar '+NAME[tier]+'-paketet';
+      if(extra>0) t+=' + '+extra+(extra==1?' extra sida':' extra sidor');
+      pkgLbl.textContent=t;
+    }
+  }
   pages.addEventListener('input',calc);
-  toggles.forEach(tg=>tg.addEventListener('click',()=>{tg.classList.toggle('on');calc();}));
+  document.querySelectorAll('.toggle').forEach(tg=>tg.addEventListener('click',()=>{tg.classList.toggle('on');calc();}));
   calc();
 })();
 
