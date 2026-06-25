@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=46" />
+<link rel="stylesheet" href="styles.css?v=47" />
 <meta name="author" content="AIM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -395,11 +395,15 @@
 
 <!-- AI SECTION -->
 <section class="section-pad ai-sec" id="ai">
+  <div class="ai-terminal-bg" aria-hidden="true">
+    <div class="ai-grid-lines"></div>
+    <div class="ai-scan-line"></div>
+  </div>
   <div class="wrap">
     <div class="ai-grid">
       <div class="reveal">
         <span class="eyebrow"><span class="dot"></span> AI på din sida</span>
-        <h2 style="font-size:clamp(28px,4vw,42px); margin:18px 0 14px;">En säljare som aldrig sover</h2>
+        <h2 style="font-size:clamp(28px,4vw,42px); margin:18px 0 14px;">En säljare som <span class="ai-neon">aldrig sover</span></h2>
         <p style="color:var(--muted); font-size:17px; margin-bottom:18px;">Vi bygger in AI-assistenter som svarar dina kunder direkt, bokar möten och fångar leads – dygnet runt. Testa demon →</p>
         <ul class="final-bullets">
           <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svarar på vanliga frågor direkt</li>
@@ -408,10 +412,11 @@
         </ul>
         <p class="ai-badge-demo" style="margin-top:16px;">// Demo – kopplas mot riktig AI vid lansering</p>
       </div>
-      <div class="chat-demo reveal">
-        <div class="chat-head">
-          <div class="chat-ava">A</div>
-          <div><div class="nm">AIM Assistant</div><div class="st"><span class="pulse"></span> Online nu</div></div>
+      <div class="chat-demo ai-terminal reveal">
+        <div class="terminal-header">
+          <div class="terminal-dots"><span></span><span></span><span></span></div>
+          <div class="terminal-title">AIM Assistant v2.0</div>
+          <div class="terminal-status"><span class="pulse"></span> DEMO</div>
         </div>
         <div class="chat-body" id="demoBody">
           <div class="msg bot">Hej! 👋 Jag är AIM Studios AI-assistent. Vad kan jag hjälpa dig med?</div>
@@ -420,6 +425,11 @@
           <button class="chat-chip" data-q="Vad kostar en hemsida?">Vad kostar en hemsida?</button>
           <button class="chat-chip" data-q="Hur snabbt kan ni leverera?">Hur snabbt levererar ni?</button>
           <button class="chat-chip" data-q="Hjälper ni med SEO?">Hjälper ni med SEO?</button>
+        </div>
+        <div class="terminal-input">
+          <span class="terminal-prompt">&gt;</span>
+          <input type="text" placeholder="Skriv din fråga här..." id="demoInput">
+          <button class="terminal-send" id="demoSend" aria-label="Skicka"><svg viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
         </div>
       </div>
     </div>
@@ -561,14 +571,34 @@
 </footer>
 
 <!-- floating chat -->
-<button class="fab magnetic" id="fab" aria-label="Öppna chatt"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5.6a8.5 8.5 0 0 1-.9-3.9A8.38 8.38 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></button>
-<div class="fab-panel" id="fabPanel">
-  <div class="chat-head"><div class="chat-ava">A</div><div><div class="nm">AIM Assistant</div><div class="st"><span class="pulse"></span> Online nu</div></div></div>
+<!-- AI Brain Orb (launcher) -->
+<div class="ai-orb-container" id="aiOrbContainer" role="button" tabindex="0" aria-label="Öppna AI-chatt">
+  <div class="ai-orb" id="aiOrb">
+    <div class="ai-orb-core"></div>
+    <div class="ai-orb-ring ring-1"></div>
+    <div class="ai-orb-ring ring-2"></div>
+    <div class="ai-orb-ring ring-3"></div>
+    <div class="ai-orb-particles"></div>
+  </div>
+  <div class="ai-orb-label">AI Online</div>
+</div>
+<div class="fab-panel ai-chat-panel" id="fabPanel">
+  <div class="terminal-header">
+    <div class="terminal-dots"><span></span><span></span><span></span></div>
+    <div class="terminal-title">AIM Assistant</div>
+    <div class="terminal-status"><span class="pulse"></span> ONLINE</div>
+    <button class="ai-chat-close" id="fabClose" aria-label="Stäng">&times;</button>
+  </div>
   <div class="chat-body" id="fabBody"><div class="msg bot">Hej! 👋 Hur kan jag hjälpa dig med din hemsida?</div></div>
   <div class="chat-chips" id="fabChips">
     <button class="chat-chip" data-q="Vad kostar en hemsida?">Priser</button>
     <button class="chat-chip" data-q="Hur snabbt kan ni leverera?">Leveranstid</button>
     <button class="chat-chip" data-q="Jag vill boka ett möte">Boka möte</button>
+  </div>
+  <div class="terminal-input">
+    <span class="terminal-prompt">&gt;</span>
+    <input type="text" placeholder="Skriv något..." id="fabInput">
+    <button class="terminal-send" id="fabSend" aria-label="Skicka"><svg viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
   </div>
 </div>
 
@@ -583,6 +613,6 @@
     <div class="pkg-body" id="pkgBody"></div>
   </div>
 </div>
-<script src="scripts.js?v=46" defer></script>
+<script src="scripts.js?v=47" defer></script>
 </body>
 </html>

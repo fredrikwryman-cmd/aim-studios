@@ -270,10 +270,24 @@ function chatEngine(bodyEl,chipsEl){
   chipsEl.querySelectorAll('.chat-chip').forEach(c=>c.addEventListener('click',()=>ask(c.dataset.q)));
   return ask;
 }
-chatEngine(document.getElementById('demoBody'),document.getElementById('demoChips'));
+const demoAsk=chatEngine(document.getElementById('demoBody'),document.getElementById('demoChips'));
 const fabAsk=chatEngine(document.getElementById('fabBody'),document.getElementById('fabChips'));
-const fab=document.getElementById('fab'),fabPanel=document.getElementById('fabPanel');
-fab.addEventListener('click',()=>fabPanel.classList.toggle('open'));
+// Skrivfält → motor (Enter eller skicka-knapp)
+function wireChatInput(inputId, sendId, ask){
+  const inp=document.getElementById(inputId), snd=document.getElementById(sendId);
+  if(inp){ inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&inp.value.trim()){ ask(inp.value.trim()); inp.value=''; } }); }
+  if(snd){ snd.addEventListener('click',()=>{ if(inp&&inp.value.trim()){ ask(inp.value.trim()); inp.value=''; inp.focus(); } }); }
+}
+wireChatInput('demoInput','demoSend',demoAsk);
+wireChatInput('fabInput','fabSend',fabAsk);
+// Orb-launcher → chat-panel (klick + tangentbord)
+const aiOrb=document.getElementById('aiOrbContainer'), fabPanel=document.getElementById('fabPanel'), fabClose=document.getElementById('fabClose');
+function toggleChat(){ const open=fabPanel.classList.toggle('open'); if(open){ const fi=document.getElementById('fabInput'); if(fi) setTimeout(()=>fi.focus(),80); } }
+if(aiOrb&&fabPanel){
+  aiOrb.addEventListener('click',toggleChat);
+  aiOrb.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleChat(); } });
+}
+if(fabClose){ fabClose.addEventListener('click',e=>{ e.stopPropagation(); fabPanel.classList.remove('open'); }); }
 
 /* ---------- Navbar-indikator (scroll-spy + hover) ---------- */
 
