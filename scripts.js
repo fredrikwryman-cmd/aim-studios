@@ -495,3 +495,21 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&modal.classList.contains('open')) closeModal(); });
 })();
+
+/* ---------- Problem-sektion: glitch-rubrik + flip (hover desktop / auto touch) ---------- */
+(function(){
+  const headline=document.querySelector('.problem-headline');
+  const cards=document.querySelectorAll('.problem-card');
+  if(!headline && !cards.length) return;
+  // Glitch-rubrik en gång när den syns
+  if(headline && 'IntersectionObserver' in window){
+    headline.setAttribute('data-text', headline.textContent);
+    const hIo=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){ headline.classList.add('active'); setTimeout(()=>headline.classList.remove('active'),420); hIo.unobserve(e.target); } });},{threshold:0.5});
+    hIo.observe(headline);
+  }
+  // Touch saknar hover → auto-flippa korten vid scroll (desktop sköts av :hover i CSS)
+  if(cards.length && 'IntersectionObserver' in window && matchMedia('(pointer:coarse)').matches){
+    const fIo=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){ const i=[...cards].indexOf(e.target); setTimeout(()=>e.target.classList.add('flipped'), 700+i*180); fIo.unobserve(e.target); } });},{threshold:0.3});
+    cards.forEach(c=>fIo.observe(c));
+  }
+})();

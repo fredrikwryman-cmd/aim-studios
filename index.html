@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=45" />
+<link rel="stylesheet" href="styles.css?v=46" />
 <meta name="author" content="AIM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -171,21 +171,50 @@
 </section>
 
 <!-- PROBLEM -->
-<section class="section-pad" id="problem">
+<section class="section-pad problem-sec" id="problem">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow"><span class="dot"></span> Problemet</span>
-      <h2>Din hemsida förlorar kunder varje dag</h2>
+      <h2 class="problem-headline glitch-text">Din hemsida förlorar kunder varje dag</h2>
       <p>De flesta besökare lämnar inom några sekunder. Här är de vanligaste anledningarna.</p>
     </div>
-    <div class="problem-grid reveal">
-      <div class="problem-item"><span class="problem-x">✕</span><span>Otydligt budskap</span></div>
-      <div class="problem-item"><span class="problem-x">✕</span><span>Långsamma sidor</span></div>
-      <div class="problem-item"><span class="problem-x">✕</span><span>Föråldrad design</span></div>
-      <div class="problem-item"><span class="problem-x">✕</span><span>Ingen mobiloptimering</span></div>
-      <div class="problem-item"><span class="problem-x">✕</span><span>Ingen SEO</span></div>
+    <div class="problem-stack">
+      <div class="problem-card reveal">
+        <div class="problem-inner">
+          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Otydligt budskap</span></div>
+          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Kristallklar kommunikation</span></div>
+        </div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-inner">
+          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Långsamma sidor</span></div>
+          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Laddning under 1 sekund</span></div>
+        </div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-inner">
+          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Föråldrad design</span></div>
+          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Modern, säljande design</span></div>
+        </div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-inner">
+          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Ingen mobiloptimering</span></div>
+          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Perfekt på alla skärmar</span></div>
+        </div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-inner">
+          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Ingen SEO</span></div>
+          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Synlig på Google</span></div>
+        </div>
+      </div>
     </div>
-    <p class="problem-end reveal">Vi fixar det på <b>7 dagar</b>.</p>
+    <div class="problem-solution reveal" id="problemSolution">
+      <div class="solution-line"></div>
+      <p class="solution-text">Vi fixar det på <span class="solution-accent">7 dagar</span>.</p>
+      <div class="solution-line"></div>
+    </div>
   </div>
 </section>
 
@@ -554,6 +583,6 @@
     <div class="pkg-body" id="pkgBody"></div>
   </div>
 </div>
-<script src="scripts.js?v=45" defer></script>
+<script src="scripts.js?v=46" defer></script>
 </body>
 </html>
