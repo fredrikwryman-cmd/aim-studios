@@ -95,7 +95,6 @@ if(!reduce && !matchMedia('(pointer:coarse)').matches){
 }
 
 /* ---------- Marquee dup ---------- */
-const mq=document.getElementById('marquee'); if(mq) mq.innerHTML+=mq.innerHTML;
 
 /* ---------- FAQ ---------- */
 document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',()=>{const item=btn.parentElement;const ans=item.querySelector('.faq-a');const open=item.classList.toggle('open');ans.style.maxHeight=open?ans.scrollHeight+'px':'0';});});
