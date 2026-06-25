@@ -226,7 +226,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
 
 /* ---------- Pricing calculator ---------- */
 (function(){
-  const base=9995,pages=document.getElementById('pages'),pagesLbl=document.getElementById('pagesLbl'),amt=document.getElementById('calcAmt');
+  const base=14995,pages=document.getElementById('pages'),pagesLbl=document.getElementById('pagesLbl'),amt=document.getElementById('calcAmt');
   const toggles=[...document.querySelectorAll('.toggle')];
   function fmt(n){return n.toLocaleString('sv-SE').replace(/\u00a0/g,' ');}
   function calc(){let t=base+(+pages.value-5)*900;toggles.forEach(tg=>{if(tg.classList.contains('on'))t+=+tg.dataset.add;});pagesLbl.textContent=pages.value+(pages.value==1?' sida':' sidor');amt.textContent=fmt(Math.max(base,t));}
@@ -238,7 +238,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
 /* ---------- Chatbot (simulated) ---------- */
 function botReply(q){
   q=q.toLowerCase();
-  if(/pris|kosta|kostar|betala/.test(q)) return 'Våra paket börjar på 9 995 kr (Starter), 19 995 kr (Business) och 39 995 kr (Premium). Du betalar en gång – ingen bindningstid. Vill du att jag bokar ett gratis möte så räknar vi på just ditt projekt? 🙂';
+  if(/pris|kosta|kostar|betala/.test(q)) return 'Våra paket börjar på 14 995 kr (Starter), 24 995 kr (Business) och 44 995 kr (Premium). Du betalar en gång – ingen bindningstid. Vill du att jag bokar ett gratis möte så räknar vi på just ditt projekt? 🙂';
   if(/snabb|tid|leverera|leverans|dagar|klar/.test(q)) return 'De flesta sidor är live på 7–10 dagar från vårt första samtal. Har du en deadline? Berätta gärna så ser vi vad som är möjligt!';
   if(/seo|google|synlig|sökmotor/.test(q)) return 'Ja! Alla sidor byggs SEO-vänligt från grunden, och Business- och Premium-paketen inkluderar aktivt SEO-arbete för att synas högre på Google.';
   if(/ai|chatbot|automation|bot/.test(q)) return 'Precis som den här chatten! Vi bygger in AI-assistenter som svarar kunder, fångar leads och bokar möten dygnet runt. Det ingår i Premium-paketet.';
@@ -409,4 +409,71 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   let gx=50,gy=50,tx=50,ty=50;
   document.addEventListener('mousemove',e=>{ tx=(e.clientX/innerWidth)*100; ty=(e.clientY/innerHeight)*100; },{passive:true});
   (function update(){ gx+=(tx-gx)*0.05; gy+=(ty-gy)*0.05; grid.style.setProperty('--gx',gx+'%'); grid.style.setProperty('--gy',gy+'%'); requestAnimationFrame(update); })();
+})();
+
+/* ---------- Paket-modal (3D-flip reveal) ---------- */
+(function(){
+  const modal=document.getElementById('pkgModal'); if(!modal) return;
+  const flip=document.getElementById('pkgFlip'), body=document.getElementById('pkgBody');
+  const CHK='<span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>';
+  const PKG={
+    starter:{name:'Starter',price:'14 995',tag:'',desc:'En enkel, professionell hemsida som syns och övertygar.',
+      feats:['Upp till 5 sidor','Mobilanpassad, modern design','Kontaktformulär','Grundläggande SEO (titlar, fart, Google-index)','1 revideringsrunda','Leverans 7–10 dagar']},
+    business:{name:'Business',price:'24 995',tag:'Mest populär',desc:'Säljoptimerad hemsida byggd för att dra in fler kunder.',
+      feats:['Allt i Starter','Upp till 10 sidor','Konverteringsoptimerad struktur (CTA:er, lead-formulär)','SEO-grundpaket (sökordsanalys + on-page)','Analys &amp; uppföljning (Analytics + Search Console)','2 revideringsrundor','Leverans 10–14 dagar']},
+    premium:{name:'Premium',price:'44 995',tag:'',desc:'Komplett digital närvaro med branding och AI.',
+      feats:['Allt i Business','Upp till 15 sidor','Komplett branding (logotyp + visuell identitet)','AI-chatbot &amp; automation','Prioriterad support','3 revideringsrundor','Leverans 14–21 dagar']}
+  };
+  const ADDONS=[
+    ['Extra sida (utöver paketets antal)','från 900 kr/sida'],
+    ['Bildframtagning (AI-genererad/redigerad)','från 500 kr/bild'],
+    ['Extra revideringsrunda','från 1 500 kr'],
+    ['Nya funktioner efter leverans','850 kr/tim'],
+    ['Löpande ändringar &amp; underhåll','850 kr/tim']
+  ];
+  let lastFocus=null, current=null;
+
+  function render(key){
+    const p=PKG[key]; if(!p) return; current=key;
+    const feats=p.feats.map(f=>`<li>${CHK} <span>${f}</span></li>`).join('');
+    const addons=ADDONS.map(a=>`<div class="pm-arow"><span>${a[0]}</span><span class="ap">${a[1]}</span></div>`).join('');
+    body.innerHTML=
+      (p.tag?`<span class="pm-badge">${p.tag}</span>`:'')+
+      `<div class="pm-name">${p.name}</div>`+
+      `<div class="pm-price">${p.price} kr <span>· engång</span></div>`+
+      `<p class="pm-desc">${p.desc}</p>`+
+      `<ul class="pm-feats">${feats}</ul>`+
+      `<div class="pm-addons"><div class="pm-addons-h">Utöver paketet — löpande räkning</div>${addons}`+
+      `<p class="pm-fine">Allt utöver paketet sker mot löpande räkning eller fast offert – du godkänner alltid priset först. Domän &amp; hosting tillkommer och ägs av dig.</p></div>`+
+      `<button type="button" class="btn btn-primary pm-book" data-book>Boka det här paketet →</button>`;
+  }
+  function openModal(key,card){
+    lastFocus=card||document.activeElement; render(key);
+    document.querySelectorAll('.price-card.selected').forEach(c=>c.classList.remove('selected'));
+    if(card) card.classList.add('selected');
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden'; flip.scrollTop=0;
+    setTimeout(()=>{const c=flip.querySelector('.pkg-close'); if(c) c.focus();},80);
+  }
+  function closeModal(){
+    modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    document.querySelectorAll('.price-card.selected').forEach(c=>c.classList.remove('selected'));
+    if(lastFocus&&lastFocus.focus) lastFocus.focus();
+  }
+  document.querySelectorAll('.price-card[data-pkg]').forEach(card=>{
+    card.addEventListener('click',()=>openModal(card.dataset.pkg,card));
+    card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(card.dataset.pkg,card); } });
+  });
+  modal.addEventListener('click',e=>{
+    if(e.target.closest('[data-close]')){ closeModal(); return; }
+    if(e.target.closest('[data-book]')){
+      const key=current; closeModal();
+      const msg=document.getElementById('meddelande');
+      if(msg&&key&&!msg.value.trim()) msg.value=`Hej! Jag är intresserad av ${PKG[key].name}-paketet.`;
+      const boka=document.querySelector('#boka');
+      setTimeout(()=>{ if(boka) boka.scrollIntoView({behavior:'smooth',block:'start'}); },90);
+    }
+  });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&modal.classList.contains('open')) closeModal(); });
 })();
