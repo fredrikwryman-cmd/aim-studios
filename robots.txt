@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://fredrikwryman-cmd.github.io/aim-studios/sitemap.xml
+Sitemap: https://aimstudios.se/sitemap.xml

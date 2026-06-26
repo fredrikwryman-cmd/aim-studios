@@ -249,7 +249,11 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
     }
   }
   pages.addEventListener('input',calc);
-  document.querySelectorAll('.toggle').forEach(tg=>tg.addEventListener('click',()=>{tg.classList.toggle('on');calc();}));
+  document.querySelectorAll('.toggle').forEach(tg=>{
+    function flip(){ const on=tg.classList.toggle('on'); tg.setAttribute('aria-checked', String(on)); calc(); }
+    tg.addEventListener('click', flip);
+    tg.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); flip(); } });
+  });
   calc();
 })();
 
