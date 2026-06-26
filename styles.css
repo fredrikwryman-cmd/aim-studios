@@ -831,3 +831,9 @@
   .svc-wide:hover .svc-glare { opacity: 1; }
   .svc-wide:hover .svc-holo { opacity: .5; }
   @media (prefers-reduced-motion: reduce) { .svc-glare, .svc-holo { display: none; } }
+
+  /* hero-video: visa stillbild vid reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-vid { display: none; }
+    .browser-body { aspect-ratio: 16 / 9; background-image: url('assets/hero-poster.jpg'); background-size: cover; background-position: center; }
+  }

@@ -32,7 +32,7 @@ window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
     el.addEventListener('pointerenter',()=>{ if(magEl&&magEl!==el) magEl.style.transform=''; magEl=el; releasing=false; });
     el.addEventListener('pointerleave',()=>{ if(magEl===el){ releasing=true; tx=0; ty=0; } });
   });
-  document.querySelectorAll('a,button,.tilt,.switch-tab,.chat-chip,.toggle').forEach(el=>{
+  document.querySelectorAll('a,button,.switch-tab,.chat-chip,.toggle').forEach(el=>{
     el.addEventListener('pointerenter',()=>ring.classList.add('hot'));
     el.addEventListener('pointerleave',()=>ring.classList.remove('hot'));
   });
@@ -68,10 +68,6 @@ window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ---------- Icon draw ---------- */
-const dio=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('drawn');dio.unobserve(e.target);}});},{threshold:0.3});
-document.querySelectorAll('.svc-card').forEach(el=>dio.observe(el));
-
 /* ---------- Count up ---------- */
 const cio=new IntersectionObserver((es)=>{es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);const el=e.target;const to=+el.dataset.to;const pre=el.dataset.prefix||'';const suf=el.dataset.suffix||'';if(reduce){el.textContent=pre+to+suf;return;}let s=null;const d=1400;function tick(t){if(!s)s=t;const p=Math.min((t-s)/d,1);const v=Math.floor((1-Math.pow(1-p,3))*to);el.textContent=pre+v+suf;if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);});},{threshold:0.6});
 document.querySelectorAll('.countup').forEach(el=>cio.observe(el));
@@ -86,10 +82,6 @@ document.querySelectorAll('.countup').forEach(el=>cio.observe(el));
 
 /* ---------- 3D tilt (cards + hero) ---------- */
 if(!reduce && !matchMedia('(pointer:coarse)').matches){
-  document.querySelectorAll('.tilt').forEach(card=>{
-    card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const px=(e.clientX-r.left)/r.width;const py=(e.clientY-r.top)/r.height;card.style.transform=`perspective(800px) rotateY(${(px-0.5)*8}deg) rotateX(${(0.5-py)*8}deg) translateY(-4px)`;card.style.setProperty('--mx',px*100+'%');card.style.setProperty('--my',py*100+'%');});
-    card.addEventListener('mouseleave',()=>{card.style.transform='';});
-  });
   const ht=document.getElementById('heroTilt'), hh=document.querySelector('.hero h1');
   if(ht||hh){addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-0.5);const y=(e.clientY/innerHeight-0.5);if(ht)ht.style.transform=`rotateY(${-8 - x*5}deg) rotateX(${4 + y*5}deg)`;if(hh)hh.style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`;});}
 }
@@ -498,8 +490,10 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     if(lastFocus&&lastFocus.focus) lastFocus.focus();
   }
   document.querySelectorAll('.price-card[data-pkg]').forEach(card=>{
-    card.addEventListener('click',()=>openModal(card.dataset.pkg,card));
-    card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(card.dataset.pkg,card); } });
+    const open=()=>openModal(card.dataset.pkg,card);
+    const btn=card.querySelector('.pkg-open');
+    if(btn) btn.addEventListener('click',e=>{ e.stopPropagation(); open(); });
+    card.addEventListener('click',open);
   });
   modal.addEventListener('click',e=>{
     if(e.target.closest('[data-close]')){ closeModal(); return; }
