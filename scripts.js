@@ -618,3 +618,40 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     addEventListener('resize', ()=>{ if(active) size(); }, {passive:true});
   }
 })();
+
+/* ---------- svc-wide: magnetisk 3D-tilt + holografisk sken ---------- */
+(function(){
+  const cards=document.querySelectorAll('.svc-wide');
+  if(!cards.length) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const MAXX=7, MAXY=9;  // grader
+  cards.forEach(card=>{
+    // injicera glans- + holo-lager (under innehållet via z-index)
+    const glare=document.createElement('div'); glare.className='svc-glare'; glare.setAttribute('aria-hidden','true');
+    const holo=document.createElement('div'); holo.className='svc-holo'; holo.setAttribute('aria-hidden','true');
+    card.appendChild(glare); card.appendChild(holo);
+    let raf=null;
+    function enter(){ card.style.transition='transform .08s linear, border-color .3s, box-shadow .3s'; }
+    function move(e){
+      const r=card.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+      if(raf) cancelAnimationFrame(raf);
+      raf=requestAnimationFrame(()=>{
+        const rx=(0.5-py)*MAXX, ry=(px-0.5)*MAXY;
+        card.style.transform='perspective(1100px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) translateY(-4px)';
+        card.style.setProperty('--gx',(px*100).toFixed(1)+'%');
+        card.style.setProperty('--gy',(py*100).toFixed(1)+'%');
+        card.style.setProperty('--hx',(px*100).toFixed(1)+'%');
+        card.style.setProperty('--hy',(py*100).toFixed(1)+'%');
+      });
+    }
+    function leave(){
+      if(raf) cancelAnimationFrame(raf);
+      card.style.transition='transform .5s var(--ease), border-color .3s, box-shadow .3s';
+      card.style.transform='';
+    }
+    card.addEventListener('mouseenter',enter);
+    card.addEventListener('mousemove',move);
+    card.addEventListener('mouseleave',leave);
+  });
+})();

@@ -823,3 +823,11 @@
   .skip-link { position: absolute; top: -56px; left: 8px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 10000; font-weight: 600; text-decoration: none; transition: top .2s var(--ease); }
   .skip-link:focus { top: 8px; }
   :focus-visible { outline: 3px solid #6366F1; outline-offset: 2px; }
+
+  /* ---------- svc-wide: magnetisk tilt + holografi ---------- */
+  .svc-wide { transform-style: preserve-3d; will-change: transform; }
+  .svc-glare { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .35s; background: radial-gradient(circle 260px at var(--gx,50%) var(--gy,50%), rgba(255,255,255,0.22), transparent 60%); mix-blend-mode: overlay; }
+  .svc-holo { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .35s; background: linear-gradient(115deg, transparent 24%, rgba(99,102,241,0.38) 40%, rgba(34,197,94,0.26) 52%, rgba(168,85,247,0.34) 64%, transparent 80%); background-size: 220% 220%; background-position: var(--hx,50%) var(--hy,50%); mix-blend-mode: screen; }
+  .svc-wide:hover .svc-glare { opacity: 1; }
+  .svc-wide:hover .svc-holo { opacity: .5; }
+  @media (prefers-reduced-motion: reduce) { .svc-glare, .svc-holo { display: none; } }
