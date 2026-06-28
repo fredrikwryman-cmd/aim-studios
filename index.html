@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=64" />
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -133,6 +133,12 @@
       </div>
     </div>
     <div class="visual reveal">
+      <button class="promo-sticker" id="promoSticker" type="button" aria-label="20% rabatt – klicka för ledtråd">
+        <span class="promo-inner">
+          <span class="promo-face promo-front"><b>20%</b><i>OFF</i></span>
+          <span class="promo-face promo-back"><span>Hitta easter-egget på sajten → lås upp 20%</span></span>
+        </span>
+      </button>
       <div class="browser" id="heroTilt">
         <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">ditt-foretag.se</span></div>
         <div class="browser-body">
@@ -602,7 +608,7 @@
         </ul>
       </div>
       <div class="form-card iridescent">
-        <form id="bookForm" action="https://formspree.io/f/placeholder" method="POST" data-formspree-pending="true" novalidate>
+        <form id="bookForm" action="https://formspree.io/f/xzdlgnlz" method="POST" novalidate>
           <h3>Boka ditt strategi-möte</h3>
           <p class="sub">Fyll i formuläret så hör vi av oss.</p>
           <input type="hidden" name="_subject" value="Ny bokningsförfrågan – AiM Studios">
@@ -612,7 +618,6 @@
           <div class="field"><label for="meddelande">Vad vill du uppnå?</label><textarea id="meddelande" name="meddelande" placeholder="Berätta kort om ditt företag och mål..."></textarea></div>
           <button type="submit" class="btn btn-primary form-submit magnetic">Boka gratis strategi-möte →</button>
           <p class="form-fine">Vi använder dina uppgifter endast för att kontakta dig.</p>
-          <p class="form-pending" style="text-align:center;color:var(--accent);font-size:13px;margin-top:10px;">Formuläret aktiveras inom kort – mejla oss på <a href="mailto:info@aimstudios.se" style="color:inherit;text-decoration:underline;">info@aimstudios.se</a> så länge.</p>
           <p class="form-error" id="formError">Något gick fel – mejla oss direkt på info@aimstudios.se.</p>
         </form>
         <div class="form-success" id="formSuccess">
@@ -720,6 +725,51 @@
     <div class="pkg-body" id="pkgBody"></div>
   </div>
 </div>
-<script src="scripts.js?v=62" defer></script>
+<div class="order-overlay" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+  <div class="order-card">
+    <button class="order-close" id="orderClose" type="button" aria-label="Stäng">✕</button>
+    <span class="order-tag">🎉 20% OFF upplåst</span>
+    <div class="order-head">
+      <h3 id="orderTitle">Bygg din beställning</h3>
+      <p>Du hittade easter-egget! Välj paket och tillval – rabatten dras av automatiskt.</p>
+    </div>
+    <div class="order-section">
+      <h4>1. Välj paket</h4>
+      <div class="order-pkgs">
+        <label class="order-pkg"><input type="radio" name="opkg" value="Starter" data-price="9995"><span class="opkg-box"><b>Starter</b><i>9 995 kr</i></span></label>
+        <label class="order-pkg"><input type="radio" name="opkg" value="Business" data-price="17995" checked><span class="opkg-box"><b>Business</b><i>17 995 kr</i></span></label>
+        <label class="order-pkg"><input type="radio" name="opkg" value="Premium" data-price="29995"><span class="opkg-box"><b>Premium</b><i>29 995 kr</i></span></label>
+      </div>
+    </div>
+    <div class="order-section">
+      <h4>2. Tillval <span>(valfritt)</span></h4>
+      <div class="order-addons" id="orderAddons">
+        <div class="addon-row" data-price="900" data-name="Extra sida"><span class="addon-name">Extra sida <i>900 kr/st</i></span><span class="stepper"><button type="button" class="step-dn" aria-label="Minska">−</button><b class="addon-qty">0</b><button type="button" class="step-up" aria-label="Öka">+</button></span></div>
+        <div class="addon-row" data-price="500" data-name="Extra bild"><span class="addon-name">Extra bild <i>500 kr/st</i></span><span class="stepper"><button type="button" class="step-dn" aria-label="Minska">−</button><b class="addon-qty">0</b><button type="button" class="step-up" aria-label="Öka">+</button></span></div>
+        <div class="addon-row" data-price="1500" data-name="Extra revidering"><span class="addon-name">Extra revidering <i>1 500 kr/st</i></span><span class="stepper"><button type="button" class="step-dn" aria-label="Minska">−</button><b class="addon-qty">0</b><button type="button" class="step-up" aria-label="Öka">+</button></span></div>
+        <div class="addon-row" data-price="850" data-name="Ny funktion (tim)"><span class="addon-name">Ny funktion <i>850 kr/tim</i></span><span class="stepper"><button type="button" class="step-dn" aria-label="Minska">−</button><b class="addon-qty">0</b><button type="button" class="step-up" aria-label="Öka">+</button></span></div>
+      </div>
+    </div>
+    <div class="order-summary">
+      <div class="osum-row"><span>Ordinarie pris</span><span id="osumOrig">17 995 kr</span></div>
+      <div class="osum-row osum-disc"><span>Din rabatt (−20%)</span><span id="osumDisc">−3 599 kr</span></div>
+      <div class="osum-row osum-total"><span>Du betalar</span><span id="osumFinal">14 396 kr</span></div>
+    </div>
+    <form class="order-form" id="orderForm" action="https://formspree.io/f/xzdlgnlz" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="🎉 20% OFF (Easter Egg) – Ny beställning">
+      <input type="hidden" name="Bestallning" id="orderDetails" value="">
+      <div class="order-fields">
+        <input type="text" name="Namn" id="oName" placeholder="Ditt namn" required>
+        <input type="email" name="E-post" id="oEmail" placeholder="Din e-post" required>
+        <input type="tel" name="Telefon" placeholder="Telefon (valfritt)">
+      </div>
+      <textarea name="Meddelande" placeholder="Något du vill tillägga? (valfritt)" rows="2"></textarea>
+      <button type="submit" class="btn btn-primary order-submit">Skicka beställning med 20% rabatt →</button>
+      <p class="order-note">Din order skickas till oss tydligt märkt <b>20% OFF</b>. Vi återkommer inom 24h.</p>
+    </form>
+  </div>
+</div>
+<script src="unlock.js?v=64" defer></script>
+<script src="scripts.js?v=64" defer></script>
 </body>
 </html>

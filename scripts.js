@@ -208,6 +208,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
     if(toast){ toast.textContent=on?'🌈 Neon-läge på!':'Neon-läge av'; toast.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove('show'),1800); }
     if(on && typeof burst==='function') burst();
     if(on){ document.querySelectorAll('.iridescent').forEach((card,i)=>{ setTimeout(()=>{ card.style.transform='scale(1.02)'; setTimeout(()=>{card.style.transform='';},200); }, i*60); }); }
+    if(on){ try{ var T=String.fromCharCode(65,105,77,167,110,51,48,110,167,50,48,167,113,55,120); if(window.__q9) window.__q9.t(T); if(window.openAimOrder) setTimeout(window.openAimOrder, 650); }catch(e){} }
   }
   let clicks=0,last=0;
   logo.addEventListener('click',()=>{ const now=Date.now(); if(now-last>800) clicks=0; last=now; if(++clicks>=5){ clicks=0; fireNeon(); } });
@@ -683,4 +684,96 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   header.addEventListener('mouseleave',function(){ inside=false; header.classList.remove('spotlight-on'); stop(); });
   addEventListener('resize',function(){ init(); });
   init(); draw(); stop();
+})();
+
+/* ---------- 20% OFF promo-sticker: magnetisk + flip + egg-koppling ---------- */
+(function(){
+  var s=document.getElementById('promoSticker'); if(!s) return;
+  var reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse=matchMedia('(pointer: coarse)').matches;
+  var unlocked=false;
+  if(!reduceM && !coarse){
+    s.addEventListener('mousemove',function(e){
+      var r=s.getBoundingClientRect();
+      var dx=(e.clientX-(r.left+r.width/2))/(r.width/2);
+      var dy=(e.clientY-(r.top+r.height/2))/(r.height/2);
+      s.style.transform='translate('+(dx*9).toFixed(1)+'px,'+(dy*9).toFixed(1)+'px)';
+    });
+    s.addEventListener('mouseleave',function(){ s.style.transform=''; });
+  }
+  s.addEventListener('click',function(){
+    if(unlocked){ if(window.openAimOrder) window.openAimOrder(); return; }
+    s.classList.toggle('flipped');
+  });
+  addEventListener('q9:ok',function(){
+    unlocked=true; s.classList.remove('flipped'); s.classList.add('unlocked');
+    s.setAttribute('aria-label','20% upplåst – klicka för att beställa');
+    var f=s.querySelector('.promo-front'); if(f) f.innerHTML='<b>20%</b><i>BESTÄLL ✓</i>';
+  });
+})();
+
+/* ---------- Beställnings-modal (egg-låst, 20% off) ---------- */
+(function(){
+  var modal=document.getElementById('orderModal'); if(!modal) return;
+  var pkgs=modal.querySelectorAll('input[name="opkg"]');
+  var addons=modal.querySelectorAll('.addon-row');
+  var oOrig=document.getElementById('osumOrig'), oDisc=document.getElementById('osumDisc'), oFinal=document.getElementById('osumFinal');
+  var details=document.getElementById('orderDetails');
+  var form=document.getElementById('orderForm');
+  function kr(n){ return n.toLocaleString('sv-SE').replace(/\u00a0/g,' ')+' kr'; }
+  function calc(){
+    var base=0, pkgName='';
+    pkgs.forEach(function(p){ if(p.checked){ base=+p.dataset.price; pkgName=p.value; } });
+    var parts=[], addonSum=0;
+    addons.forEach(function(row){
+      var q=+row.querySelector('.addon-qty').textContent;
+      if(q>0){ var price=+row.dataset.price; addonSum+=q*price; parts.push(row.dataset.name+' x'+q+' ('+kr(q*price)+')'); }
+    });
+    var sub=base+addonSum, disc=Math.round(sub*0.2), fin=sub-disc;
+    if(oOrig) oOrig.textContent=kr(sub);
+    if(oDisc) oDisc.textContent='−'+kr(disc);
+    if(oFinal) oFinal.textContent=kr(fin);
+    if(details) details.value='Paket: '+pkgName+(parts.length?' | Tillval: '+parts.join(', '):'')+' | Ordinarie: '+kr(sub)+' | Rabatt -20%: -'+kr(disc)+' | ATT BETALA: '+kr(fin);
+  }
+  pkgs.forEach(function(p){ p.addEventListener('change',calc); });
+  addons.forEach(function(row){
+    var qEl=row.querySelector('.addon-qty');
+    row.querySelector('.step-up').addEventListener('click',function(){ qEl.textContent=(+qEl.textContent+1); calc(); });
+    row.querySelector('.step-dn').addEventListener('click',function(){ qEl.textContent=Math.max(0,+qEl.textContent-1); calc(); });
+  });
+  function open(){
+    if(!(window.__q9 && window.__q9.k())) return;   /* äkta lås: kräver att egget knäckts */
+    calc(); modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  }
+  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  window.openAimOrder=open;
+  var cb=document.getElementById('orderClose'); if(cb) cb.addEventListener('click',close);
+  modal.addEventListener('click',function(e){ if(e.target===modal) close(); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) close(); });
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var nm=document.getElementById('oName'), em=document.getElementById('oEmail'), ok=true;
+      if(!nm.value.trim()){ nm.classList.add('err'); ok=false; } else nm.classList.remove('err');
+      if(!/\S+@\S+\.\S+/.test(em.value)){ em.classList.add('err'); ok=false; } else em.classList.remove('err');
+      if(!ok) return;
+      calc();
+      if(form.action.indexOf('placeholder')>-1){
+        var subj='🎉 20% OFF (Easter Egg) – Bestallning fran '+nm.value.trim();
+        var body=details.value+'\n\nNamn: '+nm.value.trim()+'\nE-post: '+em.value.trim();
+        var tel=form.querySelector('input[name="Telefon"]'); if(tel&&tel.value) body+='\nTelefon: '+tel.value;
+        var msg=form.querySelector('textarea'); if(msg&&msg.value) body+='\nMeddelande: '+msg.value;
+        window.location.href='mailto:info@aimstudios.se?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+        return;
+      }
+      var btn=form.querySelector('button[type="submit"]'), orig=btn.textContent; btn.textContent='Skickar…'; btn.disabled=true;
+      fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}).then(function(r){
+        if(!r.ok) throw 0;
+        modal.querySelector('.order-card').innerHTML='<div style="text-align:center;padding:34px 10px;"><div style="font-size:42px;margin-bottom:10px;">🎉</div><h3 style="font-size:24px;margin-bottom:8px;">Tack för din beställning!</h3><p style="color:var(--muted);">Vi hör av oss inom 24h med din 20%-bekräftelse.</p></div>';
+        if(typeof burst==='function') burst();
+      }).catch(function(){ btn.textContent=orig; btn.disabled=false; alert('Något gick fel – mejla oss på info@aimstudios.se så ordnar vi det.'); });
+    });
+    form.querySelectorAll('input').forEach(function(f){ f.addEventListener('input',function(){ f.classList.remove('err'); }); });
+  }
+  calc();
 })();
