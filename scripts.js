@@ -590,7 +590,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   const canvas=document.getElementById('matrixRain'), hint=document.getElementById('matrixHint');
   if(canvas && hint){
     const ctx=canvas.getContext('2d');
-    const chars='AIMSTUDIOS0123456789<>/=+-*'; const fontSize=14;
+    const chars='AiMSTUDIOS0123456789<>/=+-*'; const fontSize=14;
     let active=false, anim=null, drops=[];
     function size(){ canvas.width=innerWidth; canvas.height=innerHeight; drops=Array(Math.max(1,Math.floor(canvas.width/fontSize))).fill(1); }
     function draw(){
