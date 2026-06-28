@@ -837,3 +837,20 @@
     .hero-vid { display: none; }
     .browser-body { aspect-ratio: 16 / 9; background-image: url('assets/hero-poster.jpg'); background-size: cover; background-position: center; }
   }
+
+  /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
+  .svc-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
+  .svc-card:hover { transform: translateY(-4px); border-color: var(--line-strong); box-shadow: 0 20px 50px -24px rgba(79,70,229,0.4); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 64px; }
+  .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 48px; }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; gap: 36px; margin-top: 44px; } .values-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- neuralt header-lager (bakom nav-innehållet) ---------- */
+  #navBar { overflow: hidden; }
+  #navBar > *:not(.neural-canvas):not(.neural-spotlight) { position: relative; z-index: 2; }
+  .neural-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; opacity: 0.55; pointer-events: none; transition: opacity .4s var(--ease); }
+  header.scrolled #navBar .neural-canvas { opacity: 0.4; }
+  .neural-spotlight { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .3s ease; background: radial-gradient(320px circle at var(--nx,50%) var(--ny,50%), rgba(255,255,255,0.14), transparent 55%); }
+  header.spotlight-on .neural-spotlight { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .neural-canvas, .neural-spotlight { display: none !important; } }
+  @media (max-width: 767px) { .neural-canvas, .neural-spotlight { display: none !important; } }
