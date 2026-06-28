@@ -691,24 +691,26 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   var s=document.getElementById('promoSticker'); if(!s) return;
   var reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse=matchMedia('(pointer: coarse)').matches;
-  var unlocked=false;
+  var unlocked=false, baseRot='rotate(-9deg)';
   if(!reduceM && !coarse){
     s.addEventListener('mousemove',function(e){
       var r=s.getBoundingClientRect();
       var dx=(e.clientX-(r.left+r.width/2))/(r.width/2);
       var dy=(e.clientY-(r.top+r.height/2))/(r.height/2);
-      s.style.transform='translate('+(dx*9).toFixed(1)+'px,'+(dy*9).toFixed(1)+'px)';
+      s.style.transform=baseRot+' translate('+(dx*8).toFixed(1)+'px,'+(dy*8).toFixed(1)+'px)';
     });
     s.addEventListener('mouseleave',function(){ s.style.transform=''; });
   }
-  s.addEventListener('click',function(){
+  function activate(){
     if(unlocked){ if(window.openAimOrder) window.openAimOrder(); return; }
     s.classList.toggle('flipped');
-  });
+  }
+  s.addEventListener('click',activate);
+  s.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(); } });
   addEventListener('q9:ok',function(){
     unlocked=true; s.classList.remove('flipped'); s.classList.add('unlocked');
     s.setAttribute('aria-label','20% upplåst – klicka för att beställa');
-    var f=s.querySelector('.promo-front'); if(f) f.innerHTML='<b>20%</b><i>BESTÄLL ✓</i>';
+    var hint=s.querySelector('.promo-hint'); if(hint) hint.textContent='✓ beställ →';
   });
 })();
 

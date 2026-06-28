@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=64" />
+<link rel="stylesheet" href="styles.css?v=65" />
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -133,12 +133,21 @@
       </div>
     </div>
     <div class="visual reveal">
-      <button class="promo-sticker" id="promoSticker" type="button" aria-label="20% rabatt – klicka för ledtråd">
-        <span class="promo-inner">
-          <span class="promo-face promo-front"><b>20%</b><i>OFF</i></span>
-          <span class="promo-face promo-back"><span>Hitta easter-egget på sajten → lås upp 20%</span></span>
-        </span>
-      </button>
+      <div class="promo-sticker" id="promoSticker" role="button" tabindex="0" aria-label="20% rabatt – klicka för information">
+        <div class="promo-vp">
+          <div class="promo-card">
+            <div class="promo-face promo-front">
+              <span class="promo-pct">20%</span>
+              <span class="promo-off">OFF</span>
+              <span class="promo-hint">klicka →</span>
+            </div>
+            <div class="promo-face promo-back">
+              <b>Hitta ägget!</b>
+              <span>Hitta det dolda easter-ägget på sajten → få 20% på din beställning</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="browser" id="heroTilt">
         <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">ditt-foretag.se</span></div>
         <div class="browser-body">
@@ -769,7 +778,7 @@
     </form>
   </div>
 </div>
-<script src="unlock.js?v=64" defer></script>
-<script src="scripts.js?v=64" defer></script>
+<script src="unlock.js?v=65" defer></script>
+<script src="scripts.js?v=65" defer></script>
 </body>
 </html>
