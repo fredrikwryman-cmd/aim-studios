@@ -691,7 +691,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   var s=document.getElementById('promoSticker'); if(!s) return;
   var reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse=matchMedia('(pointer: coarse)').matches;
-  var unlocked=false, baseRot='rotate(-9deg)';
+  var unlocked=false, baseRot='rotate(9deg)';
   if(!reduceM && !coarse){
     s.addEventListener('mousemove',function(e){
       var r=s.getBoundingClientRect();
