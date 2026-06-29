@@ -545,7 +545,7 @@
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 460px) { .form-row { grid-template-columns: 1fr; } }
   .form-submit { width: 100%; margin-top: 6px; }
-  .form-fine { text-align: center; font-size: 12px; color: var(--muted-dim); margin-top: 12px; }
+  .form-fine { text-align: center; font-size: 12px; color: var(--muted-dim); margin-top: 18px; }
   .form-success { display: none; text-align: center; padding: 30px 10px; }
   .form-success.show { display: block; }
   .form-success .tick { width: 56px; height: 56px; border-radius: 50%; background: rgba(99,102,241,0.15); display: grid; place-items: center; margin: 0 auto 16px; }
@@ -781,7 +781,7 @@
 
   /* ---------- Footer – Terminal Boot (indigo) ---------- */
   .footer-terminal { position: relative; border-top: 1px solid var(--line); background: var(--bg-soft); overflow: hidden; }
-  .terminal-boot { position: relative; padding: 48px 24px 8px; display: flex; flex-direction: column; align-items: center; }
+  .terminal-boot { position: relative; max-width: var(--max); margin: 0 auto; padding: 48px 24px 8px; display: flex; flex-direction: column; align-items: flex-start; }
   .boot-screen { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; color: #818cf8; max-width: 640px; width: 100%; }
   .boot-line { text-shadow: 0 0 10px rgba(99,102,241,0.25); white-space: pre-wrap; word-break: break-word; }
   .boot-cursor { display: inline-block; color: #818cf8; font-size: 16px; animation: blinkCursor 1s step-end infinite; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
