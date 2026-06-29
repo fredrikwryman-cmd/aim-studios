@@ -89,7 +89,7 @@ if(!reduce && !matchMedia('(pointer:coarse)').matches){
 /* ---------- Marquee dup ---------- */
 
 /* ---------- FAQ ---------- */
-document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',()=>{const item=btn.parentElement;const ans=item.querySelector('.faq-a');const open=item.classList.toggle('open');ans.style.maxHeight=open?ans.scrollHeight+'px':'0';});});
+document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentElement;const ans=item.querySelector('.faq-a');if(ans&&!ans.id)ans.id='faq-a-'+i;btn.setAttribute('aria-expanded','false');if(ans)btn.setAttribute('aria-controls',ans.id);btn.addEventListener('click',()=>{const open=item.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));ans.style.maxHeight=open?ans.scrollHeight+'px':'0';});});
 
 /* ---------- Before/After ---------- */
 (function(){const ba=document.getElementById('ba'),before=document.getElementById('baBefore'),handle=document.getElementById('baHandle');if(!ba)return;let drag=false;function set(x){const r=ba.getBoundingClientRect();let p=((x-r.left)/r.width)*100;p=Math.max(2,Math.min(98,p));before.style.clipPath=`inset(0 ${100-p}% 0 0)`;handle.style.left=p+'%';}ba.addEventListener('mousedown',e=>{drag=true;set(e.clientX);});addEventListener('mousemove',e=>drag&&set(e.clientX));addEventListener('mouseup',()=>drag=false);ba.addEventListener('touchstart',e=>{drag=true;set(e.touches[0].clientX);},{passive:true});addEventListener('touchmove',e=>{if(drag)set(e.touches[0].clientX);},{passive:true});addEventListener('touchend',()=>drag=false);})();
@@ -102,7 +102,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{btn.addEventListener('click',(
   const data={
     bygg:{tag:'BYGG & HANTVERK',h:'Vi bygger ditt drömhem',p:'Kvalitet och hantverk i varje detalj. Begär offert idag.',btn:'Begär offert →',c1:'#1a2332',c2:'#0f1620',accent:'#f59e0b',txt:'#1a1205',font:"'Inter Tight'"},
     rest:{tag:'RESTAURANG',h:'Smaker du minns',p:'Boka bord och upplev kvällens meny. Välkommen in.',btn:'Boka bord →',c1:'#2a1518',c2:'#1a0d10',accent:'#ef4444',txt:'#fff',font:"Georgia, serif"},
-    shop:{tag:'E-HANDEL',h:'Handla smart, leverans imorgon',p:'Tusentals produkter. Fri frakt över 499 kr.',btn:'Handla nu →',c1:'#0f1f1a',c2:'#0a1512',accent:'#22C55E',txt:'#06210f',font:"'Inter Tight'"},
+    shop:{tag:'E-HANDEL',h:'Handla smart, leverans imorgon',p:'Tusentals produkter. Fri frakt över 499 kr.',btn:'Handla nu →',c1:'#141a2e',c2:'#0d1119',accent:'#6366F1',txt:'#0a1124',font:"'Inter Tight'"},
     kons:{tag:'KONSULT',h:'Vi tar din affär vidare',p:'Strategisk rådgivning som ger mätbara resultat.',btn:'Boka möte →',c1:'#15161f',c2:'#0d0e15',accent:'#6366F1',txt:'#fff',font:"'Inter Tight'"},
     frisor:{tag:'FRISÖR & SKÖNHET',h:'Din bästa look väntar',p:'Boka tid online – välkommen in till oss.',btn:'Boka tid →',c1:'#2a1326',c2:'#1a0c18',accent:'#ec4899',txt:'#fff',font:"'Inter Tight'"},
     tand:{tag:'TANDVÅRD & KLINIK',h:'Ett friskare leende',p:'Trygg tandvård med kort väntetid. Boka idag.',btn:'Boka tid →',c1:'#0d2230',c2:'#0a1620',accent:'#06b6d4',txt:'#04212b',font:"'Inter Tight'"},
@@ -376,7 +376,7 @@ if(form){
 function burst(){
   if(reduce) return;
   const cv=document.getElementById('confetti'),ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
-  const cols=['#4F46E5','#6366F1','#22C55E','#ffffff'];const ps=[];
+  const cols=['#4F46E5','#6366F1','#818cf8','#ffffff'];const ps=[];
   for(let i=0;i<140;i++)ps.push({x:innerWidth/2,y:innerHeight*0.4,vx:(Math.random()-0.5)*14,vy:Math.random()*-15-4,r:Math.random()*6+3,c:cols[i%4],a:1,rot:Math.random()*6});
   let t=0;(function f(){ctx.clearRect(0,0,cv.width,cv.height);t++;ps.forEach(p=>{p.vy+=0.4;p.x+=p.vx;p.y+=p.vy;p.a-=0.012;p.rot+=0.2;ctx.globalAlpha=Math.max(0,p.a);ctx.fillStyle=p.c;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6);ctx.restore();});if(t<160)requestAnimationFrame(f);else ctx.clearRect(0,0,cv.width,cv.height);})();
 }

@@ -12,16 +12,17 @@
 <meta property="og:image" content="https://aimstudios.se/assets/og-image.jpg" />
 <meta property="og:url" content="https://aimstudios.se/" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%236366F1%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%234F46E5%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2222%22%20fill%3D%22%230B0B0F%22/%3E%3Cg%20stroke%3D%22url%28%23g%29%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M28%2080%20L50%2024%20L72%2080%22/%3E%3Cpath%20d%3D%22M38%2060%20L62%2060%22/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%236366F1%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%234F46E5%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2222%22%20fill%3D%22%230B0B0F%22/%3E%3Cg%20stroke%3D%22url%28%23g%29%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M28%2080%20L50%2024%20L72%2080%22/%3E%3C/g%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=70" />
+<link rel="stylesheet" href="styles.css?v=71" />
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <link rel="canonical" href="https://aimstudios.se/" />
+<!-- TODO (Fredrik): fyll i gatuadress + postnr i address-faltet och lagg ev. till org.nr (taxID/vatID) nar uppgifterna finns -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -33,7 +34,7 @@
   "image": "https://aimstudios.se/assets/og-image.jpg",
   "description": "AiM Studios bygger moderna, snabba och säljande hemsidor för privatpersoner och företag som vill växa. Fast pris från 9 995 kr.",
   "priceRange": "9995 - 29995 SEK",
-  "areaServed": { "@type": "Country", "name": "Sweden" },
+  "areaServed": [{ "@type": "Country", "name": "Sweden" }, { "@type": "City", "name": "Stockholm" }],
   "address": { "@type": "PostalAddress", "addressCountry": "SE" },
   "telephone": "+46 70 343 34 40",
   "email": "info@aimstudios.se",
@@ -48,6 +49,18 @@
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Hur snabbt kan ni leverera?", "acceptedAnswer": { "@type": "Answer", "text": "De flesta sidor är live inom 10 dagar från vårt första samtal. Behöver du det snabbare löser vi ofta det också." } },
+    { "@type": "Question", "name": "Vad kostar en hemsida?", "acceptedAnswer": { "@type": "Answer", "text": "Fast pris från 9 995 kr. Du betalar en gång och äger sidan – ingen bindningstid och inga dolda avgifter." } },
+    { "@type": "Question", "name": "Kan jag uppdatera själv?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Vi bygger sidan så att du enkelt kan ändra text och bilder själv, och visar dig hur. Vill du slippa sköter vi det åt dig." } },
+    { "@type": "Question", "name": "Hjälper ni med SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Absolut. Alla sidor byggs SEO-vänligt från grunden, och Business- och Premium-paketen inkluderar aktivt SEO-arbete." } }
+  ]
+}
+</script>
 </head>
 <body>
 <a href="#main" class="skip-link">Hoppa till innehåll</a>
@@ -58,7 +71,7 @@
     <defs><linearGradient id="plg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs>
     <g stroke="url(#plg)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
       <path class="pl-p" d="M26 86 L50 16 L74 86"/>
-      <path class="pl-p" d="M37 62 L63 62"/>
+      
     </g>
   </svg>
 </div>
@@ -77,7 +90,7 @@
             <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient>
             <filter id="lgf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <g filter="url(#lgf)" stroke="url(#lg)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86"/><path d="M37 62 L63 62"/></g>
+          <g filter="url(#lgf)" stroke="url(#lg)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86"/></g>
         </svg>
       </span>
       <span class="logo-text">AiM Studios</span>
@@ -116,7 +129,7 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <canvas id="shader"></canvas>
+  <canvas id="shader" aria-hidden="true"></canvas>
   <div class="hero-fallback"></div>
   <div class="hero-vignette"></div>
   <div class="wrap hero-grid">
@@ -153,7 +166,7 @@
       <div class="browser" id="heroTilt">
         <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">ditt-foretag.se</span></div>
         <div class="browser-body">
-          <video class="hero-vid" autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+          <video class="hero-vid" autoplay muted loop playsinline aria-hidden="true" poster="assets/hero-poster.jpg">
             <source src="assets/hero.mp4" type="video/mp4">
           </video>
         </div>
@@ -162,8 +175,8 @@
         <div class="label"><span class="pulse"></span> Inkommande leads</div>
         <div class="value"><span class="countup" data-to="320" data-prefix="+" data-suffix="%">0</span> <span class="up">▲</span></div>
         <svg aria-hidden="true" class="spark" viewBox="0 0 200 42" preserveAspectRatio="none">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22C55E" stop-opacity="0.4"/><stop offset="1" stop-color="#22C55E" stop-opacity="0"/></linearGradient></defs>
-          <path d="M0,36 L28,32 L56,34 L84,24 L112,26 L140,14 L168,10 L200,2" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6366F1" stop-opacity="0.4"/><stop offset="1" stop-color="#6366F1" stop-opacity="0"/></linearGradient></defs>
+          <path d="M0,36 L28,32 L56,34 L84,24 L112,26 L140,14 L168,10 L200,2" fill="none" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M0,36 L28,32 L56,34 L84,24 L112,26 L140,14 L168,10 L200,2 L200,42 L0,42 Z" fill="url(#g)"/>
         </svg>
       </div>
@@ -177,12 +190,12 @@
     <p class="proof-label">Branscher vi bygger för</p>
     <div class="marquee-3d">
       <div class="marquee-layer layer-back" id="marqueeBack">
-        <div class="marquee-track"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#22C55E;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
-        <div class="marquee-track" aria-hidden="true"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#22C55E;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
+        <div class="marquee-track"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#818cf8;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
+        <div class="marquee-track" aria-hidden="true"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#818cf8;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
       </div>
       <div class="marquee-layer layer-front" id="marqueeFront">
-        <div class="marquee-track" style="animation-duration:22s;animation-direction:reverse;"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#22C55E;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
-        <div class="marquee-track" aria-hidden="true" style="animation-duration:22s;animation-direction:reverse;"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#22C55E;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
+        <div class="marquee-track" style="animation-duration:22s;animation-direction:reverse;"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#818cf8;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
+        <div class="marquee-track" aria-hidden="true" style="animation-duration:22s;animation-direction:reverse;"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#818cf8;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
       </div>
     </div>
   </div>
@@ -331,14 +344,28 @@
 <section id="case">
   <div class="wrap section-pad" style="padding-bottom:30px;">
     <div class="cases-intro reveal">
-      <span class="eyebrow"><span class="dot"></span> Design</span>
+      <span class="eyebrow"><span class="dot"></span> Projekt</span>
       <h2 style="font-size:clamp(30px,4.6vw,48px); margin:18px 0 14px;">Så här kan din sida se ut</h2>
-      <p style="color:var(--muted); font-size:18px;">Tre exempel på designer vi kan bygga. Din sida skräddarsys helt efter din verksamhet.</p>
+      <p style="color:var(--muted); font-size:18px;">Riktiga projekt vi byggt – och exempel på vad vi kan skapa för dig. Din sida skräddarsys helt efter din verksamhet.</p>
     </div>
   </div>
   <div class="cases-pin" id="casesPin">
     <div class="cases-sticky">
       <div class="cases-track" id="casesTrack">
+        <div class="case-card iridescent">
+          <div class="case-visual"><picture><source srcset="assets/case-4.webp?v=71" type="image/webp"><img width="820" height="458" src="assets/case-4.jpg?v=71" alt="Hemsida för AD Byggprojekt Stockholm AB – byggledning och projektledning, byggd av AiM Studios" loading="lazy"></picture></div>
+          <div class="case-body">
+            <div class="case-name">AD Byggprojekt Stockholm AB <span class="badge-proj">Projekt</span></div>
+            <p class="case-row">Modern, förtroendeingivande sida för byggledning och projektledning.</p>
+          </div>
+        </div>
+        <div class="case-card iridescent">
+          <div class="case-visual"><picture><source srcset="assets/case-5.webp?v=71" type="image/webp"><img width="820" height="458" src="assets/case-5.jpg?v=71" alt="Hemsida för Bygg &amp; Projektgruppen Stockholm AB – bygg, projektledning och entreprenad, byggd av AiM Studios" loading="lazy"></picture></div>
+          <div class="case-body">
+            <div class="case-name">Bygg &amp; Projektgruppen Stockholm AB <span class="badge-proj">Projekt</span></div>
+            <p class="case-row">Stark, tydlig sida som samlar bygg, projektledning och entreprenad.</p>
+          </div>
+        </div>
         <div class="case-card iridescent">
           <div class="case-visual"><picture><source srcset="assets/case-1.webp?v=21" type="image/webp"><img width="820" height="458" src="assets/case-1.jpg?v=21" alt="Exempel på hemsida för byggföretag – modern redesign av AiM Studios" loading="lazy"></picture></div>
           
@@ -637,7 +664,7 @@
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-brand">
-          <a href="#top" class="logo"><span class="logo-mark"><svg viewBox="0 0 100 100" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="lgf2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs><g stroke="url(#lgf2)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86"/><path d="M37 62 L63 62"/></g></svg></span> AiM&nbsp;Studios</a>
+          <a href="#top" class="logo"><span class="logo-mark"><svg viewBox="0 0 100 100" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="lgf2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs><g stroke="url(#lgf2)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86"/></g></svg></span> AiM&nbsp;Studios</a>
           <p>Vi bygger hemsidor som säljer fler kunder. Din hemsida ska vara din bästa säljare.</p>
           <div class="foot-badges">
             <span class="foot-badge">⚡ Snabb &amp; modern</span>
@@ -679,13 +706,13 @@
     <div class="ai-orb-ring ring-3"></div>
     <div class="ai-orb-particles"></div>
   </div>
-  <div class="ai-orb-label">AI Online</div>
+  <div class="ai-orb-label">AI · Demo</div>
 </div>
 <div class="fab-panel ai-chat-panel" id="fabPanel">
   <div class="terminal-header">
     <div class="terminal-dots"><span></span><span></span><span></span></div>
     <div class="terminal-title">AiM Assistant</div>
-    <div class="terminal-status"><span class="pulse"></span> ONLINE</div>
+    <div class="terminal-status"><span class="pulse"></span> DEMO</div>
     <button class="ai-chat-close" id="fabClose" aria-label="Stäng">&times;</button>
   </div>
   <div class="chat-body" id="fabBody"><div class="msg bot">Hej! 👋 Hur kan jag hjälpa dig med din hemsida?</div></div>
@@ -701,7 +728,7 @@
   </div>
 </div>
 
-<canvas id="confetti"></canvas>
+<canvas id="confetti" aria-hidden="true"></canvas>
 <div class="egg-toast" id="eggToast"></div>
 
 <!-- Paket-modal (3D-flip reveal) -->
@@ -756,7 +783,7 @@
     </form>
   </div>
 </div>
-<script src="unlock.js?v=70" defer></script>
-<script src="scripts.js?v=70" defer></script>
+<script src="unlock.js?v=71" defer></script>
+<script src="scripts.js?v=71" defer></script>
 </body>
 </html>
