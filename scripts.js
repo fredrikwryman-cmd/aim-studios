@@ -131,7 +131,7 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   if(consent) return;
   const b=document.createElement('div');
   b.id='cookie-banner';
-  b.innerHTML='<p>Vi använder cookies för att förbättra din upplevelse. <a href="integritetspolicy.html">Läs mer</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
+  b.innerHTML='<p>Vi använder cookies för att förbättra din upplevelse. <a href="/integritetspolicy.html">Läs mer</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
   document.body.appendChild(b);
   requestAnimationFrame(()=>b.classList.add('show'));
   function close(v){ try{localStorage.setItem('cookie-consent',v);}catch(_){} b.classList.remove('show'); setTimeout(()=>b.remove(),500); }
@@ -153,7 +153,7 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   const center=document.getElementById('navCenter'), ind=document.getElementById('navInd');
   if(center && ind){
     const links=[...center.querySelectorAll('.navlink')];
-    const map={}; links.forEach(l=>{ const id=(l.getAttribute('href')||'').slice(1); if(id) map[id]=l; });
+    const map={}; links.forEach(l=>{ const href=l.getAttribute('href')||''; const id=href.includes('#')?href.split('#').pop():''; if(id) map[id]=l; });
     let active=null, hovering=false;
     function place(el){ if(!el||!el.offsetWidth){ ind.style.opacity='0'; return; } ind.style.opacity='1'; ind.style.width=el.offsetWidth+'px'; ind.style.transform='translateX('+(el.offsetLeft-4)+'px)'; }
     function setActive(el){ active=el; links.forEach(l=>l.classList.toggle('active',l===el)); if(!hovering) place(el); }
@@ -260,8 +260,10 @@ function chatEngine(bodyEl,chipsEl){
   chipsEl.querySelectorAll('.chat-chip').forEach(c=>c.addEventListener('click',()=>ask(c.dataset.q)));
   return ask;
 }
-const demoAsk=chatEngine(document.getElementById('demoBody'),document.getElementById('demoChips'));
-const fabAsk=chatEngine(document.getElementById('fabBody'),document.getElementById('fabChips'));
+const _demoBody=document.getElementById('demoBody'), _demoChips=document.getElementById('demoChips');
+const demoAsk=(_demoBody&&_demoChips)?chatEngine(_demoBody,_demoChips):null;
+const _fabBody=document.getElementById('fabBody'), _fabChips=document.getElementById('fabChips');
+const fabAsk=(_fabBody&&_fabChips)?chatEngine(_fabBody,_fabChips):null;
 // Skrivfält → motor (Enter eller skicka-knapp)
 function wireChatInput(inputId, sendId, ask){
   const inp=document.getElementById(inputId), snd=document.getElementById(sendId);
@@ -763,4 +765,24 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     form.querySelectorAll('input').forEach(function(f){ f.addEventListener('input',function(){ f.classList.remove('err'); }); });
   }
   calc();
+})();
+
+/* ---------- Tjänster-dropdown (desktop hover/fokus + mobil expanderbar grupp) ---------- */
+(function(){
+  // Desktop: synka aria-expanded med hover/fokus (visning sköts av CSS)
+  var drop=document.getElementById('navDrop');
+  if(drop){
+    var trig=drop.querySelector('.nav-drop-trigger');
+    function setExp(v){ if(trig) trig.setAttribute('aria-expanded',String(v)); }
+    drop.addEventListener('mouseenter',function(){ setExp(true); });
+    drop.addEventListener('mouseleave',function(){ setExp(false); });
+    drop.addEventListener('focusin',function(){ setExp(true); });
+    drop.addEventListener('focusout',function(){ if(!drop.contains(document.activeElement)) setExp(false); });
+  }
+  // Mobil: expanderbar Tjänster-grupp i overlay-menyn
+  var mg=document.querySelector('.m-group');
+  if(mg){
+    var mt=mg.querySelector('.m-group-trigger');
+    if(mt){ mt.addEventListener('click',function(){ var open=mg.classList.toggle('open'); mt.setAttribute('aria-expanded',String(open)); }); }
+  }
 })();

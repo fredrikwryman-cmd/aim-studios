@@ -186,6 +186,36 @@
     .nav, .nav-cta, .theme-toggle, .navlink, .nav-ind, .logo-status, .mobile-overlay { transition: none !important; }
   }
 
+  /* ===== Tjänster-dropdown (desktop) ===== */
+  .nav-drop { position: relative; display: inline-flex; align-items: center; }
+  .nav-drop-trigger { display: inline-flex; align-items: center; }
+  .nav-drop-trigger .caret { display: inline-block; margin-left: 5px; font-size: 10px; transition: transform .25s var(--ease); }
+  .nav-drop:hover .nav-drop-trigger .caret, .nav-drop:focus-within .nav-drop-trigger .caret { transform: rotate(180deg); }
+  .nav-drop-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px); min-width: 200px; display: flex; flex-direction: column; gap: 2px; padding: 8px; border-radius: 16px; background: color-mix(in srgb, var(--bg-card) 82%, transparent); -webkit-backdrop-filter: blur(30px) saturate(150%); backdrop-filter: blur(30px) saturate(150%); border: 1px solid var(--line-strong); box-shadow: 0 20px 50px -18px rgba(0,0,0,0.65); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s; z-index: 50; }
+  .nav-drop-menu::before { content: ''; position: absolute; bottom: 100%; left: 0; right: 0; height: 16px; }
+  .nav-drop:hover .nav-drop-menu, .nav-drop:focus-within .nav-drop-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .nav-drop-menu a { display: block; padding: 9px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--muted); white-space: nowrap; transition: color .2s, background .2s; }
+  .nav-drop-menu a:hover { color: var(--text); background: rgba(99,102,241,0.12); }
+  :root[data-theme="light"] .nav-drop-menu { background: rgba(255,255,255,0.92); border-color: rgba(0,0,0,0.08); }
+  :root[data-theme="light"] .nav-drop-menu a:hover { background: rgba(99,102,241,0.1); }
+
+  /* ===== Mobil: expanderbar Tjänster-grupp ===== */
+  .m-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .m-group-trigger { display: inline-flex; align-items: center; gap: 7px; font-family: 'Inter Tight'; font-weight: 700; font-size: 30px; letter-spacing: -0.02em; color: var(--text); background: none; border: 0; cursor: pointer; padding: 10px 16px; }
+  .m-group-trigger .caret { font-size: 14px; transition: transform .25s var(--ease); }
+  .m-group.open .m-group-trigger .caret { transform: rotate(180deg); }
+  .m-group-items { display: flex; flex-direction: column; align-items: center; gap: 2px; max-height: 0; overflow: hidden; transition: max-height .35s var(--ease); }
+  .m-group.open .m-group-items { max-height: 360px; }
+  .m-group-items a { font-size: 21px; font-weight: 600; color: var(--muted); padding: 7px 16px; }
+  .m-group-items a:hover { color: var(--primary-soft); }
+
+  /* ===== Tjänstesektion: "Läs mer"-länk ===== */
+  .svc-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-family: 'Inter Tight'; font-weight: 600; font-size: 15px; color: var(--primary-soft); transition: gap .2s var(--ease), color .2s; }
+  .svc-more:hover { color: var(--light-indigo); gap: 10px; }
+
+  /* ===== Subsida: enkel innehålls-rubrik ===== */
+  .subpage-hero { padding-top: 150px; }
+
   .section-pad { padding: 110px 0; }
   .section-head { max-width: 680px; margin-bottom: 56px; }
   .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
@@ -911,3 +941,34 @@
   input[type=range].slider:focus-visible { outline: 2px solid #6366F1; outline-offset: 3px; }
   /* ===== Badge for riktiga projekt (indigo, vs dampad .badge-ex) ===== */
   .badge-proj { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid rgba(99,102,241,0.5); color: var(--light-indigo); background: rgba(99,102,241,0.12); text-transform: uppercase; }
+
+  /* ===================================================================
+     FAS 2 – SÖMLÖSA SUBSIDE-BAKGRUNDER (motiv + djup-overlay)
+     Endast body.subpage (subsidor). Startsidan oberörd. Grön införs ej –
+     ev. grön ton kommer enbart från motivet i bg-ai-losningar (AI-undantag).
+     =================================================================== */
+  body.subpage::before { content: ""; position: fixed; inset: 0; z-index: -2; background: #0B0B0F var(--bgimg) repeat; background-size: 520px; opacity: .48; }
+  body.subpage::after { content: ""; position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(120% 70% at 50% -10%, rgba(79,70,229,.24), transparent 60%),
+      linear-gradient(180deg, rgba(11,11,15,.42), rgba(11,11,15,.88)); }
+  body[data-bg="webbdesign"] { --bgimg: url(/assets/bg-webbdesign.webp); }
+  body[data-bg="seo"] { --bgimg: url(/assets/bg-seo.webp); }
+  body[data-bg="ai-losningar"] { --bgimg: url(/assets/bg-ai-losningar.webp); }
+  body[data-bg="branding"] { --bgimg: url(/assets/bg-branding.webp); }
+  body[data-bg="case"] { --bgimg: url(/assets/bg-case.webp); }
+  body[data-bg="om-oss"] { --bgimg: url(/assets/bg-om-oss.webp); }
+  /* per-sida läsbarhet: busiga motiv dämpas, lugna får synas mer */
+  body[data-bg="seo"]::before { opacity: .55; }
+  body[data-bg="om-oss"]::before { opacity: .55; }
+  body[data-bg="ai-losningar"]::before { opacity: .40; }
+  body[data-bg="branding"]::before { opacity: .40; }
+  body[data-bg="case"]::before { opacity: .40; }
+  @media (max-width: 768px) { body.subpage::before { background-attachment: scroll; background-size: 380px; } }
+
+  /* ===== /case/ : rutnät av case-kort (ej startsidans pin-scroll) ===== */
+  .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
+  .case-grid .case-card { width: auto; }
+  .case-grid--feature { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
+  .case-grid--feature .case-visual { height: 240px; }
+  @media (max-width: 560px) { .case-grid, .case-grid--feature { grid-template-columns: 1fr; } }
