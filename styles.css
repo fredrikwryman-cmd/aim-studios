@@ -201,7 +201,6 @@
   .hero .eyebrow { color: #cfcfe0; border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.04); }
   .hero h1 { font-size: clamp(38px, 5.8vw, 64px); font-weight: 400; margin: 22px 0 20px; color: #fff; transform-style: preserve-3d; will-change: transform; }
   .hero h1 .hl { color: transparent; background: linear-gradient(120deg, #fff 30%, #8b8bff); -webkit-background-clip: text; background-clip: text; }
-  .scramble { font-variant-numeric: tabular-nums; }
   @keyframes blurIn { from { opacity: 0; filter: blur(16px); } to { opacity: 1; filter: blur(0); } }
   .hero h1.blur-in { animation: blurIn 1.1s var(--ease) both; }
   .hero-sub { font-size: 19px; color: #b6b6c8; max-width: 520px; margin-bottom: 26px; }
@@ -226,7 +225,6 @@
   .mini-row { display: flex; gap: 10px; margin: 16px 0; }
   .mini-card { flex: 1; height: 48px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
   .mini-btn { height: 28px; width: 120px; border-radius: 8px; background: var(--accent); margin-top: 4px; }
-  .asset-hint { position: absolute; bottom: 8px; right: 10px; font-size: 10px; color: rgba(255,255,255,0.25); font-family: 'JetBrains Mono', monospace; }
 
   .chart-card { position: absolute; bottom: -26px; left: -26px; width: 220px; background: rgba(20,20,28,0.92); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); animation: floaty 5s ease-in-out infinite; z-index: 3; }
   @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
@@ -349,17 +347,6 @@
   .case-card { width: 380px; flex: none; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; }
   .case-visual { position: relative; height: 190px; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); display: flex; }
   .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .case-half { flex: 1; position: relative; display: grid; place-items: center; }
-  .case-half.before { background: repeating-linear-gradient(45deg, #1a1a22, #1a1a22 8px, #16161d 8px, #16161d 16px); }
-  .case-half.after { background: linear-gradient(135deg, rgba(79,70,229,0.30), rgba(99,102,241,0.16)); }
-  .case-tag { position: absolute; top: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; }
-  .case-half.before .case-tag { left: 10px; background: rgba(0,0,0,0.45); color: #b6b6c8; }
-  .case-half.after .case-tag { right: 10px; background: rgba(99,102,241,0.2); color: var(--accent); }
-  .case-mini { width: 60%; }
-  .case-mini .l { height: 7px; border-radius: 3px; margin-bottom: 5px; background: rgba(255,255,255,0.45); }
-  .case-half.before .l { background: rgba(255,255,255,0.14); }
-  .case-mini .l.accent { background: var(--accent); width: 50%; }
-  .asset-hint.dark { color: rgba(255,255,255,0.3); }
   .case-body { padding: 24px; }
   .case-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   .badge-ex { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); text-transform: uppercase; }

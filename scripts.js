@@ -72,13 +72,6 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const cio=new IntersectionObserver((es)=>{es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);const el=e.target;const to=+el.dataset.to;const pre=el.dataset.prefix||'';const suf=el.dataset.suffix||'';if(reduce){el.textContent=pre+to+suf;return;}let s=null;const d=1400;function tick(t){if(!s)s=t;const p=Math.min((t-s)/d,1);const v=Math.floor((1-Math.pow(1-p,3))*to);el.textContent=pre+v+suf;if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);});},{threshold:0.6});
 document.querySelectorAll('.countup').forEach(el=>cio.observe(el));
 
-/* ---------- Hero-rubrik: skärpa-in (mobil + dator) ---------- */
-(function(){
-  const el=document.querySelector('.scramble'); if(!el) return;
-  el.textContent=el.dataset.text;
-  if(reduce) return;
-  const h1=el.closest('h1'); if(h1) requestAnimationFrame(()=>h1.classList.add('blur-in'));
-})();
 
 /* ---------- 3D tilt (cards + hero) ---------- */
 if(!reduce && !matchMedia('(pointer:coarse)').matches){
@@ -760,14 +753,6 @@ document.querySelectorAll('.iridescent').forEach(card=>{
       if(!/\S+@\S+\.\S+/.test(em.value)){ em.classList.add('err'); ok=false; } else em.classList.remove('err');
       if(!ok) return;
       calc();
-      if(form.action.indexOf('placeholder')>-1){
-        var subj='🎉 20% OFF (Easter Egg) – Bestallning fran '+nm.value.trim();
-        var body=details.value+'\n\nNamn: '+nm.value.trim()+'\nE-post: '+em.value.trim();
-        var tel=form.querySelector('input[name="Telefon"]'); if(tel&&tel.value) body+='\nTelefon: '+tel.value;
-        var msg=form.querySelector('textarea'); if(msg&&msg.value) body+='\nMeddelande: '+msg.value;
-        window.location.href='mailto:info@aimstudios.se?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
-        return;
-      }
       var btn=form.querySelector('button[type="submit"]'), orig=btn.textContent; btn.textContent='Skickar…'; btn.disabled=true;
       fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}).then(function(r){
         if(!r.ok) throw 0;
