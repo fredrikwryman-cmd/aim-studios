@@ -767,27 +767,4 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   calc();
 })();
 
-/* ---------- Tjänster-dropdown: KLICK/TAP-toggle (hover = CSS-bonus) + mobil expanderbar grupp ---------- */
-(function(){
-  var drop=document.getElementById('navDrop');
-  if(drop){
-    var trig=drop.querySelector('.nav-drop-trigger');
-    function set(v){ drop.classList.toggle('open',v); if(trig) trig.setAttribute('aria-expanded',String(v)); }
-    if(trig){
-      // Triggern är en <button> → navigerar inte; klick/tap öppnar/stänger menyn
-      trig.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); set(!drop.classList.contains('open')); });
-    }
-    // Utanför-klick stänger
-    document.addEventListener('click',function(e){ if(!drop.contains(e.target)) set(false); });
-    // Esc stänger
-    document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
-    // Vald tjänst → stäng
-    drop.querySelectorAll('.nav-drop-menu a').forEach(function(a){ a.addEventListener('click',function(){ set(false); }); });
-  }
-  // Mobil: expanderbar Tjänster-grupp i overlay-menyn
-  var mg=document.querySelector('.m-group');
-  if(mg){
-    var mt=mg.querySelector('.m-group-trigger');
-    if(mt){ mt.addEventListener('click',function(){ var open=mg.classList.toggle('open'); mt.setAttribute('aria-expanded',String(open)); }); }
-  }
-})();
+/* ---------- Navbar = raka <a>-länkar, ingen dropdown-JS (medvetet borttagen) ---------- */

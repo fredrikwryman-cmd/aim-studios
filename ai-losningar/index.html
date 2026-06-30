@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/styles.css?v=74" />
+<link rel="stylesheet" href="/styles.css?v=75" />
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -95,15 +95,10 @@
     </a>
     <nav class="nav-center" id="navCenter" aria-label="Primär navigation">
       <span class="nav-ind" id="navInd" aria-hidden="true"></span>
-      <div class="nav-drop" id="navDrop">
-        <button class="navlink nav-drop-trigger" id="navDropTrigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navDropMenu">Tjänster <span class="caret" aria-hidden="true">▾</span></button>
-        <div class="nav-drop-menu" id="navDropMenu" role="menu" aria-label="Tjänster">
-          <a role="menuitem" href="/webbdesign/">Webbdesign</a>
-          <a role="menuitem" href="/seo/">SEO</a>
-          <a role="menuitem" href="/ai-losningar/">AI-lösningar</a>
-          <a role="menuitem" href="/branding/">Branding</a>
-        </div>
-      </div>
+      <a class="navlink" href="/webbdesign/">Webbdesign</a>
+      <a class="navlink" href="/seo/">SEO</a>
+      <a class="navlink active" href="/ai-losningar/" aria-current="page">AI-lösningar</a>
+      <a class="navlink" href="/branding/">Branding</a>
       <a class="navlink" href="/case/">Case</a>
       <a class="navlink" href="/om-oss/">Om oss</a>
     </nav>
@@ -118,15 +113,10 @@
   <div class="mobile-overlay" id="mobileMenu" aria-hidden="true">
     <button class="mobile-close" id="menuClose" aria-label="Stäng meny"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <nav class="mobile-nav" aria-label="Mobilnavigation">
-      <div class="m-group">
-        <button class="m-group-trigger" type="button" aria-expanded="false">Tjänster <span class="caret" aria-hidden="true">▾</span></button>
-        <div class="m-group-items">
-          <a href="/webbdesign/">Webbdesign</a>
-          <a href="/seo/">SEO</a>
-          <a href="/ai-losningar/">AI-lösningar</a>
-          <a href="/branding/">Branding</a>
-        </div>
-      </div>
+      <a href="/webbdesign/">Webbdesign</a>
+      <a href="/seo/">SEO</a>
+      <a class="active" aria-current="page" href="/ai-losningar/">AI-lösningar</a>
+      <a href="/branding/">Branding</a>
       <a href="/case/">Case</a>
       <a href="/om-oss/">Om oss</a>
     </nav>
@@ -309,7 +299,7 @@
 
 <canvas id="confetti" aria-hidden="true"></canvas>
 <div class="egg-toast" id="eggToast"></div>
-<script src="/unlock.js?v=74" defer></script>
-<script src="/scripts.js?v=74" defer></script>
+<script src="/unlock.js?v=75" defer></script>
+<script src="/scripts.js?v=75" defer></script>
 </body>
 </html>
