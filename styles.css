@@ -357,8 +357,9 @@
   .cases-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
   .cases-track { display: flex; gap: 26px; padding: 0 max(24px, calc((100vw - var(--max)) / 2 + 24px)); will-change: transform; }
   .case-card { width: 380px; flex: none; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; }
-  .case-visual { position: relative; height: 190px; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); display: flex; }
-  .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .case-visual { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); }
+  .case-visual picture { display: block; width: 100%; height: 100%; }
+  .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
   .case-body { padding: 24px; }
   .case-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   .badge-ex { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); text-transform: uppercase; }
@@ -954,7 +955,7 @@
   .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
   .case-grid .case-card { width: auto; }
   .case-grid--feature { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
-  .case-grid--feature .case-visual { height: 240px; }
+  /* feature-kortens bild styrs nu av .case-visual aspect-ratio 16/9 (bredare kort = större bild) */
   @media (max-width: 560px) { .case-grid, .case-grid--feature { grid-template-columns: 1fr; } }
 
   /* ===== Startsida: bantad tjänste-ÖVERSIKT (4 rutor → tjänstesidor) ===== */
