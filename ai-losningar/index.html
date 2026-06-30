@@ -96,8 +96,8 @@
     <nav class="nav-center" id="navCenter" aria-label="Primär navigation">
       <span class="nav-ind" id="navInd" aria-hidden="true"></span>
       <div class="nav-drop" id="navDrop">
-        <a class="navlink nav-drop-trigger" href="/#tjanster" aria-haspopup="true" aria-expanded="false">Tjänster <span class="caret" aria-hidden="true">▾</span></a>
-        <div class="nav-drop-menu" role="menu" aria-label="Tjänster">
+        <button class="navlink nav-drop-trigger" id="navDropTrigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navDropMenu">Tjänster <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-drop-menu" id="navDropMenu" role="menu" aria-label="Tjänster">
           <a role="menuitem" href="/webbdesign/">Webbdesign</a>
           <a role="menuitem" href="/seo/">SEO</a>
           <a role="menuitem" href="/ai-losningar/">AI-lösningar</a>
@@ -149,7 +149,7 @@
     </div>
   </section>
 
-  <section class="section-pad" style="border-top:1px solid var(--line);">
+  <section class="section-pad">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow"><span class="dot"></span> Vad vi bygger</span>
@@ -166,7 +166,7 @@
     </div>
   </section>
 
-  <section class="section-pad" style="border-top:1px solid var(--line);">
+  <section class="section-pad">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow"><span class="dot"></span> Varför AI</span>
@@ -179,7 +179,36 @@
     </div>
   </section>
 
-  <section class="section-pad" style="border-top:1px solid var(--line); text-align:center;">
+  <section class="section-pad ai-sec" id="ai">
+    <div class="ai-terminal-bg" aria-hidden="true"><div class="ai-grid-lines"></div><div class="ai-scan-line"></div></div>
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow"><span class="dot"></span> Live-demo</span>
+        <h2>Testa AI-assistenten</h2>
+        <p>Ställ en fråga och se hur den svarar – så här kan din egen AI-chatt kännas.</p>
+      </div>
+      <div class="chat-demo ai-terminal reveal" style="max-width:560px; margin:0 auto;">
+        <div class="terminal-header">
+          <div class="terminal-dots"><span></span><span></span><span></span></div>
+          <div class="terminal-title">AiM Assistant v2.0</div>
+          <div class="terminal-status"><span class="pulse"></span> DEMO</div>
+        </div>
+        <div class="chat-body" id="demoBody"><div class="msg bot">Hej! 👋 Jag är AiM Studios AI-assistent. Vad kan jag hjälpa dig med?</div></div>
+        <div class="chat-chips" id="demoChips">
+          <button class="chat-chip" data-q="Vad kostar en hemsida?">Vad kostar en hemsida?</button>
+          <button class="chat-chip" data-q="Hur snabbt kan ni leverera?">Hur snabbt levererar ni?</button>
+          <button class="chat-chip" data-q="Hjälper ni med SEO?">Hjälper ni med SEO?</button>
+        </div>
+        <div class="terminal-input">
+          <span class="terminal-prompt">&gt;</span>
+          <input type="text" placeholder="Skriv din fråga här..." id="demoInput">
+          <button class="terminal-send" id="demoSend" aria-label="Skicka"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+        </div>
+      </div>
+      <p class="ai-badge-demo" style="text-align:center; margin-top:16px;">// Demo – kopplas mot riktig AI vid lansering</p>
+    </div>
+  </section>
+  <section class="section-pad" style="text-align:center;">
     <div class="wrap">
       <h2 style="font-size:clamp(28px,4vw,40px); margin-bottom:18px;">Redo att låta AI jobba åt dig?</h2>
       <div class="hero-cta reveal" style="justify-content:center;">

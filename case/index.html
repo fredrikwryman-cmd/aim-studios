@@ -85,8 +85,8 @@
     <nav class="nav-center" id="navCenter" aria-label="Primär navigation">
       <span class="nav-ind" id="navInd" aria-hidden="true"></span>
       <div class="nav-drop" id="navDrop">
-        <a class="navlink nav-drop-trigger" href="/#tjanster" aria-haspopup="true" aria-expanded="false">Tjänster <span class="caret" aria-hidden="true">▾</span></a>
-        <div class="nav-drop-menu" role="menu" aria-label="Tjänster">
+        <button class="navlink nav-drop-trigger" id="navDropTrigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navDropMenu">Tjänster <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-drop-menu" id="navDropMenu" role="menu" aria-label="Tjänster">
           <a role="menuitem" href="/webbdesign/">Webbdesign</a>
           <a role="menuitem" href="/seo/">SEO</a>
           <a role="menuitem" href="/ai-losningar/">AI-lösningar</a>
@@ -134,7 +134,7 @@
     </div>
   </section>
 
-  <section class="section-pad" style="border-top:1px solid var(--line);">
+  <section class="section-pad">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow"><span class="dot"></span> Riktiga projekt</span>
@@ -159,7 +159,7 @@
     </div>
   </section>
 
-  <section class="section-pad" style="border-top:1px solid var(--line);">
+  <section class="section-pad">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow"><span class="dot"></span> Designexempel</span>
@@ -192,7 +192,7 @@
     </div>
   </section>
 
-  <section class="section-pad" style="border-top:1px solid var(--line); text-align:center;">
+  <section class="section-pad" style="text-align:center;">
     <div class="wrap">
       <h2 style="font-size:clamp(28px,4vw,40px); margin-bottom:18px;">Vill du se din idé bli verklighet?</h2>
       <div class="hero-cta reveal" style="justify-content:center;">

@@ -99,8 +99,8 @@
     <nav class="nav-center" id="navCenter" aria-label="Primär navigation">
       <span class="nav-ind" id="navInd" aria-hidden="true"></span>
       <div class="nav-drop" id="navDrop">
-        <a class="navlink nav-drop-trigger" href="/#tjanster" aria-haspopup="true" aria-expanded="false">Tjänster <span class="caret" aria-hidden="true">▾</span></a>
-        <div class="nav-drop-menu" role="menu" aria-label="Tjänster">
+        <button class="navlink nav-drop-trigger" id="navDropTrigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navDropMenu">Tjänster <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-drop-menu" id="navDropMenu" role="menu" aria-label="Tjänster">
           <a role="menuitem" href="/webbdesign/">Webbdesign</a>
           <a role="menuitem" href="/seo/">SEO</a>
           <a role="menuitem" href="/ai-losningar/">AI-lösningar</a>
@@ -236,18 +236,6 @@
       </div>
       <div class="problem-card reveal">
         <div class="problem-inner">
-          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Föråldrad design</span></div>
-          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Modern, säljande design</span></div>
-        </div>
-      </div>
-      <div class="problem-card reveal">
-        <div class="problem-inner">
-          <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Ingen mobiloptimering</span></div>
-          <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Perfekt på alla skärmar</span></div>
-        </div>
-      </div>
-      <div class="problem-card reveal">
-        <div class="problem-inner">
           <div class="problem-front"><span class="problem-icon">✕</span><span class="problem-text">Ingen SEO</span></div>
           <div class="problem-back"><span class="problem-icon">✓</span><span class="problem-text">Synlig på Google</span></div>
         </div>
@@ -269,54 +257,30 @@
       <h2>Allt din affär behöver online</h2>
       <p>Vi tar hand om hela resan – från första intryck till färdig kund.</p>
     </div>
-    <div class="svc-wide-list">
-      <div class="svc-wide reveal" style="--svc-img:url('assets/tjanst-webbdesign.jpg')">
-        <div class="svc-wide-bg" aria-hidden="true"></div>
-        <div class="svc-wide-overlay" aria-hidden="true"></div>
-        <div class="svc-wide-content">
-          <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-          <h3>Webbdesign</h3>
-          <p class="desc">Moderna, konverterande hemsidor byggda för att sälja – inte bara se snygga ut. Varje sida designas för att leda besökaren mot ett köp eller en bokning.</p>
-          <ul class="svc-feats"><li>Skräddarsydd, responsiv design</li><li>Snabb laddning på alla enheter</li><li>Byggt för att konvertera besökare</li></ul>
-          <p class="svc-benefit">→ Fler kunder utan extra annonskostnad</p>
-          <a class="svc-more" href="/webbdesign/">Läs mer om webbdesign →</a>
-        </div>
+    <div class="svc-overview">
+      <div class="svc-card svc-tile reveal">
+        <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Webbdesign</h3>
+        <p>Moderna, konverterande hemsidor byggda för att sälja.</p>
+        <a class="svc-more" href="/webbdesign/">Läs mer →</a>
       </div>
-      <div class="svc-wide reveal" style="--svc-img:url('assets/tjanst-seo.jpg')">
-        <div class="svc-wide-bg" aria-hidden="true"></div>
-        <div class="svc-wide-overlay" aria-hidden="true"></div>
-        <div class="svc-wide-content">
-          <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
-          <h3>SEO</h3>
-          <p class="desc">Synlighet på Google så att rätt kunder hittar dig först. Vi bygger varje sida sökmotorvänlig från grunden och optimerar för det dina kunder faktiskt söker på.</p>
-          <ul class="svc-feats"><li>Teknisk SEO från start</li><li>Sökordsoptimerat innehåll</li><li>Snabb & ren kodbas</li></ul>
-          <p class="svc-benefit">→ Hittas av kunder som söker</p>
-          <a class="svc-more" href="/seo/">Läs mer om SEO →</a>
-        </div>
+      <div class="svc-card svc-tile reveal">
+        <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>SEO</h3>
+        <p>Synlighet på Google så att rätt kunder hittar dig först.</p>
+        <a class="svc-more" href="/seo/">Läs mer →</a>
       </div>
-      <div class="svc-wide reveal" data-accent="green" style="--svc-img:url('assets/tjanst-ai.jpg')">
-        <div class="svc-wide-bg" aria-hidden="true"></div>
-        <div class="svc-wide-overlay" aria-hidden="true"></div>
-        <div class="svc-wide-content">
-          <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M9 10h.01M15 10h.01M9 15h6"/></svg></div>
-          <h3>AI-integrationer</h3>
-          <p class="desc">Chatbots och automation som jobbar åt dig dygnet runt – svarar på frågor, fångar nya kunder och bokar möten medan du sover.</p>
-          <ul class="svc-feats"><li>AI-assistent direkt på sidan</li><li>Fångar nya kunder automatiskt</li><li>Bokar möten åt dig</li></ul>
-          <p class="svc-benefit">→ Svara kunder dygnet runt</p>
-          <a class="svc-more" href="/ai-losningar/">Läs mer om AI-lösningar →</a>
-        </div>
+      <div class="svc-card svc-tile reveal">
+        <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M9 10h.01M15 10h.01M9 15h6"/></svg></div>
+        <h3>AI-lösningar</h3>
+        <p>Chatbots och automation som svarar kunder dygnet runt.</p>
+        <a class="svc-more" href="/ai-losningar/">Läs mer →</a>
       </div>
-      <div class="svc-wide reveal" style="--svc-img:url('assets/tjanst-branding.jpg')">
-        <div class="svc-wide-bg" aria-hidden="true"></div>
-        <div class="svc-wide-overlay" aria-hidden="true"></div>
-        <div class="svc-wide-content">
-          <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="16" cy="16" r="2.5"/><path d="m11 8-3 2.5m4 4 1.5 1"/></svg></div>
-          <h3>Branding</h3>
-          <p class="desc">Logotyp och komplett visuell identitet som får ditt varumärke att kännas dyrare och mer förtroendeingivande – konsekvent på varje yta.</p>
-          <ul class="svc-feats"><li>Logotyp & färgprofil</li><li>Typografi & grafiskt manér</li><li>En identitet som håller ihop</li></ul>
-          <p class="svc-benefit">→ Ett varumärke kunder minns</p>
-          <a class="svc-more" href="/branding/">Läs mer om branding →</a>
-        </div>
+      <div class="svc-card svc-tile reveal">
+        <div class="svc-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="16" cy="16" r="2.5"/><path d="m11 8-3 2.5m4 4 1.5 1"/></svg></div>
+        <h3>Branding</h3>
+        <p>Logotyp och visuell identitet som får varumärket att sticka ut.</p>
+        <a class="svc-more" href="/branding/">Läs mer →</a>
       </div>
     </div>
   </div>
@@ -356,211 +320,46 @@
   </div>
 </section>
 
-<!-- CASES (pinned horizontal) -->
-<section id="case">
-  <div class="wrap section-pad" style="padding-bottom:30px;">
-    <div class="cases-intro reveal">
+<!-- CASES (teaser → /case/) -->
+<section id="case" class="section-pad" style="background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head center reveal">
       <span class="eyebrow"><span class="dot"></span> Projekt</span>
-      <h2 style="font-size:clamp(30px,4.6vw,48px); margin:18px 0 14px;">Så här kan din sida se ut</h2>
-      <p style="color:var(--muted); font-size:18px;">Riktiga projekt vi byggt – och exempel på vad vi kan skapa för dig. Din sida skräddarsys helt efter din verksamhet.</p>
+      <h2>Så här kan din sida se ut</h2>
+      <p>Riktiga projekt vi byggt för svenska företag.</p>
     </div>
-  </div>
-  <div class="cases-pin" id="casesPin">
-    <div class="cases-sticky">
-      <div class="cases-track" id="casesTrack">
-        <div class="case-card iridescent">
-          <div class="case-visual"><picture><source srcset="assets/case-4.webp?v=71" type="image/webp"><img width="820" height="458" src="assets/case-4.jpg?v=71" alt="Hemsida för AD Byggprojekt Stockholm AB – byggledning och projektledning, byggd av AiM Studios" loading="lazy"></picture></div>
-          <div class="case-body">
-            <div class="case-name">AD Byggprojekt Stockholm AB <span class="badge-proj">Projekt</span></div>
-            <p class="case-row">Modern, förtroendeingivande sida för byggledning och projektledning.</p>
-          </div>
-        </div>
-        <div class="case-card iridescent">
-          <div class="case-visual"><picture><source srcset="assets/case-5.webp?v=71" type="image/webp"><img width="820" height="458" src="assets/case-5.jpg?v=71" alt="Hemsida för Bygg &amp; Projektgruppen Stockholm AB – bygg, projektledning och entreprenad, byggd av AiM Studios" loading="lazy"></picture></div>
-          <div class="case-body">
-            <div class="case-name">Bygg &amp; Projektgruppen Stockholm AB <span class="badge-proj">Projekt</span></div>
-            <p class="case-row">Stark, tydlig sida som samlar bygg, projektledning och entreprenad.</p>
-          </div>
-        </div>
-        <div class="case-card iridescent">
-          <div class="case-visual"><picture><source srcset="assets/case-1.webp?v=21" type="image/webp"><img width="820" height="458" src="assets/case-1.jpg?v=21" alt="Exempel på hemsida för byggföretag – modern redesign av AiM Studios" loading="lazy"></picture></div>
-          
-          <div class="case-body">
-            <div class="case-name">Byggföretag <span class="badge-ex">Designexempel</span></div>
-            <p class="case-row">Konverteringsfokuserad design med tydlig väg till kontakt.</p>
-          </div>
-        </div>
-        <div class="case-card iridescent">
-          <div class="case-visual"><picture><source srcset="assets/case-2.webp?v=21" type="image/webp"><img width="820" height="458" src="assets/case-2.jpg?v=21" alt="Exempel på e-handelssida – ökad konvertering" loading="lazy"></picture></div>
-          
-          <div class="case-body">
-            <div class="case-name">E-handel <span class="badge-ex">Designexempel</span></div>
-            <p class="case-row">Snabb, ren design byggd för ett tydligt köpflöde.</p>
-          </div>
-        </div>
-        <div class="case-card iridescent">
-          <div class="case-visual"><picture><source srcset="assets/case-3.webp?v=21" type="image/webp"><img width="820" height="458" src="assets/case-3.jpg?v=21" alt="Exempel på konsulthemsida – stärkt trovärdighet" loading="lazy"></picture></div>
-          
-          <div class="case-body">
-            <div class="case-name">Konsult <span class="badge-ex">Designexempel</span></div>
-            <p class="case-row">Trovärdig, professionell design som bygger förtroende.</p>
-          </div>
-        </div>
-        <div class="case-card iridescent" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(160deg, rgba(79,70,229,0.18), var(--bg-card));">
-          <div style="padding:40px;">
-            <h3 style="font-size:26px;margin-bottom:12px;">Ditt företag härnäst?</h3>
-            <p style="color:var(--muted);margin-bottom:24px;">Låt oss visa vad vi kan göra för din affär.</p>
-            <a href="#boka" class="btn btn-primary magnetic">Boka gratis möte →</a>
-          </div>
+    <div class="case-grid case-grid--feature reveal">
+      <div class="case-card iridescent">
+        <div class="case-visual"><picture><source srcset="/assets/case-4.webp?v=71" type="image/webp"><img width="820" height="458" src="/assets/case-4.jpg?v=71" alt="Hemsida för AD Byggprojekt Stockholm AB – byggledning och projektledning, byggd av AiM Studios" loading="lazy"></picture></div>
+        <div class="case-body">
+          <div class="case-name">AD Byggprojekt Stockholm AB <span class="badge-proj">Projekt</span></div>
+          <p class="case-row">Modern, förtroendeingivande sida för byggledning och projektledning.</p>
         </div>
       </div>
-      <div class="pin-hint"><span>Scrolla</span> →</div>
+      <div class="case-card iridescent">
+        <div class="case-visual"><picture><source srcset="/assets/case-5.webp?v=71" type="image/webp"><img width="820" height="458" src="/assets/case-5.jpg?v=71" alt="Hemsida för Bygg &amp; Projektgruppen Stockholm AB – bygg, projektledning och entreprenad, byggd av AiM Studios" loading="lazy"></picture></div>
+        <div class="case-body">
+          <div class="case-name">Bygg &amp; Projektgruppen Stockholm AB <span class="badge-proj">Projekt</span></div>
+          <p class="case-row">Stark, tydlig sida som samlar bygg, projektledning och entreprenad.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:36px;">
+      <a href="/case/" class="btn btn-primary magnetic">Se alla projekt →</a>
     </div>
   </div>
 </section>
 
-<!-- BEFORE / AFTER -->
-<section class="section-pad" id="forenefter" style="background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+<!-- AI TEASER (full interaktiv demo → /ai-losningar/) -->
+<section class="section-pad" id="ai">
   <div class="wrap">
     <div class="section-head center reveal">
-      <span class="eyebrow"><span class="dot"></span> Före / Efter</span>
-      <h2>Så här mycket skillnad gör design + struktur</h2>
+      <span class="eyebrow"><span class="dot"></span> AI på din sida</span>
+      <h2>En säljare som <span style="color:var(--primary-soft);">aldrig sover</span></h2>
+      <p>AI-assistenter som svarar dina kunder direkt, fångar leads och bokar möten – dygnet runt.</p>
     </div>
-    <div class="ba-wrap reveal">
-      <div class="ba" id="ba">
-        <div class="ba-layer ba-after" style="padding:0;background-image:url('assets/after.jpg?v=18');background-size:cover;background-position:center;"><span class="ba-label">Efter</span></div>
-        <div class="ba-layer ba-before" id="baBefore" style="padding:0;background-image:url('assets/before.jpg?v=18');background-size:cover;background-position:center;"><span class="ba-label">Före</span></div>
-        <div class="ba-handle" id="baHandle"><div class="ba-grip">⇆</div></div>
-      </div>
-      <p class="ba-caption">Dra i reglaget för att jämföra.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section class="section-pad process-sec" id="process">
-  <div class="process-bg" aria-hidden="true">
-    <div class="process-grid-overlay"></div>
-    <div class="process-particles" id="processParticles"></div>
-  </div>
-  <div class="wrap">
-    <div class="section-head center reveal">
-      <span class="eyebrow"><span class="dot"></span> Processen</span>
-      <h2 class="process-headline">Från idé till <span class="process-neon">lansering</span> på en vecka</h2>
-      <p>Enkelt, tydligt och utan krångel. Du vet alltid var vi är.</p>
-    </div>
-    <div class="pipeline" id="pipeline">
-      <div class="pipeline-track" id="pipelineTrack"><div class="pipeline-fill" id="pipelineFill"></div></div>
-      <div class="pipeline-stations">
-        <div class="station reveal" data-step="1">
-          <div class="station-orb">
-            <div class="orb-liquid"></div>
-            <div class="orb-core">1</div>
-            <div class="orb-ring"></div>
-          </div>
-          <div class="station-card">
-            <div class="station-glass">
-              <h3>Gratis strategi-samtal</h3>
-              <p>Vi går igenom dina mål och vad sidan ska prestera.</p><span class="station-meta">Kostnadsfritt · ingen bindning</span>
-            </div>
-          </div>
-        </div>
-        <div class="station reveal" data-step="2">
-          <div class="station-orb">
-            <div class="orb-liquid"></div>
-            <div class="orb-core">2</div>
-            <div class="orb-ring"></div>
-          </div>
-          <div class="station-card">
-            <div class="station-glass">
-              <h3>Design inom 48 timmar</h3>
-              <p>Du får se ett första förslag riktigt snabbt.</p>
-            </div>
-          </div>
-        </div>
-        <div class="station reveal" data-step="3">
-          <div class="station-orb">
-            <div class="orb-liquid"></div>
-            <div class="orb-core">3</div>
-            <div class="orb-ring"></div>
-          </div>
-          <div class="station-card">
-            <div class="station-glass">
-              <h3>Godkännande &amp; justeringar</h3>
-              <p>Vi finslipar tills allt sitter precis rätt.</p>
-            </div>
-          </div>
-        </div>
-        <div class="station reveal" data-step="4">
-          <div class="station-orb">
-            <div class="orb-liquid"></div>
-            <div class="orb-core">4</div>
-            <div class="orb-ring"></div>
-          </div>
-          <div class="station-card">
-            <div class="station-glass">
-              <h3>Lansering på 10 dagar</h3>
-              <p>Sidan går live – redo att generera affärer.</p>
-            </div>
-          </div>
-        </div>
-        <div class="station reveal" data-step="5">
-          <div class="station-orb">
-            <div class="orb-liquid"></div>
-            <div class="orb-core">5</div>
-            <div class="orb-ring"></div>
-          </div>
-          <div class="station-card">
-            <div class="station-glass">
-              <h3>Support &amp; förbättringar</h3>
-              <p>Vi finns kvar och optimerar löpande.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AI SECTION -->
-<section class="section-pad ai-sec" id="ai">
-  <div class="ai-terminal-bg" aria-hidden="true">
-    <div class="ai-grid-lines"></div>
-    <div class="ai-scan-line"></div>
-  </div>
-  <div class="wrap">
-    <div class="ai-grid">
-      <div class="reveal">
-        <span class="eyebrow"><span class="dot"></span> AI på din sida</span>
-        <h2 style="font-size:clamp(28px,4vw,42px); margin:18px 0 14px;">En säljare som <span class="ai-neon">aldrig sover</span></h2>
-        <p style="color:var(--muted); font-size:17px; margin-bottom:18px;">Vi bygger in AI-assistenter som svarar dina kunder direkt, bokar möten och fångar leads – dygnet runt. Testa demon →</p>
-        <ul class="final-bullets">
-          <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svarar på vanliga frågor direkt</li>
-          <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Fångar leads även när du sover</li>
-          <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Bokar möten åt dig automatiskt</li>
-        </ul>
-        <p class="ai-badge-demo" style="margin-top:16px;">// Demo – kopplas mot riktig AI vid lansering</p>
-      </div>
-      <div class="chat-demo ai-terminal reveal">
-        <div class="terminal-header">
-          <div class="terminal-dots"><span></span><span></span><span></span></div>
-          <div class="terminal-title">AiM Assistant v2.0</div>
-          <div class="terminal-status"><span class="pulse"></span> DEMO</div>
-        </div>
-        <div class="chat-body" id="demoBody">
-          <div class="msg bot">Hej! 👋 Jag är AiM Studios AI-assistent. Vad kan jag hjälpa dig med?</div>
-        </div>
-        <div class="chat-chips" id="demoChips">
-          <button class="chat-chip" data-q="Vad kostar en hemsida?">Vad kostar en hemsida?</button>
-          <button class="chat-chip" data-q="Hur snabbt kan ni leverera?">Hur snabbt levererar ni?</button>
-          <button class="chat-chip" data-q="Hjälper ni med SEO?">Hjälper ni med SEO?</button>
-        </div>
-        <div class="terminal-input">
-          <span class="terminal-prompt">&gt;</span>
-          <input type="text" placeholder="Skriv din fråga här..." id="demoInput">
-          <button class="terminal-send" id="demoSend" aria-label="Skicka"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
-        </div>
-      </div>
+    <div style="text-align:center;">
+      <a href="/ai-losningar/" class="btn btn-primary magnetic">Prova vår AI-chatt →</a>
     </div>
   </div>
 </section>
