@@ -960,7 +960,15 @@
 
   /* ===== Startsida: bantad tjänste-ÖVERSIKT (4 rutor → tjänstesidor) ===== */
   .svc-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
-  .svc-tile { display: flex; flex-direction: column; align-items: flex-start; }
+  .svc-tile { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; }
+  /* bild-bakgrund + mörk scrim så ikon/titel/text/"Läs mer" förblir knivskarpa */
+  .svc-tile::before { content: ''; position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; }
+  .svc-tile::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(rgba(11,11,15,0.55), rgba(11,11,15,0.82)); }
+  .svc-tile > * { position: relative; z-index: 1; }
+  .svc-tile.tile-webbdesign::before { background-image: url('/assets/tjanst-webbdesign.jpg'); }
+  .svc-tile.tile-seo::before { background-image: url('/assets/tjanst-seo.jpg'); }
+  .svc-tile.tile-ai::before { background-image: url('/assets/tjanst-ai.jpg'); }
+  .svc-tile.tile-branding::before { background-image: url('/assets/tjanst-branding.jpg'); }
   .svc-tile h3 { font-size: 20px; margin-bottom: 8px; }
-  .svc-tile p { color: var(--muted); font-size: 15px; margin-bottom: 16px; flex: 1 1 auto; }
+  .svc-tile p { color: #c9c9d6; font-size: 15px; margin-bottom: 16px; flex: 1 1 auto; }
   .svc-tile .svc-more { margin-top: 0; }
