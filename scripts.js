@@ -144,7 +144,7 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   const sentinel=document.getElementById('navSentinel');
   // Dock-läge: stabil IntersectionObserver istället för scroll-listener
   if(header && sentinel && 'IntersectionObserver' in window){
-    new IntersectionObserver(([e])=>{ header.classList.toggle('scrolled', !e.isIntersecting); },{rootMargin:'-72px 0px 0px 0px'}).observe(sentinel);
+    new IntersectionObserver(([e])=>{ header.classList.toggle('scrolled', !e.isIntersecting); },{rootMargin:'0px'}).observe(sentinel);
   } else if(header){
     addEventListener('scroll',()=>header.classList.toggle('scrolled',(document.documentElement.scrollTop||window.scrollY)>72),{passive:true});
   }

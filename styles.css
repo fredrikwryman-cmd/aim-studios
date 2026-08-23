@@ -81,7 +81,7 @@
 
   /* ===== NAVBAR v2 – Floating glass command bar ===== */
   :root { --nav-h: 76px; --nav-dock-h: 56px; --nav-pill-h: 38px; }
-  #navSentinel { position: absolute; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none; }
+  #navSentinel { position: absolute; top: 0; left: 0; width: 1px; height: 72px; pointer-events: none; } /* 72px hog: docken slar pa forst nar toppzonen scrollats forbi */
 
   header { position: sticky; top: 0; left: 0; right: 0; z-index: 100; background: transparent; }
   .nav {
