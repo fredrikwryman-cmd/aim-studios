@@ -247,7 +247,7 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
 function botReply(q){
   q=q.toLowerCase();
   if(/pris|kosta|kostar|betala/.test(q)) return 'Våra paket börjar på 9 995 kr (Starter), 17 995 kr (Business) och 29 995 kr (Premium). Du betalar en gång – ingen bindningstid. Vill du att jag bokar ett gratis möte så räknar vi på just ditt projekt? 🙂';
-  if(/snabb|tid|leverera|leverans|dagar|klar/.test(q)) return 'De flesta sidor är live på 7–10 dagar från vårt första samtal. Har du en deadline? Berätta gärna så ser vi vad som är möjligt!';
+  if(/snabb|tid|leverera|leverans|dagar|klar/.test(q)) return 'De flesta sidor är live på 10 dagar från vårt första samtal. Har du en deadline? Berätta gärna så ser vi vad som är möjligt!';
   if(/seo|google|synlig|sökmotor/.test(q)) return 'Ja! Alla sidor byggs SEO-vänligt från grunden, och Business- och Premium-paketen inkluderar aktivt SEO-arbete för att synas högre på Google.';
   if(/ai|chatbot|automation|bot/.test(q)) return 'Precis som den här chatten! Vi bygger in AI-assistenter som svarar kunder, fångar leads och bokar möten dygnet runt. Det ingår i Premium-paketet.';
   if(/boka|möte|kontakt|prata|ring/.test(q)) return 'Toppen! Scrolla ner till bokningsformuläret så hör vi av oss inom 24 timmar – helt kostnadsfritt och utan förpliktelser. 🚀';
@@ -442,7 +442,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   const CHK='<span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>';
   const PKG={
     starter:{name:'Starter',price:'9 995',tag:'',desc:'En enkel, professionell hemsida som syns och övertygar.',
-      feats:['Upp till 5 sidor','Mobilanpassad, modern design','Kontaktformulär','Grundläggande SEO (titlar, fart, Google-index)','1 revideringsrunda','Leverans 7–10 dagar']},
+      feats:['Upp till 5 sidor','Mobilanpassad, modern design','Kontaktformulär','Grundläggande SEO (titlar, fart, Google-index)','1 revideringsrunda','Leverans 10 dagar']},
     business:{name:'Business',price:'17 995',tag:'Mest populär',desc:'Säljoptimerad hemsida byggd för att dra in fler kunder.',
       feats:['Allt i Starter','Upp till 10 sidor','Konverteringsoptimerad struktur (CTA:er, lead-formulär)','SEO-grundpaket (sökordsanalys + on-page)','Analys &amp; uppföljning (Analytics + Search Console)','2 revideringsrundor','Leverans 10–14 dagar']},
     premium:{name:'Premium',price:'29 995',tag:'',desc:'Komplett digital närvaro med branding och AI.',
