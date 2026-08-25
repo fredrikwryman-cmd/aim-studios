@@ -984,3 +984,33 @@
   .svc-tile h3 { font-size: 20px; margin-bottom: 8px; }
   .svc-tile p { color: #c9c9d6; font-size: 15px; margin-bottom: 16px; flex: 1 1 auto; }
   .svc-tile .svc-more { margin-top: 0; }
+
+  /* ===================================================================
+     FAS 3 – Webboptimering / ombyggnad / lopande SEO
+     =================================================================== */
+  /* Bakgrundsmotiv: ateranvander bg-webbdesign (inga nya bildfiler) */
+  body[data-bg="webboptimering"] { --bgimg: url(/assets/bg-webbdesign.webp); }
+
+  /* Femte rutan i startsidans tjanste-oversikt */
+  .svc-tile.tile-webboptimering::before { background-image: url('/assets/before.jpg'); }
+  /* ensam pa rad 2 nar rutnatet ar 4 kolumner -> lat den spanna hela raden */
+  @media (min-width: 1040px) { .svc-tile.tile-webboptimering { grid-column: 1 / -1; } }
+
+  /* Prislista med punktledare (optimeringspaket, tillval, lopande SEO) */
+  .pricelist { list-style: none; margin: 0; padding: 0; }
+  .pricelist li { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .pricelist li:first-child { padding-top: 0; }
+  .pricelist li:last-child { padding-bottom: 0; border-bottom: none; }
+  .pl-row { display: flex; align-items: baseline; gap: 12px; }
+  .pl-name { font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+  .pl-dots { flex: 1 1 auto; min-width: 16px; align-self: flex-end; border-bottom: 1px dotted var(--line-strong); transform: translateY(-5px); }
+  .pl-price { font-family: 'Bebas Neue', 'Inter Tight', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .01em; white-space: nowrap; color: var(--text); }
+  .pl-note { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; line-height: 1.75; }
+  @media (max-width: 560px) {
+    .pl-row { flex-wrap: wrap; gap: 4px 12px; }
+    .pl-dots { display: none; }
+    .pl-price { font-size: 23px; }
+  }
+
+  /* Notis under lopande SEO-priserna */
+  .term-note { margin: 22px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; line-height: 1.8; }
