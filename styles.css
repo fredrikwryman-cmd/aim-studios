@@ -1014,3 +1014,8 @@
 
   /* Notis under lopande SEO-priserna */
   .term-note { margin: 22px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; line-height: 1.8; }
+
+  /* Om oss: fyra kort i stallet for tre */
+  .values-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 1040px) { .values-grid.cols-4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px)  { .values-grid.cols-4 { grid-template-columns: 1fr; } }
