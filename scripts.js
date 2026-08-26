@@ -50,8 +50,6 @@ window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
       if(!releasing){
         const r=magEl.getBoundingClientRect();
         tx=(mx-r.left-r.width/2)*0.32; ty=(my-r.top-r.height/2)*0.42;
-        // I hopkrympt navbar: begränsa rörelsen hårt så knappen aldrig spiller ut ur kapseln
-        if(magEl.closest('header.scrolled')){ tx=Math.max(-7,Math.min(7,tx)); ty=Math.max(-3,Math.min(3,ty)); }
       }
       cx+=(tx-cx)*0.22; cy+=(ty-cy)*0.22;
       magEl.style.transform=`translate3d(${cx.toFixed(2)}px,${cy.toFixed(2)}px,0)`;
@@ -138,17 +136,8 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   b.querySelector('#cbAccept').addEventListener('click',()=>close('all'));
   b.querySelector('#cbDecline').addEventListener('click',()=>close('necessary'));
 })();
-/* ---------- Navbar v2 (dock via IntersectionObserver + scroll-spy + tema + mobil-overlay) ---------- */
+/* ---------- Navbar v2 (scroll-spy + tema + mobil-overlay; ingen dock/krympning) ---------- */
 (function(){
-  const header=document.getElementById('header');
-  const sentinel=document.getElementById('navSentinel');
-  // Dock-läge: stabil IntersectionObserver istället för scroll-listener
-  if(header && sentinel && 'IntersectionObserver' in window){
-    new IntersectionObserver(([e])=>{ header.classList.toggle('scrolled', !e.isIntersecting); },{rootMargin:'0px'}).observe(sentinel);
-  } else if(header){
-    addEventListener('scroll',()=>header.classList.toggle('scrolled',(document.documentElement.scrollTop||window.scrollY)>72),{passive:true});
-  }
-
   // Aktiv-sektion-indikator som glider under länkarna (transform inom containern)
   const center=document.getElementById('navCenter'), ind=document.getElementById('navInd');
   if(center && ind){
