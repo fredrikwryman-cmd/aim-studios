@@ -16,7 +16,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/bebasneue-latin.woff2" />
-<link rel="stylesheet" href="styles.css?v=90" />
+<link rel="stylesheet" href="styles.css?v=91" />
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -336,18 +336,32 @@
       <p>Riktiga projekt vi byggt för svenska företag.</p>
     </div>
     <div class="case-grid case-grid--feature reveal">
+      <!-- LANSERAD: enda caset som är live, därför enda kortet med länk. -->
+      <a class="case-card iridescent" href="https://kastar.se" target="_blank" rel="noopener">
+        <div class="case-visual"><picture><source srcset="/assets/case-kastar.webp?v=1" type="image/webp"><img width="820" height="458" src="/assets/case-kastar.jpg?v=1" alt="Kastar.se – webbplats för flytt- och tömningsfirma i Stockholm, byggd av AiM Studios" loading="lazy"></picture></div>
+        <div class="case-body">
+          <div class="case-name">Kastar <span class="badge-live">Lanserad</span></div>
+          <p class="case-row">Webbplats för flytt- och tömningsfirma i Stockholm. Handkodad utan ramverk, med interaktiv priskalkylator, digitala visitkort och tillgänglighet över AA.</p>
+          <p class="case-metrics">99 i PageSpeed · 100 i tillgänglighet, best practices och SEO</p>
+          <span class="case-link">Besök kastar.se →</span>
+        </div>
+      </a>
       <div class="case-card iridescent">
         <div class="case-visual"><picture><source srcset="/assets/case-4.webp?v=71" type="image/webp"><img width="820" height="458" src="/assets/case-4.jpg?v=71" alt="Hemsida för AD Byggprojekt Stockholm AB – byggledning och projektledning, byggd av AiM Studios" loading="lazy"></picture></div>
         <div class="case-body">
-          <div class="case-name">AD Byggprojekt Stockholm AB <span class="badge-proj">Projekt</span></div>
+          <!-- VID LANSERING: byt badge-wip -> badge-live med texten "Lanserad", ta bort .case-note och gör kortet klickbart (byt div till <a href target="_blank" rel="noopener"> som Kastar-kortet). -->
+          <div class="case-name">AD Byggprojekt Stockholm AB <span class="badge-wip">Pågående</span></div>
           <p class="case-row">Modern, förtroendeingivande sida för byggledning och projektledning.</p>
+          <p class="case-note">Byggd och klar, inväntar lansering.</p>
         </div>
       </div>
       <div class="case-card iridescent">
         <div class="case-visual"><picture><source srcset="/assets/case-5.webp?v=71" type="image/webp"><img width="820" height="458" src="/assets/case-5.jpg?v=71" alt="Hemsida för Bygg &amp; Projektgruppen Stockholm AB – bygg, projektledning och entreprenad, byggd av AiM Studios" loading="lazy"></picture></div>
         <div class="case-body">
-          <div class="case-name">Bygg &amp; Projektgruppen Stockholm AB <span class="badge-proj">Projekt</span></div>
+          <!-- VID LANSERING: byt badge-wip -> badge-live med texten "Lanserad", ta bort .case-note och gör kortet klickbart (byt div till <a href target="_blank" rel="noopener"> som Kastar-kortet). -->
+          <div class="case-name">Bygg &amp; Projektgruppen Stockholm AB <span class="badge-wip">Pågående</span></div>
           <p class="case-row">Stark, tydlig sida som samlar bygg, projektledning och entreprenad.</p>
+          <p class="case-note">Byggd och klar, inväntar lansering.</p>
         </div>
       </div>
     </div>
@@ -614,7 +628,7 @@
     </form>
   </div>
 </div>
-<script src="unlock.js?v=90" defer></script>
-<script src="scripts.js?v=90" defer></script>
+<script src="unlock.js?v=91" defer></script>
+<script src="scripts.js?v=91" defer></script>
 </body>
 </html>

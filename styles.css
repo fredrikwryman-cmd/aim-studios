@@ -1081,7 +1081,18 @@
   .terminal-input input:focus-visible { outline: 2px solid #22C55E; outline-offset: 2px; }
   input[type=range].slider:focus-visible { outline: 2px solid #6366F1; outline-offset: 3px; }
   /* ===== Badge for riktiga projekt (indigo, vs dampad .badge-ex) ===== */
-  .badge-proj { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid rgba(99,102,241,0.5); color: var(--light-indigo); background: rgba(99,102,241,0.12); text-transform: uppercase; }
+  /* LANSERAD - caset ar live och klickbart. Starkast vikt. */
+  .badge-live { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--primary-soft); color: #fff; background: var(--primary); text-transform: uppercase; white-space: nowrap; }
+  /* PAGAENDE - byggd men inte lanserad. Dampad, tydligt lagre vikt. */
+  .badge-wip { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); background: transparent; text-transform: uppercase; white-space: nowrap; }
+
+  /* Klickbart case-kort (endast lanserade case) */
+  a.case-card { display: block; color: inherit; text-decoration: none; transition: border-color .25s var(--ease), transform .25s var(--ease); }
+  a.case-card:hover { border-color: rgba(99,102,241,0.55); transform: translateY(-4px); }
+  a.case-card:hover .case-link { color: var(--light-indigo); gap: 10px; }
+  .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
+  .case-metrics { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; }
+  .case-note { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; font-style: italic; }
 
   /* ===================================================================
      FAS 2 – SÖMLÖSA SUBSIDE-BAKGRUNDER (motiv + djup-overlay)
@@ -1112,7 +1123,7 @@
   /* ===== /case/ : rutnät av case-kort (ej startsidans pin-scroll) ===== */
   .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
   .case-grid .case-card { width: auto; }
-  .case-grid--feature { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
+  .case-grid--feature { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
   /* feature-kortens bild styrs nu av .case-visual aspect-ratio 16/9 (bredare kort = större bild) */
   @media (max-width: 560px) { .case-grid, .case-grid--feature { grid-template-columns: 1fr; } }
 
