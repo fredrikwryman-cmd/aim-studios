@@ -106,16 +106,23 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   if(!tabs)return;
   let cur='bygg';
   function headline(k,nm){ const m={bygg:nm+' bygger ditt drömhem',rest:'Välkommen till '+nm,shop:'Handla hos '+nm,kons:nm+' tar din affär vidare',frisor:'Välkommen till '+nm,tand:'Boka tid hos '+nm,gym:'Träna hos '+nm,hant:nm+' fixar jobbet'}; return m[k]||nm; }
+  // Valj lasbar textfarg mot accentfargen (WCAG AA) i stallet for hardkodad vit.
+  function lum(hex){const c=hex.replace('#',''); const v=[0,2,4].map(function(i){let x=parseInt(c.substr(i,2),16)/255; return x<=0.04045?x/12.92:Math.pow((x+0.055)/1.055,2.4);});
+    return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2];}
+  function kvot(a,b){const l1=lum(a),l2=lum(b);return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);}
+  function lasbar(d){ if(d.txt && d.txt.charAt(0)==='#' && d.txt.length>=7 && kvot(d.txt,d.accent)>=4.5) return d.txt;
+    return kvot('#000000',d.accent) >= kvot('#FFFFFF',d.accent) ? '#000000' : '#FFFFFF'; }
   function render(){
     const d=data[cur];
+    const fgFarg=lasbar(d);
     body.style.background='linear-gradient(160deg, '+d.c1+', '+d.c2+')';
     elT.textContent=d.tag; elT.style.color=d.accent;
     const nm=nameInput?nameInput.value.trim():'';
     if(nm){ elBrand.textContent=nm; elBrand.style.color=d.accent; elBrand.classList.add('show'); elH.textContent=headline(cur,nm); }
     else { elBrand.classList.remove('show'); elH.textContent=d.h; }
     elH.style.fontFamily=d.font; elP.textContent=d.p;
-    elB.textContent=d.btn; elB.style.background=d.accent; elB.style.color=d.txt||'#fff';
-    tabs.querySelectorAll('.switch-tab').forEach(t=>{const on=t.dataset.k===cur;t.classList.toggle('active',on);t.style.background=on?d.accent:'';});
+    elB.textContent=d.btn; elB.style.background=d.accent; elB.style.color=fgFarg;
+    tabs.querySelectorAll('.switch-tab').forEach(t=>{const on=t.dataset.k===cur;t.classList.toggle('active',on);t.style.background=on?d.accent:'';t.style.color=on?fgFarg:'';});
   }
   tabs.querySelectorAll('.switch-tab').forEach(t=>t.addEventListener('click',()=>{cur=t.dataset.k;render();}));
   if(nameInput) nameInput.addEventListener('input',render);
@@ -129,7 +136,7 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   if(consent) return;
   const b=document.createElement('div');
   b.id='cookie-banner';
-  b.innerHTML='<p>Vi använder cookies för att förbättra din upplevelse. <a href="/integritetspolicy.html">Läs mer</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
+  b.innerHTML='<p>Vi använder cookies för att förbättra din upplevelse. <a href="/integritetspolicy.html">Läs mer om cookies</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
   document.body.appendChild(b);
   requestAnimationFrame(()=>b.classList.add('show'));
   function close(v){ try{localStorage.setItem('cookie-consent',v);}catch(_){} b.classList.remove('show'); setTimeout(()=>b.remove(),500); }
@@ -372,7 +379,7 @@ function burst(){
   let gl; try{ gl=cv.getContext('webgl')||cv.getContext('experimental-webgl'); }catch(e){}
   if(!gl){ cv.style.display='none'; return; }
   const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}`;
-  const fs=`precision highp float;uniform vec2 u_res;uniform float u_t;uniform vec2 u_m;
+  const fs=`precision mediump float;uniform vec2 u_res;uniform float u_t;uniform vec2 u_m;
   vec3 perm(vec3 x){return mod(((x*34.0)+1.0)*x,289.0);}
   float snoise(vec2 v){const vec4 C=vec4(0.211324865,0.366025403,-0.577350269,0.024390243);
   vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);vec2 i1=(x0.x>x0.y)?vec2(1.0,0.0):vec2(0.0,1.0);
@@ -386,7 +393,6 @@ function burst(){
   float t=u_t*0.05;
   float n=snoise(p*1.4+vec2(t,t*0.6));
   n+=0.5*snoise(p*2.8-vec2(t*0.8,t));
-  n+=0.25*snoise(p*5.0+vec2(t*1.3,-t));
   float md=distance(uv,u_m);n+=0.25*smoothstep(0.6,0.0,md);
   vec3 bg=vec3(0.043,0.043,0.059);
   vec3 c1=vec3(0.310,0.275,0.898);
@@ -403,11 +409,47 @@ function burst(){
   const uRes=gl.getUniformLocation(prog,'u_res'),uT=gl.getUniformLocation(prog,'u_t'),uM=gl.getUniformLocation(prog,'u_m');
   let mx=0.5,my=0.3;
   cv.parentElement.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();mx=(e.clientX-r.left)/r.width;my=1-(e.clientY-r.top)/r.height;});
-  function size(){const dpr=Math.min(devicePixelRatio||1,1.5);cv.width=cv.clientWidth*dpr;cv.height=cv.clientHeight*dpr;gl.viewport(0,0,cv.width,cv.height);}
+  // Renderas i halv upplosning och skalas upp av CSS. Shadern ar mjuka brusgradienter,
+  // sa 0.5x ar visuellt omarkbart men fjardedelar antalet fragment.
+  const SKALA=0.5;
+  function size(){const s=Math.min(devicePixelRatio||1,1)*SKALA;cv.width=Math.max(1,Math.round(cv.clientWidth*s));cv.height=Math.max(1,Math.round(cv.clientHeight*s));gl.viewport(0,0,cv.width,cv.height);}
   size();addEventListener('resize',size);
   const start=performance.now();
-  function draw(now){const t=(now-start)/1000;gl.uniform2f(uRes,cv.width,cv.height);gl.uniform1f(uT,reduce?0.0:t);gl.uniform2f(uM,mx,my);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);if(!reduce)requestAnimationFrame(draw);}
-  if(reduce){draw(start);} else {requestAnimationFrame(draw);}
+  // 30 fps racker for en langsam brusgradient; halverar arbetet mot 60.
+  const MIN_INTERVALL=1000/30;
+  let iVy=true, kor=false, sist=0, raf=0;
+  // Prestandaprob: de forsta bildrutorna ritas otyglat och tidtas. Klarar maskinen
+  // inte minst 40 fps saknar den GPU-acceleration (mjukvarurendering) - da fryser vi
+  // effekten pa aktuell bild i stallet for att sanka hela sidan. Ser likadant ut, kostar noll.
+  const PROB_RUTOR=12, PROB_GRANS=40;
+  let probN=0, probStart=0, frusen=false;
+  function rita(now){
+    raf=0;
+    const probar = probN < PROB_RUTOR;
+    if(probar || now-sist>=MIN_INTERVALL){ sist=now;
+      const t=(now-start)/1000;
+      gl.uniform2f(uRes,cv.width,cv.height); gl.uniform1f(uT,reduce?0.0:t); gl.uniform2f(uM,mx,my);
+      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      if(probar){
+        if(probN===0) probStart=now;
+        probN++;
+        if(probN===PROB_RUTOR){
+          const fps=(PROB_RUTOR-1)*1000/Math.max(1,now-probStart);
+          if(fps<PROB_GRANS){ frusen=true; stoppa(); return; }
+        }
+      }
+    }
+    if(!reduce && kor) raf=requestAnimationFrame(rita);
+  }
+  function starta(){ if(kor||reduce||frusen) return; kor=true; sist=0; raf=requestAnimationFrame(rita); }
+  function stoppa(){ kor=false; if(raf){ cancelAnimationFrame(raf); raf=0; } }
+  // Pausa nar hero-ytan ar utanfor vyn och nar fliken ar dold.
+  function pulsa(){ (iVy && !document.hidden) ? starta() : stoppa(); }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ iVy=es[0].isIntersecting; pulsa(); },{threshold:0}).observe(cv);
+  }
+  document.addEventListener('visibilitychange',pulsa);
+  if(reduce){ rita(performance.now()); } else { pulsa(); }
 })();
 
 /* ---------- Iridescent hover på kort ---------- */

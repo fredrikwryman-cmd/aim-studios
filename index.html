@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=85" />
+<link rel="stylesheet" href="styles.css?v=86" />
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
 <meta property="og:image:width" content="1200" />
@@ -149,7 +149,7 @@
       </div>
     </div>
     <div class="visual reveal">
-      <div class="promo-sticker" id="promoSticker" role="button" tabindex="0" aria-label="20% rabatt – klicka för information">
+      <div class="promo-sticker" id="promoSticker" role="button" tabindex="0" aria-label="20% OFF – klicka för information om rabatten">
         <div class="promo-vp">
           <div class="promo-card">
             <div class="promo-face promo-front">
@@ -311,7 +311,7 @@
           <button class="switch-tab" data-k="gym">Gym</button>
           <button class="switch-tab" data-k="hant">El &amp; VVS</button>
         </div>
-        <input id="bizName" class="biz-name" type="text" maxlength="22" autocomplete="off" placeholder="Skriv ditt företagsnamn – se det live →" />
+        <label class="sr-only" for="bizName">Ditt företagsnamn</label><input id="bizName" class="biz-name" type="text" maxlength="22" autocomplete="off" placeholder="Skriv ditt företagsnamn – se det live →" />
       </div>
       <div class="switch-preview reveal" id="switchPreview">
         <div class="sp-bar"><i></i><i></i><i></i></div>
@@ -382,7 +382,7 @@
     <div class="calc reveal">
       <h3>Priskalkylator</h3>
       <p class="sub">Bygg ditt paket och se priset direkt.</p>
-      <div class="calc-row"><div class="calc-label">Antal sidor <small id="pagesLbl">5 sidor</small></div><input type="range" min="1" max="15" value="5" class="slider" id="pages"></div>
+      <div class="calc-row"><div class="calc-label">Antal sidor <small id="pagesLbl">5 sidor</small></div><label class="sr-only" for="pages">Antal sidor</label><input type="range" min="1" max="15" value="5" class="slider" id="pages"></div>
       <div class="calc-row"><div class="calc-label">SEO-paket <small>Synlighet på Google</small></div><div class="toggle" data-add="6000" id="seoT" role="switch" tabindex="0" aria-checked="false" aria-label="Lägg till SEO-paket"></div></div>
       <div class="calc-row"><div class="calc-label">AI-chatbot <small>Svarar kunder dygnet runt</small></div><div class="toggle" data-add="9000" id="aiT" role="switch" tabindex="0" aria-checked="false" aria-label="Lägg till AI-chatbot"></div></div>
       <div class="calc-row"><div class="calc-label">Branding <small>Logotyp + visuell identitet</small></div><div class="toggle" data-add="8000" id="brandT" role="switch" tabindex="0" aria-checked="false" aria-label="Lägg till Branding"></div></div>
@@ -496,7 +496,7 @@
           </div>
         </div>
         <div class="foot-col">
-          <h4>Tjänster</h4>
+          <h3>Tjänster</h3>
           <a href="/webbdesign/">Webbdesign</a>
           <a href="/webboptimering/">Webboptimering</a>
           <a href="/seo/">SEO</a>
@@ -504,14 +504,14 @@
           <a href="/branding/">Branding</a>
         </div>
         <div class="foot-col">
-          <h4>Mer</h4>
+          <h3>Mer</h3>
           <a href="/case/">Case</a>
           <a href="/om-oss/">Om mig</a>
           <a href="/#kontakt">Kontakt</a>
           <a href="/integritetspolicy.html">Integritetspolicy</a>
         </div>
         <div class="foot-col">
-          <h4>Kontakt</h4>
+          <h3>Kontakt</h3>
           <a href="mailto:info@aimstudios.se">info@aimstudios.se</a>
           <a href="tel:+46705614845">070-561 48 45</a>
           <span>Sverige</span>
@@ -554,7 +554,7 @@
   </div>
   <div class="terminal-input">
     <span class="terminal-prompt">&gt;</span>
-    <input type="text" placeholder="Skriv något..." id="fabInput">
+    <label class="sr-only" for="fabInput">Skriv ett meddelande till AI-assistenten</label><input type="text" placeholder="Skriv något..." id="fabInput">
     <button class="terminal-send" id="fabSend" aria-label="Skicka"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
   </div>
 </div>
@@ -604,17 +604,17 @@
       <input type="hidden" name="_subject" value="🎉 20% OFF (Easter Egg) – Ny beställning">
       <input type="hidden" name="Bestallning" id="orderDetails" value="">
       <div class="order-fields">
-        <input type="text" name="Namn" id="oName" placeholder="Ditt namn" required>
-        <input type="email" name="E-post" id="oEmail" placeholder="Din e-post" required>
-        <input type="tel" name="Telefon" placeholder="Telefon (valfritt)">
+        <label class="sr-only" for="oName">Ditt namn</label><input type="text" name="Namn" id="oName" placeholder="Ditt namn" required>
+        <label class="sr-only" for="oEmail">Din e-post</label><input type="email" name="E-post" id="oEmail" placeholder="Din e-post" required>
+        <label class="sr-only" for="oTel">Telefon (valfritt)</label><input type="tel" name="Telefon" id="oTel" placeholder="Telefon (valfritt)">
       </div>
-      <textarea name="Meddelande" placeholder="Något du vill tillägga? (valfritt)" rows="2"></textarea>
+      <label class="sr-only" for="oMsg">Meddelande (valfritt)</label><textarea name="Meddelande" id="oMsg" placeholder="Något du vill tillägga? (valfritt)" rows="2"></textarea>
       <button type="submit" class="btn btn-primary order-submit">Skicka beställning med 20% rabatt →</button>
       <p class="order-note">Din order skickas till oss tydligt märkt <b>20% OFF</b>. Vi återkommer inom 24h.</p>
     </form>
   </div>
 </div>
-<script src="unlock.js?v=85" defer></script>
-<script src="scripts.js?v=85" defer></script>
+<script src="unlock.js?v=86" defer></script>
+<script src="scripts.js?v=86" defer></script>
 </body>
 </html>
