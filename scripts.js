@@ -136,7 +136,7 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
   if(consent) return;
   const b=document.createElement('div');
   b.id='cookie-banner';
-  b.innerHTML='<p>Vi använder cookies för att förbättra din upplevelse. <a href="/integritetspolicy.html">Läs mer om cookies</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
+  b.innerHTML='<p>Jag använder cookies för att förbättra din upplevelse. <a href="/integritetspolicy.html">Läs mer om cookies</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
   document.body.appendChild(b);
   requestAnimationFrame(()=>b.classList.add('show'));
   function close(v){ try{localStorage.setItem('cookie-consent',v);}catch(_){} b.classList.remove('show'); setTimeout(()=>b.remove(),500); }
@@ -242,13 +242,13 @@ document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentEleme
 /* ---------- Chatbot (simulated) ---------- */
 function botReply(q){
   q=q.toLowerCase();
-  if(/pris|kosta|kostar|betala/.test(q)) return 'Våra paket börjar på 9 995 kr (Starter), 17 995 kr (Business) och 29 995 kr (Premium). Du betalar en gång – ingen bindningstid. Vill du att jag bokar ett gratis möte så räknar vi på just ditt projekt? 🙂';
+  if(/pris|kosta|kostar|betala/.test(q)) return 'Mina paket börjar på 9 995 kr (Starter), 17 995 kr (Business) och 29 995 kr (Premium). Du betalar en gång – ingen bindningstid. Vill du att jag bokar ett gratis möte så räknar vi på just ditt projekt? 🙂';
   if(/snabb|tid|leverera|leverans|dagar|klar/.test(q)) return 'De flesta sidor är live på 10 dagar från vårt första samtal. Har du en deadline? Berätta gärna så ser vi vad som är möjligt!';
   if(/seo|google|synlig|sökmotor/.test(q)) return 'Ja! Alla sidor byggs SEO-vänligt från grunden, och Business- och Premium-paketen inkluderar aktivt SEO-arbete för att synas högre på Google.';
-  if(/ai|chatbot|automation|bot/.test(q)) return 'Precis som den här chatten! Vi bygger in AI-assistenter som svarar kunder, fångar leads och bokar möten dygnet runt. Det ingår i Premium-paketet.';
-  if(/boka|möte|kontakt|prata|ring/.test(q)) return 'Toppen! Scrolla ner till bokningsformuläret så hör vi av oss inom 24 timmar – helt kostnadsfritt och utan förpliktelser. 🚀';
-  if(/hej|tja|hallå|hello|hi/.test(q)) return 'Hej! Vad roligt att du hör av dig. Vill du veta mer om priser, leveranstid eller hur vi jobbar?';
-  return 'Bra fråga! Det enklaste är att boka ett gratis strategi-möte så går vi igenom just din situation. Scrolla ner till formuläret, så hör vi av oss inom 24 timmar. Vill du veta något om priser eller leveranstid under tiden?';
+  if(/ai|chatbot|automation|bot/.test(q)) return 'Precis som den här chatten! Jag bygger in AI-assistenter som svarar kunder, fångar leads och bokar möten dygnet runt. Det ingår i Premium-paketet.';
+  if(/boka|möte|kontakt|prata|ring/.test(q)) return 'Toppen! Scrolla ner till bokningsformuläret så hör jag av mig inom 24 timmar – helt kostnadsfritt och utan förpliktelser. 🚀';
+  if(/hej|tja|hallå|hello|hi/.test(q)) return 'Hej! Vad roligt att du hör av dig. Vill du veta mer om priser, leveranstid eller hur jag jobbar?';
+  return 'Bra fråga! Det enklaste är att boka ett gratis strategi-möte så går vi igenom just din situation. Scrolla ner till formuläret, så hör jag av mig inom 24 timmar. Vill du veta något om priser eller leveranstid under tiden?';
 }
 function chatEngine(bodyEl,chipsEl){
   function add(text,who){const m=document.createElement('div');m.className='msg '+who;m.textContent=text;bodyEl.appendChild(m);bodyEl.scrollTop=bodyEl.scrollHeight;return m;}
@@ -791,7 +791,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
         if(!r.ok) throw 0;
         modal.querySelector('.order-card').innerHTML='<div style="text-align:center;padding:34px 10px;"><div style="font-size:42px;margin-bottom:10px;">🎉</div><h3 style="font-size:24px;margin-bottom:8px;">Tack för din beställning!</h3><p style="color:var(--muted);">Vi hör av oss inom 24h med din 20%-bekräftelse.</p></div>';
         if(typeof burst==='function') burst();
-      }).catch(function(){ btn.textContent=orig; btn.disabled=false; alert('Något gick fel – mejla oss på info@aimstudios.se så ordnar vi det.'); });
+      }).catch(function(){ btn.textContent=orig; btn.disabled=false; alert('Något gick fel – mejla mig på info@aimstudios.se så ordnar jag det.'); });
     });
     form.querySelectorAll('input').forEach(function(f){ f.addEventListener('input',function(){ f.classList.remove('err'); }); });
   }
