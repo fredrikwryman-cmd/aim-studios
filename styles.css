@@ -595,6 +595,10 @@
   .price-card { padding: 32px 28px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); display: flex; flex-direction: column; position: relative; transition: transform .3s var(--ease); }
   .price-card:hover { transform: translateY(-6px); }
   .price-card.featured { border-color: rgba(79,70,229,0.6); background: linear-gradient(180deg, rgba(79,70,229,0.12), var(--bg-card)); box-shadow: var(--shadow-glow); }
+  /* Ljust tema: gradientens övre stopp måste vara SOLIDT. rgba(79,70,229,.12) är genomskinligt,
+     så sidbakgrunden lyste igenom kortets topp och tvättade ur rubrik och pris på det
+     rekommenderade kortet. #EAE9FC är exakt samma ton komponerad över kortytan. Mörkt tema orört. */
+  :root[data-theme="light"] .price-card.featured { background: linear-gradient(180deg, #EAE9FC, var(--bg-card)); }
   .pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg,var(--primary-soft),var(--primary)); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; white-space: nowrap; }
   .price-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .price-amount { font-family: 'Bebas Neue','Inter Tight',sans-serif; font-weight: 400; font-size: 44px; letter-spacing: .01em; }
