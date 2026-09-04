@@ -799,3 +799,29 @@ document.querySelectorAll('.iridescent').forEach(card=>{
 })();
 
 /* ---------- Navbar = raka <a>-länkar, ingen dropdown-JS (medvetet borttagen) ---------- */
+
+/* ---------- Löpande skötsel: prisväljare (Månadsvis / Kvartal / År) ---------- */
+(function(){
+  var sw=document.querySelector('.care-switch'); if(!sw) return;
+  var opts=[].slice.call(sw.querySelectorAll('.care-opt'));
+  var amts=[].slice.call(document.querySelectorAll('.care-amt'));
+  var saves=[].slice.call(document.querySelectorAll('.care-save'));
+  function set(term){
+    opts.forEach(function(b){
+      var on = b.getAttribute('data-term')===term;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    amts.forEach(function(el){
+      var v=el.getAttribute('data-'+term); if(v) el.textContent=v;
+    });
+    saves.forEach(function(el){
+      var t=el.getAttribute('data-'+term);
+      if(t){ el.textContent=t; el.hidden=false; } else { el.textContent=''; el.hidden=true; }
+    });
+  }
+  sw.addEventListener('click', function(e){
+    var b=e.target.closest('.care-opt'); if(b) set(b.getAttribute('data-term'));
+  });
+  set('m');
+})();

@@ -16,7 +16,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/bebasneue-latin.woff2" />
-<link rel="stylesheet" href="/styles.css?v=97" />
+<link rel="stylesheet" href="/styles.css?v=98" />
 <noscript><style>.reveal{opacity:1;transform:none}#preloader{display:none!important}</style></noscript>
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
@@ -149,7 +149,7 @@
         <ul class="final-bullets" style="margin-top:0;">
           <li style="align-items:flex-start;"><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> <span><b>Teknisk SEO</b> – snabb sida, ren kod och rätt struktur som Google belönar.</span></li>
           <li style="align-items:flex-start;"><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> <span><b>Innehåll som rankar</b> – texter byggda kring vad dina kunder faktiskt söker på.</span></li>
-          <li style="align-items:flex-start;"><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> <span><b>Lokal SEO</b> – syns när folk söker efter din tjänst på din ort.</span></li>
+          <li style="align-items:flex-start;"><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> <span><b>Lokal synlighet</b> – syns när folk söker efter din tjänst på din ort.</span></li>
           <li style="align-items:flex-start;"><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> <span><b>Mätbart</b> – du ser vad som händer, inga luddiga löften.</span></li>
         </ul>
       </div>
@@ -168,29 +168,82 @@
     </div>
   </section>
 
-  <section class="section-pad" id="lopande">
+  <!-- LÖPANDE SKÖTSEL – prisväljare styrs av .care-switch i scripts.js. Identiskt innehåll på startsidan och /seo/. -->
+  <section class="section-pad" id="skotsel">
     <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow"><span class="dot"></span> Löpande</span>
-        <h2>SEO som löpande tjänst</h2>
-        <p>Månadsabonnemang för dig som vill ha kontinuerligt arbete i stället för en engångsinsats.</p>
+      <div class="section-head center reveal">
+        <span class="eyebrow"><span class="dot"></span> Efter lansering</span>
+        <h2>Löpande skötsel</h2>
+        <p>En webbplats som ingen sköter står still. Öppettider blir fel, innehållet åldras, och det som var rätt i mars stämmer inte i september. Jag tar hand om det åt er — så att ni kan ägna er åt det ni faktiskt gör.</p>
       </div>
-      <div class="svc-card reveal text-block">
-        <ul class="pricelist">
-          <li>
-            <div class="pl-row"><span class="pl-name">Lokal SEO Bas</span><span class="pl-dots" aria-hidden="true"></span><span class="pl-price">2 995 kr/mån</span></div>
-            <span class="pl-note">Google Business-optimering · sökordsanalys · löpande on-page · månadsrapport.</span>
-          </li>
-          <li>
-            <div class="pl-row"><span class="pl-name">Lokal SEO Plus</span><span class="pl-dots" aria-hidden="true"></span><span class="pl-price">4 995 kr/mån</span></div>
-            <span class="pl-note">Allt i Bas + en optimerad innehållssida per månad · lokala landningssidor · konkurrensbevakning.</span>
-          </li>
-          <li>
-            <div class="pl-row"><span class="pl-name">SEO Pro</span><span class="pl-dots" aria-hidden="true"></span><span class="pl-price">8 995 kr/mån</span></div>
-            <span class="pl-note">Allt i Plus + två innehållssidor per månad · länkarbete · djupare teknisk optimering.</span>
-          </li>
+      <div class="care-switch-wrap reveal">
+        <div class="care-switch" role="group" aria-label="Välj betalningsperiod">
+          <button type="button" class="care-opt is-on" data-term="m" aria-pressed="true">Månadsvis</button>
+          <button type="button" class="care-opt" data-term="q" aria-pressed="false">Kvartal</button>
+          <button type="button" class="care-opt" data-term="y" aria-pressed="false">År</button>
+        </div>
+        <p class="care-vat">Priser per månad, exkl. moms.</p>
+      </div>
+      <div class="price-grid care-grid">
+        <div class="price-card reveal iridescent">
+          <div class="price-name">Trygg</div>
+          <div class="price-amount"><span class="care-amt" data-m="1 695" data-q="1 495" data-y="1 395">1 695</span><span class="kr"> kr/mån</span></div>
+          <p class="care-save" data-q="Ni sparar 2 400 kr per år" data-y="Ni sparar 3 600 kr per år" hidden></p>
+          <p class="price-desc">Sajten sköter sig själv.</p>
+          <ul class="price-feats">
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Drift, uppdateringar och säkerhet</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Säkerhetskopior, med återställning om något går fel</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Öppettider, helgdagar och kontaktuppgifter hålls aktuella på webbplatsen och Google-profilen</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Löpande småändringar — ny text, nya bilder, nya tider</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svarsassistenten hålls igång</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svar inom 2 arbetsdagar</li>
+          </ul>
+        </div>
+        <div class="price-card featured reveal iridescent">
+          <span class="pop">Rekommenderas</span>
+          <div class="price-name">Synlig</div>
+          <div class="price-amount"><span class="care-amt" data-m="3 395" data-q="2 995" data-y="2 795">3 395</span><span class="kr"> kr/mån</span></div>
+          <p class="care-save" data-q="Ni sparar 4 800 kr per år" data-y="Ni sparar 7 200 kr per år" hidden></p>
+          <p class="price-desc">Ni syns bättre för varje månad som går.</p>
+          <p class="care-inherit">Allt i Trygg, och dessutom:</p>
+          <ul class="price-feats">
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Löpande sökmotoroptimering — sidtitlar, beskrivningar och innehåll mot vad folk faktiskt söker på</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Uppmärkningen hålls levande när priser och tider ändras</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Webbplats, Google, Instagram, Facebook och kataloger hålls samstämmiga</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Nya recensioner bevakas och besvaras</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svarsassistenten utvecklas med nya frågor och svar</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Kvartalsrapport: vad som hänt och vad som föreslås härnäst</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Svar inom 1 arbetsdag</li>
+          </ul>
+        </div>
+        <div class="price-card reveal iridescent">
+          <div class="price-name">Aktiv</div>
+          <div class="price-amount"><span class="care-amt" data-m="6 795" data-q="5 995" data-y="5 595">6 795</span><span class="kr"> kr/mån</span></div>
+          <p class="care-save" data-q="Ni sparar 9 600 kr per år" data-y="Ni sparar 14 400 kr per år" hidden></p>
+          <p class="price-desc">Någon driver er närvaro framåt varje månad.</p>
+          <p class="care-inherit">Allt i Synlig, och dessutom:</p>
+          <ul class="price-feats">
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Nytt innehåll varje månad — sidor, texter, kampanjer och säsong</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Bildhantering och publicering</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Konkurrensbevakning</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Månadsrapport med siffror</li>
+            <li><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Prioriterad support, svar samma arbetsdag</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svc-card reveal text-block care-fine">
+        <h3 class="care-fine-h">Villkor</h3>
+        <ul>
+          <li>Kvartal och år betalas i förskott</li>
+          <li>Priset låses under hela avtalstiden</li>
+          <li>Minsta avtalstid tre månader</li>
+          <li>På kvartals- och årsavtal räknas arbetet per kvartal i stället för per månad — en lugn månad kan mata en intensiv</li>
+          <li>Uppsägning skriftligt, en månad före periodens slut</li>
+          <li>Prisjustering högst en gång per år, meddelas 60 dagar i förväg</li>
+          <li>Behöver ni mer än nivån rymmer säger jag till innan arbetet görs — inte efteråt</li>
+          <li>Webbplatsen tillhör er. Vid uppsägning överlämnas den komplett, färdig att drivas av vem ni vill. Ingen inlåsning.</li>
         </ul>
-        <p class="term-note">3 månaders minsta löptid — SEO ger resultat först efter 3–6 månader. Därefter månadsvis. Du får redovisat vilket arbete som utförts och hur mätvärdena rört sig.</p>
+        <p class="care-extra">Nya undersidor, omdesign, fotografering, annonsbudget, domän och webbhotell offereras separat, liksom ärenden där en tredje part styr takten. Timdebitering 850 kr/tim.</p>
       </div>
     </div>
   </section>
@@ -239,6 +292,7 @@
           <a href="/seo/">SEO</a>
           <a href="/ai-losningar/">AI-lösningar</a>
           <a href="/branding/">Branding</a>
+          <a href="/#skotsel">Löpande skötsel</a>
         </div>
         <div class="foot-col">
           <h3>Mer</h3>
@@ -298,7 +352,7 @@
 
 <canvas id="confetti" aria-hidden="true"></canvas>
 <div class="egg-toast" id="eggToast"></div>
-<script src="/unlock.js?v=97" defer></script>
-<script src="/scripts.js?v=97" defer></script>
+<script src="/unlock.js?v=98" defer></script>
+<script src="/scripts.js?v=98" defer></script>
 </body>
 </html>

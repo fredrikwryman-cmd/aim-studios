@@ -1200,3 +1200,26 @@
   .txt-s { font-size: 15px; line-height: 1.7; }
   .txt-m { font-size: 17px; line-height: 1.85; }
   .text-block { max-width: var(--text-max); }
+
+  /* ---- Löpande skötsel (prisväljare + kumulativa kort) ---- */
+  .care-switch-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0 0 34px; }
+  .care-switch { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 100px; background: var(--bg-card); }
+  .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: 100px; cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease); }
+  .care-opt:hover { color: var(--text); }
+  .care-opt.is-on { color: #fff; background: linear-gradient(180deg,var(--primary-soft),var(--primary)); }
+  .care-opt:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
+  .care-vat { margin: 0; color: var(--muted-dim); font-size: 13px; }
+  .care-save { margin: 8px 0 0; font-size: 14px; font-weight: 600; color: var(--light-indigo); }
+  .care-save[hidden] { display: none; }
+  .care-inherit { margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .01em; color: var(--text); }
+  .care-grid .price-desc { min-height: 0; margin-bottom: 18px; }
+  .care-grid .price-feats li { align-items: flex-start; line-height: 1.6; }
+  .care-grid .price-feats .check { flex: 0 0 20px; margin-top: 2px; }
+  .care-fine { margin-top: 30px; }
+  .care-fine-h { font-family: 'Inter Tight','Inter Tight Fallback',sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+  .care-fine ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .care-fine li { position: relative; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.75; }
+  .care-fine li::before { content: ''; position: absolute; left: 2px; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--line-strong); }
+  .care-extra { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.8; }
+  @media (max-width: 560px) { .care-switch { width: 100%; justify-content: center; } .care-opt { flex: 1 1 0; padding: 10px 8px; font-size: 13px; } }
+
