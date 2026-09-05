@@ -80,7 +80,31 @@ if(!reduce && !matchMedia('(pointer:coarse)').matches){
 /* ---------- Marquee dup ---------- */
 
 /* ---------- FAQ ---------- */
-document.querySelectorAll('.faq-q').forEach((btn,i)=>{const item=btn.parentElement;const ans=item.querySelector('.faq-a');if(ans&&!ans.id)ans.id='faq-a-'+i;btn.setAttribute('aria-expanded','false');if(ans)btn.setAttribute('aria-controls',ans.id);btn.addEventListener('click',()=>{const open=item.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));ans.style.maxHeight=open?ans.scrollHeight+'px':'0';});});
+/* <details>/<summary> gor svaren lasbara utan JavaScript. Skriptet lagger bara pa
+   den mjuka hojdanimationen ovanpa - hoppas over vid prefers-reduced-motion. */
+if(!reduce) document.querySelectorAll('.faq-item').forEach(item=>{
+  const sum=item.querySelector('.faq-q'), ans=item.querySelector('.faq-a');
+  if(!sum||!ans) return;
+  /* transitionend uteblir om overgangen inte kors alls (bakgrundsflik, transition
+     avstangd, noll varaktighet). Timern ser till att laget alltid stads upp. */
+  const done=cb=>{let fired=false;const run=()=>{if(fired)return;fired=true;clearTimeout(t);ans.removeEventListener('transitionend',h);cb();};
+    const h=ev=>{if(ev.propertyName==='max-height')run();};
+    const t=setTimeout(run,500);ans.addEventListener('transitionend',h);};
+  sum.addEventListener('click',e=>{
+    e.preventDefault();
+    if(item.open){
+      item.classList.add('faq-closing');
+      ans.style.maxHeight=ans.scrollHeight+'px';
+      void ans.offsetHeight; ans.style.maxHeight='0px';
+      done(()=>{item.open=false;item.classList.remove('faq-closing');ans.style.maxHeight='';});
+    }else{
+      item.open=true;
+      ans.style.maxHeight='0px';
+      void ans.offsetHeight; ans.style.maxHeight=ans.scrollHeight+'px';
+      done(()=>{ans.style.maxHeight='';});
+    }
+  });
+});
 
 /* ---------- Before/After ---------- */
 (function(){const ba=document.getElementById('ba'),before=document.getElementById('baBefore'),handle=document.getElementById('baHandle');if(!ba)return;let drag=false;function set(x){const r=ba.getBoundingClientRect();let p=((x-r.left)/r.width)*100;p=Math.max(2,Math.min(98,p));before.style.clipPath=`inset(0 ${100-p}% 0 0)`;handle.style.left=p+'%';}ba.addEventListener('mousedown',e=>{drag=true;set(e.clientX);});addEventListener('mousemove',e=>drag&&set(e.clientX));addEventListener('mouseup',()=>drag=false);ba.addEventListener('touchstart',e=>{drag=true;set(e.touches[0].clientX);},{passive:true});addEventListener('touchmove',e=>{if(drag)set(e.touches[0].clientX);},{passive:true});addEventListener('touchend',()=>drag=false);})();
