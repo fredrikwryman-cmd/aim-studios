@@ -241,11 +241,11 @@
   .cursor-dot { width: 7px; height: 7px; background: var(--accent); }
   .cursor-ring { width: 48px; height: 48px; border: 2px solid rgba(99,102,241,0.9); box-shadow: 0 0 20px rgba(99,102,241,0.4), inset 0 0 12px rgba(99,102,241,0.15); transition: width .25s var(--ease), height .25s var(--ease), background .25s, border-color .25s, box-shadow .25s; }
   .cursor-ring.hot { width: 78px; height: 78px; background: rgba(99,102,241,0.14); border-color: rgba(129,140,248,1); box-shadow: 0 0 32px rgba(99,102,241,0.55), inset 0 0 16px rgba(99,102,241,0.2); }
-  body.has-cursor .magnetic { transition: box-shadow .25s var(--ease), background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease) !important; will-change: transform; }
+  body.has-cursor .magnetic { transition: box-shadow .25s var(--ease), background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), scale .16s var(--ease) !important; will-change: transform; }
   @media (max-width: 900px) { .cursor-dot, .cursor-ring { display: none; } body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: auto; } }
 
   /* buttons */
-  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-family: 'Inter Tight'; font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s; white-space: nowrap; }
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-family: 'Inter Tight'; font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s, scale .16s var(--ease); white-space: nowrap; }
   .btn-primary { background: linear-gradient(180deg, var(--primary-soft), var(--primary)); color: #fff; box-shadow: 0 10px 30px -8px rgba(79,70,229,0.6); }
   .btn-primary:hover { box-shadow: 0 16px 44px -10px rgba(79,70,229,0.8); }
   .btn-secondary { background: var(--glass); color: var(--text); border-color: var(--line-strong); }
@@ -290,12 +290,12 @@
   @keyframes aiBadgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); } 50% { box-shadow: 0 0 0 6px rgba(99,102,241,0); } }
 
   .nav-right { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
-  .theme-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; opacity: 0.5; transition: opacity .25s var(--ease), border-color .2s, transform .35s var(--ease); }
+  .theme-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; opacity: 0.5; transition: opacity .25s var(--ease), border-color .2s, transform .35s var(--ease), scale .16s var(--ease); }
   .theme-toggle:hover { border-color: rgba(120,120,160,0.5); transform: rotate(18deg); opacity: 1; }
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
 
-  .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, #818CF8, var(--primary)); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease); }
+  .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, #818CF8, var(--primary)); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
   .nav-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 14px 34px -10px rgba(79,70,229,0.85), 0 0 20px -4px rgba(99,102,241,0.5), 0 0 0 1px rgba(129,140,248,0.5); }
   .btn-arrow { display: inline-block; transition: transform .25s var(--ease); }
   .nav-cta:hover .btn-arrow { transform: translateX(4px); }
@@ -1183,7 +1183,7 @@
   /* ---- Löpande skötsel (prisväljare + kumulativa kort) ---- */
   .care-switch-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0 0 34px; }
   .care-switch { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 100px; background: var(--bg-card); }
-  .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: 100px; cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease); }
+  .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: 100px; cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease), scale .16s var(--ease); }
   .care-opt:hover { color: var(--text); }
   .care-opt.is-on { color: #fff; background: linear-gradient(180deg,var(--primary-soft),var(--primary)); }
   .care-opt:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
@@ -1202,3 +1202,19 @@
   .care-extra { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.8; }
   @media (max-width: 560px) { .care-switch { width: 100%; justify-content: center; } .care-opt { flex: 1 1 0; padding: 10px 8px; font-size: 13px; } }
 
+
+  /* ---------- Tryckrespons ---------- */
+  /* Egenskapen `scale` anvands medvetet i stallet for transform: den magnetiska
+     musloopen (scripts.js) skriver inline transform pa .magnetic varje bildruta
+     och skulle ata upp en transform-baserad nedskalning. `scale` ar en egen
+     egenskap och komponeras ihop med den inline-satta transformen. */
+  .btn:active,
+  .nav-cta:active,
+  .care-opt:active,
+  .switch-tab:active,
+  .form-submit:active { scale: 0.97; }
+
+  .theme-toggle:active,
+  .social-icon:active,
+  .terminal-send:active,
+  .pkg-close:active { scale: 0.95; }
