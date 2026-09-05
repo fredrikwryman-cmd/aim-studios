@@ -1,6 +1,8 @@
 # 002 — Återställ intoningen på tjänstekorten
 
-- **Status**: TODO
+- **Status**: DONE — genomford 2026-09-06 i commit `7083811`, `?v=103`.
+  Uppmatt: tjanstekortets full opacitet 0 ms -> 567 ms (jamforelserubrik 566 ms),
+  hover-lyftet oforandrat 0,3 s.
 - **Commit**: a2052b5
 - **Severity**: HIGH
 - **Category**: 7. Kohesion & tokens (regelkrock som ger visuell bugg)

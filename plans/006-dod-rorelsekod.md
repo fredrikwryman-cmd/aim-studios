@@ -1,6 +1,8 @@
 # 006 — Städa bort död rörelsekod (fynd 7)
 
-- **Status**: TODO
+- **Status**: DONE — genomford 2026-09-06 i commit `fd28b4c`, `?v=104`.
+  Del C utfordes redan i plan 001. styles.css 1 241 -> 1 197 rader,
+  scripts.js -37 rader. Rubrikens hojd oforandrad 177 px, 5 svc-ikoner kvar.
 - **Commit**: a2052b5
 - **Severity**: MEDIUM
 - **Category**: 7. Kohesion & tokens

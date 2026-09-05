@@ -1,6 +1,8 @@
 # 001 — Ta bort preloadern och skrivmaskinen, ge rubriken en kort intoning
 
-- **Status**: TODO
+- **Status**: DONE — genomford 2026-09-06 i commit `10ce157`, `?v=102`.
+  Uppmatt: tid till synligt innehall 1 969 ms -> 0 ms (ingen overlagring kvar),
+  rubriken lasbar 4 003 ms -> forsta bildrutan, LCP 2 124 ms -> 584 ms.
 - **Commit**: a2052b5
 - **Severity**: HIGH
 - **Category**: 1. Syfte & frekvens
