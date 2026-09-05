@@ -698,11 +698,19 @@
   .form-fine a:hover, .form-fine a:focus-visible { color: var(--text); }
   .form-fine a:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 3px; border-radius: 3px; }
   .form-success { display: none; text-align: center; padding: 30px 10px; }
-  .form-success.show { display: block; }
+  .form-success.show { display: block; animation: successIn .34s var(--ease); }
   .form-success .tick { width: 56px; height: 56px; border-radius: 50%; background: rgba(99,102,241,0.15); display: grid; place-items: center; margin: 0 auto 16px; }
   .form-success .tick svg { width: 28px; height: 28px; stroke: var(--accent); }
   .form-success h3 { font-size: 20px; margin-bottom: 8px; }
   .form-success p { color: var(--muted); font-size: 15px; }
+  /* Skickat-laget bytte tidigare panel i en enda bildruta. Kvittot tonar nu upp
+     medan kortet krymper (hojden animeras i scripts.js), och bocken ritas.
+     23 = polylinens langd i viewBox-enheter: sqrt(11^2+11^2) + sqrt(5^2+5^2) = 22,63. */
+  @keyframes successIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+  .form-success.show .tick { animation: tickPop .32s var(--ease) .04s backwards; }
+  @keyframes tickPop { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: none; } }
+  .form-success.show .tick polyline { stroke-dasharray: 23; stroke-dashoffset: 23; animation: tickDraw .42s var(--ease) .18s forwards; }
+  @keyframes tickDraw { to { stroke-dashoffset: 0; } }
   .err { border-color: #ef4444 !important; }
   .form-error { display: none; text-align: center; font-size: 13px; color: #ef4444; margin-top: 10px; }
   .form-error.show { display: block; }

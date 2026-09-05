@@ -336,7 +336,27 @@ if(form){
     try{
       const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
       if(!res.ok) throw new Error('submit failed');
-      form.style.display='none'; document.getElementById('formSuccess').classList.add('show'); burst();
+      /* height animeras medvetet: kortet kollapsar ~260 px och en teleport har ar varre
+         an en layout-animation som kors en gang per besok i basta fall. */
+      const kort=form.closest('.form-card');
+      const h0=kort.getBoundingClientRect().height;
+      form.style.display='none';
+      document.getElementById('formSuccess').classList.add('show');
+      const h1=kort.getBoundingClientRect().height;
+      if(!reduce && Math.abs(h1-h0)>8){
+        kort.style.overflow='hidden';
+        kort.style.height=h0+'px';
+        void kort.offsetHeight;
+        kort.style.transition='height .42s var(--ease)';
+        kort.style.height=h1+'px';
+        setTimeout(function(){ kort.style.height=''; kort.style.transition=''; kort.style.overflow=''; }, 480);
+      }
+      burst();
+      /* kollen gors NAR hojden lagt sig, annars mats den gamla hojden */
+      setTimeout(function(){
+        var r=kort.getBoundingClientRect();
+        if(r.top<0 || r.bottom>innerHeight) kort.scrollIntoView({block:'center', behavior: reduce ? 'auto' : 'smooth'});
+      }, reduce ? 0 : 500);
     }catch(_){
       btn.textContent=orig; btn.style.opacity=''; btn.disabled=false; if(err)err.classList.add('show');
     }
