@@ -784,13 +784,6 @@
     .logo { font-size: 17px; }
   }
 
-  /* preloader */
-  #preloader { position: fixed; inset: 0; z-index: 100000; background: var(--bg); display: grid; place-items: center; transition: transform .7s var(--ease), opacity .5s ease; }
-  #preloader.done { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-  #preloader svg { filter: drop-shadow(0 0 26px rgba(79,70,229,.6)); }
-  #preloader .pl-p { stroke-dasharray: 210; stroke-dashoffset: 210; animation: plDraw 0.5s var(--ease) forwards; }
-  #preloader .pl-p:nth-child(2) { animation-delay: .2s; }
-  @keyframes plDraw { to { stroke-dashoffset: 0; } }
   /* namn-generator */
   .biz-name { margin-top: 14px; width: 100%; max-width: 360px; background: var(--bg-card); border: 1px solid var(--line-strong); color: var(--text); border-radius: 12px; padding: 13px 16px; font-family: inherit; font-size: 15px; transition: border-color .2s, box-shadow .2s; }
   .biz-name:focus { outline: none; border-color: var(--primary-soft); box-shadow: 0 0 0 3px rgba(79,70,229,.2); }
@@ -831,18 +824,12 @@
   @keyframes sheenRotate { to { --ang: 360deg; } }
 
   /* Kinetic hero (rubrik faller på plats) */
-  .kinetic-hero { perspective: 800px; }
-  .k-line { display: block; opacity: 0; transform: translateY(-60px) rotateX(-40deg); transform-origin: center bottom; animation: kineticDrop 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-  .k-line:nth-child(1) { animation-delay: 0.2s; }
-  .k-line:nth-child(2) { animation-delay: 0.4s; }
-  .k-line:nth-child(3) { animation-delay: 0.6s; }
-  .kinetic-hero.typed .k-line { opacity: 1; transform: none; animation: none; filter: none; }
-  .kinetic-hero.typed .tc { visibility: hidden; position: relative; }
-  .kinetic-hero.typed .tc.on { visibility: visible; }
-  .kinetic-hero.typed .hl, .kinetic-hero.typed .hl .tc { color: #8b8bff; -webkit-text-fill-color: #8b8bff; background: none; }
-  .kinetic-hero.typed .tc.cursor::after { content: ''; position: absolute; right: -0.06em; top: 10%; height: 80%; width: 3px; background: #8b8bff; border-radius: 2px; box-shadow: 0 0 10px rgba(139,139,255,0.8); animation: caretBlink 1.05s steps(1) infinite; }
-  @keyframes caretBlink { 50% { opacity: 0; } }
-  @keyframes kineticDrop { 0% { opacity: 0; transform: translateY(-60px) rotateX(-40deg) scale(0.8); filter: blur(8px); } 60% { opacity: 1; transform: translateY(4px) rotateX(2deg) scale(1.02); filter: blur(0); } 100% { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0); } }
+  /* Rubriken star fardigskriven i markup fran forsta bildrutan. Intoningen foljer
+     bara med - ingen fordrojning, ingen fill-mode (den skulle lasa transform och
+     blockera den musdrivna 3D-lutningen i scripts.js). */
+  .kinetic-hero { perspective: 800px; animation: heroIn .4s var(--ease); }
+  .k-line { display: block; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
   /* Ambient grid (mus-följande punkt-grid) */
   .ambient-grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -851,7 +838,6 @@
   body.neon .ambient-grid::before { background-image: radial-gradient(circle, rgba(168,85,247,0.2) 1px, transparent 1px); }
 
   @media (prefers-reduced-motion: reduce) {
-    .k-line { opacity: 1; transform: none; animation: none; filter: none; }
     .iridescent:hover::after { animation: none; }
   }
 

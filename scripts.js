@@ -1,13 +1,5 @@
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Preloader ---------- */
-(function(){
-  const pre=document.getElementById('preloader'); if(!pre) return;
-  if(reduce){ pre.remove(); return; }
-  document.documentElement.style.overflow='hidden';
-  setTimeout(()=>{ pre.classList.add('done'); document.documentElement.style.overflow=''; setTimeout(()=>pre.remove(),800); }, 850);
-})();
-
 /* ---------- Scroll progress + header ---------- */
 const header = document.getElementById('header'), progress = document.getElementById('progress');
 function onScroll(){
@@ -305,43 +297,6 @@ if(fabClose){ fabClose.addEventListener('click',e=>{ e.stopPropagation(); fabPan
 
 /* (scroll-spy, tema & mobilmeny hanteras nu i Navbar v2-IIFE högre upp) */
 
-
-/* ---------- Hero typewriter (per-tecken, layout alltid reserverad) ---------- */
-(function(){
-  const h1=document.querySelector('.hero h1.kinetic-hero');
-  if(!h1) return;
-  const LINES=[
-    [{t:'Hemsidor som får'}],
-    [{t:'fler kunder att'}],
-    [{t:'välja dig',hl:true}]
-  ];
-  function charSpans(txt){
-    let s='';
-    for(const ch of txt){ s+=`<span class="tc">${ch===' '?'&nbsp;':ch}</span>`; }
-    return s;
-  }
-  // Hela texten ligger i DOM:en (höjd reserverad), tecknen döljs och tänds ett i taget
-  h1.innerHTML=LINES.map(line=>{
-    const inner=line.map(seg=>{
-      const cs=charSpans(seg.t);
-      return seg.hl?`<span class="hl">${cs}</span>`:cs;
-    }).join('');
-    return `<span class="k-line">${inner}</span>`;
-  }).join('');
-  h1.classList.add('typed');
-  const chars=[...h1.querySelectorAll('.tc')];
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ chars.forEach(c=>c.classList.add('on')); return; }
-  let i=0;
-  function step(){
-    if(i>0) chars[i-1].classList.remove('cursor');
-    if(i>=chars.length){ const last=chars[chars.length-1]; if(last){last.classList.add('on','cursor');} return; }
-    const c=chars[i]; c.classList.add('on','cursor');
-    const space=c.textContent==='\u00a0';
-    i++;
-    setTimeout(step, space?70:44+Math.random()*52);
-  }
-  setTimeout(step,400);
-})();
 
 /* ---------- Pinned horizontal cases (längre + cover-flow) ---------- */
 (function(){
