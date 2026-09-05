@@ -1,4 +1,4 @@
 # GitHub Pages bygger den har sajten med Jekyll (ingen .nojekyll finns).
 # Allt som listas har utesluts ur den publicerade sajten - interna
 # arbetsfiler ska inte ligga oppet pa aimstudios.se.
-exclude: [CLAUDE.md, tools/, README.md]
+exclude: [CLAUDE.md, tools/, README.md, plans/]
