@@ -1,6 +1,8 @@
 # 005 — Stäng av hover-rörelse på pekskärm
 
-- **Status**: TODO
+- **Status**: DONE - genomford 2026-09-06 i commit `e6b54c9`, `?v=107`.
+  Uppmatt: 12 av 15 rorelse-hover-selektorer nollstallda under
+  @media (hover: none), (pointer: coarse). EJ reproducerat pa riktig telefon.
 - **Commit**: a2052b5
 - **Severity**: MEDIUM
 - **Category**: 6. Tillgänglighet

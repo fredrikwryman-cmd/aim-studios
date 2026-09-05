@@ -2,7 +2,7 @@
 
 Planer framtagna av skillen `improve-animations` efter en granskning av hela
 kodbasens rörelse, verifierad i Chrome via Playwright mot den publicerade sajten.
-**001, 002 och 006 är genomförda och driftsatta 2026-09-06. 003, 004 och 005 väntar på nästa pass.**
+**Samtliga sex planer är genomförda och driftsatta 2026-09-06.**
 
 Alla planer är stämplade med commit `a2052b5`.
 
@@ -12,9 +12,9 @@ Alla planer är stämplade med commit `a2052b5`.
 |---|---|---|---|---|---|
 | [001](001-ta-bort-preloadern.md) | Ta bort preloadern och skrivmaskinen, ge rubriken en kort intoning | 1 | HÖG | `index.html`, `styles.css`, `scripts.js` | **DONE** `10ce157` |
 | [002](002-tjanstekortens-intoning.md) | Återställ intoningen på tjänstekorten | 2 | HÖG | `styles.css` | **DONE** `7083811` |
-| [003](003-skickat-laget.md) | Ge formulärets skickat-läge en övergång | 3 | MELLAN-HÖG | `styles.css`, `scripts.js` | TODO |
-| [004](004-tryckrespons.md) | Ge knapparna tryckrespons | 4 | MELLAN | `styles.css` | TODO |
-| [005](005-hover-pa-pekskarm.md) | Stäng av hover-rörelse på pekskärm | 5 | MELLAN | `styles.css` | TODO |
+| [003](003-skickat-laget.md) | Ge formulärets skickat-läge en övergång | 3 | MELLAN-HÖG | `styles.css`, `scripts.js` | **DONE** `a85a927` |
+| [004](004-tryckrespons.md) | Ge knapparna tryckrespons | 4 | MELLAN | `styles.css` | **DONE** `aac9bcc` |
+| [005](005-hover-pa-pekskarm.md) | Stäng av hover-rörelse på pekskärm | 5 | MELLAN | `styles.css` | **DONE** `e6b54c9` |
 | [006](006-dod-rorelsekod.md) | Städa bort död rörelsekod | 7 | MELLAN | `styles.css`, `scripts.js` | **DONE** `fd28b4c` |
 
 Fynd 6 och 8–12 ur granskningen (24 oändliga animationer, `transition: all`,
@@ -25,8 +25,7 @@ eller — som FAQ:n — mekaniskt korrekta redan i dag.
 ## Rekommenderad ordning
 
 ```
-001  →  002  →  006      (genomforda 2026-09-06)
-003  →  004  →  005      (nasta pass)
+001  →  002  →  006  →  003  →  004  →  005      (alla genomforda 2026-09-06)
 ```
 
 **Skälet till ordningen:** 001 och 002 är de två med störst effekt och minst risk
@@ -53,7 +52,7 @@ har körts först.
 - **Cachebrytaren.** Varje plan avslutas med en `?v`-bumpning. Körs flera planer i
   ett svep: **bumpa en gång, sist.** Värdet måste vara identiskt på `styles.css`,
   `scripts.js` och `unlock.js` på alla åtta sidor plus `404.html`. Vid skrivande
-  stund `?v=104` (101 -> 102 -> 103 -> 104 under passet 2026-09-06).
+  stund `?v=107` (101 -> 107 over sex driftsattningar 2026-09-06).
 - **Formuläret får aldrig skickas i test.** Både `#bookForm` och `#orderForm`
   postar till en riktig inkorg via Formspree. Plan 003 innehåller ett mätskript
   som utlöser skickat-läget utan nätverksanrop — använd det.

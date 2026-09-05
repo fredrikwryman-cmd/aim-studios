@@ -1,6 +1,8 @@
 # 003 — Ge formulärets skickat-läge en övergång
 
-- **Status**: TODO
+- **Status**: DONE - genomford 2026-09-06 i commit `a85a927`, `?v=105`.
+  Uppmatt (scrubbat, se rapport): kortets hojd 528 -> 267 px over 420 ms i stallet
+  for en bildruta, kvittot 0 -> 0,995 opacitet vid 240 ms, bocken ritas 180-600 ms.
 - **Commit**: a2052b5
 - **Severity**: MEDIUM-HÖG
 - **Category**: 8. Missade tillfällen + 1. Syfte & frekvens

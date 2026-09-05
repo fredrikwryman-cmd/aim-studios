@@ -1,6 +1,8 @@
 # 004 — Ge knapparna tryckrespons
 
-- **Status**: TODO
+- **Status**: DONE - genomford 2026-09-06 i commit `aac9bcc`, `?v=106`.
+  Uppmatt: 0 -> 2 :active-regler (9 selektorer), `scale` i fem transition-listor.
+  Magnetisk CTA 261,51 -> 253,67 px (kvot 0,9700), temaknapp 40 -> 38 px (0,9500).
 - **Commit**: a2052b5
 - **Severity**: MEDIUM
 - **Category**: 3. Fysikalitet & origo
