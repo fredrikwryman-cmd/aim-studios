@@ -726,7 +726,14 @@
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 460px) { .form-row { grid-template-columns: 1fr; } }
   .form-submit { width: 100%; margin-top: 6px; }
-  .form-fine { text-align: center; font-size: 12px; color: var(--muted-dim); margin-top: 18px; }
+  /* --muted-dim gav 2.77:1 mot formularkortets ljusa botten - for lagt for en
+     text som barer den rattsliga grunden. --muted ger 6.74:1 ljust / 8.00:1 morkt. */
+  .form-fine { text-align: center; font-size: 12px; color: var(--muted); margin: 18px 0 4px; line-height: 1.5; }
+  /* Global a-regel ar color:inherit + ingen understrykning, sa lanken maste markeras
+     har. Den arver textfargen och far samma kontrast som texten omkring. */
+  .form-fine a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .form-fine a:hover, .form-fine a:focus-visible { color: var(--text); }
+  .form-fine a:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 3px; border-radius: 3px; }
   .form-success { display: none; text-align: center; padding: 30px 10px; }
   .form-success.show { display: block; }
   .form-success .tick { width: 56px; height: 56px; border-radius: 50%; background: rgba(99,102,241,0.15); display: grid; place-items: center; margin: 0 auto 16px; }
