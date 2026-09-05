@@ -1218,3 +1218,24 @@
   .social-icon:active,
   .terminal-send:active,
   .pkg-close:active { scale: 0.95; }
+
+  /* ---------- Pekskarm: ingen hover-rorelse ---------- */
+  /* :hover triggas av tryck pa pekskarm och sitter kvar tills nagot annat trycks,
+     sa ett kort blir liggande upplyft utan att vara valt. Fargen och skuggan far
+     vara kvar - de laser som ett svar pa trycket. Bara forflyttningen tas bort.
+     Problemkorten flippas automatiskt pa grova pekare (scripts.js), darfor
+     :not(.flipped) - autoflippen far inte nollstallas. */
+  @media (hover: none), (pointer: coarse) {
+    .btn:hover .btn-arrow,
+    .nav-cta:hover .btn-arrow,
+    .theme-toggle:hover,
+    .nav-cta:hover,
+    .logo-item:hover,
+    .price-card:hover,
+    .pkg-close:hover,
+    .foot-col a:hover,
+    .social-icon:hover,
+    .svc-card:hover,
+    a.case-card:hover { transform: none; }
+    .problem-card:hover:not(.flipped) .problem-inner { transform: none; }
+  }
