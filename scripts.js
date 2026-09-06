@@ -6,6 +6,8 @@ function onScroll(){
   const h = document.documentElement;
   const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
   progress.style.width = (p*100)+'%';
+  /* menyn blir ogenomskinlig sa fort sidan lamnat toppen */
+  header.classList.toggle('is-solid', h.scrollTop > 8);
 }
 window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 

@@ -267,6 +267,18 @@
     height: var(--nav-h); max-width: 100%; margin: 0; padding: 0 32px;
     border: 1px solid transparent; border-top: none; border-radius: 0; background: transparent; /* p6: transparent -> ingen ljus harlinje mot mork bg */
     opacity: 1; transform: none; animation: navDropIn .8s var(--ease) .15s backwards; /* backwards, INTE both: ingen kvarvarande transform pa .nav -> backdrop-filter + sticky forblir intakta */
+    transition: background .25s var(--ease), border-color .25s var(--ease), backdrop-filter .25s var(--ease), -webkit-backdrop-filter .25s var(--ease);
+  }
+  /* Menyn far vara genomskinlig i toppen - hjaltesektionen bakom ar avsiktlig -
+     men sa fort sidan lamnat toppen lyser innehallet rakt igenom menyalternativen.
+     Bakgrunden tas ur temat sa att den foljer bade morkt och ljust lage.
+     border-bottom-color, inte border-width: .nav har redan 1px genomskinlig
+     bottenkant, sa fargbytet ar layoutneutralt. */
+  header.is-solid .nav {
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+    border-bottom-color: var(--line);
   }
   @keyframes navDropIn { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
 
