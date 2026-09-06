@@ -681,7 +681,13 @@
   .ai-badge-demo { font-size: 11px; color: var(--muted-dim); font-family: 'JetBrains Mono', monospace; }
 
   /* floating chat widget */
-  .fab-panel { position: fixed; bottom: 96px; right: 24px; z-index: 9990; width: 350px; max-width: calc(100vw - 32px); border: 1px solid var(--line-strong); border-radius: 20px; background: var(--bg-card); box-shadow: var(--shadow); overflow: hidden; transform: translateY(16px) scale(.96); opacity: 0; pointer-events: none; transition: all .3s var(--ease); }
+  .fab-panel { position: fixed; bottom: 96px; right: 24px; z-index: 9990; width: 350px; max-width: calc(100vw - 32px); border: 1px solid var(--line-strong); border-radius: 20px; background: var(--bg-card); box-shadow: var(--shadow); overflow: hidden; transform: translateY(16px) scale(.96); opacity: 0; pointer-events: none;
+    /* Panelen vaxer ur orben som oppnade den, inte ur sin egen mitt.
+       Orben sitter i nedre hogra hornet, darav bottom right.
+       transition: all animerade aven box-shadow och border - nu bara de
+       tva egenskaper som faktiskt ror sig. */
+    transform-origin: bottom right;
+    transition: transform .3s var(--ease), opacity .3s var(--ease); }
   .fab-panel.open { transform: none; opacity: 1; pointer-events: auto; }
   .fab-panel .chat-body { height: 300px; }
 
