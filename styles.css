@@ -1252,6 +1252,17 @@
   .care-vat { margin: 0; color: var(--muted-dim); font-size: 13px; }
   .care-save { margin: 8px 0 0; font-size: 14px; font-weight: 600; color: var(--light-indigo); }
   .care-save[hidden] { display: none; }
+  /* Prisvaljaren: siffran byts ut och in i stallet for att teleportera.
+     Bara opacity och transform pa siffran - ingen layoutpaverkan.
+     Asymmetriskt: 120 ms ut, 160 ms in, sa det nya vardet far lite mer tid. */
+  .care-amt { display: inline-block; transition: opacity .16s var(--ease), transform .16s var(--ease); }
+  .care-amt.is-out { opacity: 0; transform: translateY(-6px); transition-duration: .12s; }
+  /* Sparraden falls in och ut i stallet for att slas av med hidden.
+     hidden satts forst nar den fallts ihop, sa raden forsvinner ur
+     tillganglighetstradet men hinner animeras dit. */
+  .care-save { overflow: hidden; max-height: 3em;
+               transition: opacity .2s var(--ease), max-height .2s var(--ease), margin-top .2s var(--ease); }
+  .care-save.is-collapsed { opacity: 0; max-height: 0; margin-top: 0; }
   .care-inherit { margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .01em; color: var(--text); }
   .care-grid .price-desc { min-height: 0; margin-bottom: 18px; }
   .care-grid .price-feats li { align-items: flex-start; line-height: 1.6; }

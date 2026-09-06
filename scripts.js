@@ -745,24 +745,43 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   var opts=[].slice.call(sw.querySelectorAll('.care-opt'));
   var amts=[].slice.call(document.querySelectorAll('.care-amt'));
   var saves=[].slice.call(document.querySelectorAll('.care-save'));
-  function set(term){
+  function set(term, direkt){
     opts.forEach(function(b){
       var on = b.getAttribute('data-term')===term;
       b.classList.toggle('is-on', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     amts.forEach(function(el){
-      var v=el.getAttribute('data-'+term); if(v) el.textContent=v;
+      var v=el.getAttribute('data-'+term); if(v) bytSiffra(el, v, direkt);
     });
-    saves.forEach(function(el){
-      var t=el.getAttribute('data-'+term);
-      if(t){ el.textContent=t; el.hidden=false; } else { el.textContent=''; el.hidden=true; }
-    });
+    saves.forEach(function(el){ bytSpar(el, el.getAttribute('data-'+term), direkt); });
+  }
+  /* Siffran tonas ut, byts, tonas in. Avbrytbar: en ny klickning nollstaller
+     timern sa vardet aldrig hinner skrivas av ett gammalt anrop. */
+  function bytSiffra(el, v, direkt){
+    if(direkt || reduce){ clearTimeout(el._t); el.classList.remove('is-out'); el.textContent=v; return; }
+    if(el.textContent===v) return;
+    clearTimeout(el._t);
+    el.classList.add('is-out');
+    el._t=setTimeout(function(){ el.textContent=v; el.classList.remove('is-out'); }, 120);
+  }
+  function bytSpar(el, t, direkt){
+    clearTimeout(el._t);
+    if(t){
+      el.textContent=t; el.hidden=false;
+      if(direkt || reduce){ el.classList.remove('is-collapsed'); return; }
+      el.classList.add('is-collapsed'); void el.offsetHeight;
+      el.classList.remove('is-collapsed');
+    } else {
+      if(direkt || reduce){ el.classList.add('is-collapsed'); el.hidden=true; el.textContent=''; return; }
+      el.classList.add('is-collapsed');
+      el._t=setTimeout(function(){ el.hidden=true; el.textContent=''; }, 220);
+    }
   }
   sw.addEventListener('click', function(e){
     var b=e.target.closest('.care-opt'); if(b) set(b.getAttribute('data-term'));
   });
-  set('m');
+  set('m', true);   /* utgangslaget ritas utan animation */
 })();
 
 /* ---------- Vy-gatade oandliga loopar ---------- */
