@@ -69,7 +69,6 @@ if(!reduce && !matchMedia('(pointer:coarse)').matches){
   if(ht||hh){addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-0.5);const y=(e.clientY/innerHeight-0.5);if(ht)ht.style.transform=`rotateY(${-8 - x*5}deg) rotateX(${4 + y*5}deg)`;if(hh)hh.style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`;});}
 }
 
-/* ---------- Marquee dup ---------- */
 
 /* ---------- FAQ ---------- */
 /* <details>/<summary> gor svaren lasbara utan JavaScript. Skriptet lagger bara pa
