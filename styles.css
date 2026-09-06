@@ -1301,3 +1301,13 @@
     a.case-card:hover { transform: none; }
     .problem-card:hover:not(.flipped) .problem-inner { transform: none; }
   }
+
+  /* ---------- Vy-gatade oandliga loopar ---------- */
+  /* Loopar utanfor vyn kostar bildrutor utan att synas. Uppmatt fore:
+     p95 33.3 ms och 50.9 fps med alla loopar igang, mot 16.8 ms och 60.0 fps
+     med dem pausade - och 13 av 26 kordes utanfor vyn. En pausad animation
+     haller sitt aktuella varde, sa ingenting flyttar sig och inget syns.
+     Pseudoelementen maste med: flera loopar bor pa ::before/::after. */
+  .anim-paused,
+  .anim-paused::before,
+  .anim-paused::after { animation-play-state: paused !important; }

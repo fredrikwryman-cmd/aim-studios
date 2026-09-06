@@ -788,3 +788,21 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   });
   set('m');
 })();
+
+/* ---------- Vy-gatade oandliga loopar ---------- */
+/* Pausar loopar som ligger utanfor vyn. Rent prestandagrepp: en pausad
+   animation haller sitt varde, sa ingenting syns eller flyttar sig.
+   Klassen satts bara av observatoren - inget forpausas vid start, sa
+   inget kan fastna i ett halvt tillstand om IO saknas. */
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var SEL = 'h2, .logo-text, .status-dot, .ai-badge, .chart-card, .pulse, .marquee-track,'
+          + ' .logo-item .glyph, .typing span, .ai-scan-line, .station .orb-ring, .particle,'
+          + ' .boot-cursor, .footer-glow-line, .promo-vp, .promo-sticker';
+  var noder = document.querySelectorAll(SEL);
+  if(!noder.length) return;
+  var io = new IntersectionObserver(function(poster){
+    poster.forEach(function(p){ p.target.classList.toggle('anim-paused', !p.isIntersecting); });
+  }, { rootMargin: '200px 0px' });
+  noder.forEach(function(n){ io.observe(n); });
+})();
