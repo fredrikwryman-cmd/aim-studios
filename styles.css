@@ -376,7 +376,9 @@
 
   /* ===== Subsida: enkel innehålls-rubrik ===== */
 
-  .section-pad { padding: 110px 0; }
+  /* 110px pa bada sidor gav 220 px mellan angransande avsnitt - narmast helsvarta
+     skarmar vid overgangarna. 64px ar samma varde som mobilregeln redan anvander. */
+  .section-pad { padding: 64px 0; }
   .section-head { max-width: 680px; margin-bottom: 56px; }
   .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
   /* R1: undersidornas H1 saknade regel och foll pa webblasarens 2em = 32px,
@@ -682,7 +684,7 @@
   .faq-a p { padding: 0 0 22px; color: var(--muted); font-size: 16px; }
 
   /* final + form */
-  .final { padding: 110px 0; }
+  .final { padding: 64px 0; }
   .final-card { position: relative; overflow: hidden; border-radius: 28px; border: 1px solid var(--line-strong); background: linear-gradient(160deg, rgba(79,70,229,0.16), var(--bg-card) 55%); padding: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
   .final-card::before { content:''; position:absolute; inset:0; background: radial-gradient(500px 300px at 90% 10%, rgba(99,102,241,0.12), transparent 70%); pointer-events: none; }
   @media (max-width: 860px) { .final-card { grid-template-columns: 1fr; padding: 36px 28px; gap: 34px; } }
@@ -738,10 +740,10 @@
   .reveal.in { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
-    .section-pad { padding: 64px 0; }
+    .section-pad { padding: 44px 0; }
     .section-head { margin-bottom: 38px; }
     .hero { padding: 112px 0 64px; margin-top: -64px; }
-    .final { padding: 64px 0; }
+    .final { padding: 44px 0; }
   }
   @media (max-width: 560px) {
     .wrap { padding: 0 18px; }
