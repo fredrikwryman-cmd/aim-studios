@@ -225,6 +225,18 @@
   h2 { font-size: clamp(30px, 4.6vw, 48px); }
   h2 { background: linear-gradient(100deg, #fff 34%, #c7d2fe 50%, #fff 66%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: titleSheen 6.5s ease-in-out infinite; }
   @keyframes titleSheen { 0%, 100% { background-position: 135% 0; } 50% { background-position: -35% 0; } }
+  /* ---------- Ljust tema: displaygradienterna vands ---------- */
+  /* h2 och ordmarket ritas med background-clip: text och en gradient som gar
+     vit -> ljus indigo -> vit. Regeln gallde i BADA teman, sa i ljust lage lag
+     vit text pa ljus bakgrund: uppmatt 1.00-1.08:1. Har vands gradienten -
+     samma vinkel, samma tre stopp, samma glansverkan, men mork bas och indigo
+     glans. Bada fargerna kommer ur paletten (--text, --primary). */
+  :root[data-theme="light"] h2 { background-image: linear-gradient(100deg, var(--text) 34%, var(--primary) 50%, var(--text) 66%); }
+  /* Ordmarket: mork gradient overallt i ljust tema UTOM pa startsidan i toppen,
+     dar naven ar genomskinlig over hjaltesektionen - den ar fast #0B0B0F i bada
+     teman och kraver den ljusa gradienten. */
+  :root[data-theme="light"] body.subpage .logo-text,
+  :root[data-theme="light"] header.is-solid .logo-text { background-image: linear-gradient(90deg, var(--text), var(--primary), var(--text), var(--primary)); }
   @media (prefers-reduced-motion: reduce) { h2 { animation: none; } }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
@@ -1112,6 +1124,10 @@
      ev. grön ton kommer enbart från motivet i bg-ai-losningar (AI-undantag).
      =================================================================== */
   body.subpage::before { content: ""; position: fixed; inset: 0; z-index: -2; background: #0B0B0F var(--bgimg) repeat; background-size: 520px; opacity: .48; }
+  /* Texturlagret ar #0B0B0F och saknade ljus-hantering: hela ljusa temat blev
+     grabrunt (uppmatt effektiv bakgrund #757579) och en mork rubrik matte
+     1.37:1 dar. I ljust lage tonas lagret ned till en antydan. */
+  :root[data-theme="light"] body.subpage::before { opacity: .06; }
   body.subpage::after { content: ""; position: fixed; inset: 0; z-index: -1;
     background:
       radial-gradient(120% 70% at 50% -10%, rgba(79,70,229,.24), transparent 60%),
