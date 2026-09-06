@@ -741,6 +741,9 @@
 
   @media (max-width: 768px) {
     .section-pad { padding: 44px 0; }
+    /* .proof hade 56px aven pa mobil: 56 + 44 = 100 px lucka mot nasta avsnitt,
+       over gransen 96. 36px ar ett varde som redan finns i filen. */
+    .proof { padding: 36px 0; }
     .section-head { margin-bottom: 38px; }
     .hero { padding: 112px 0 64px; margin-top: -64px; }
     .final { padding: 44px 0; }
