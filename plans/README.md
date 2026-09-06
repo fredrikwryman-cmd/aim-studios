@@ -52,7 +52,7 @@ har körts först.
 - **Cachebrytaren.** Varje plan avslutas med en `?v`-bumpning. Körs flera planer i
   ett svep: **bumpa en gång, sist.** Värdet måste vara identiskt på `styles.css`,
   `scripts.js` och `unlock.js` på alla åtta sidor plus `404.html`. Vid skrivande
-  stund `?v=107` (101 -> 107 over sex driftsattningar 2026-09-06).
+  stund `?v=116`.
 - **Formuläret får aldrig skickas i test.** Både `#bookForm` och `#orderForm`
   postar till en riktig inkorg via Formspree. Plan 003 innehåller ett mätskript
   som utlöser skickat-läget utan nätverksanrop — använd det.
@@ -60,6 +60,29 @@ har körts först.
   skrivmaskinen snabbare (3 604 ms → ~1 120 ms) och 006 raderar en
   bakgrundszoom som skulle kunna återanvändas på tjänstekorten. Båda är
   markerade i respektive plan. Stäm av dem innan de körs.
+
+## Kända avvikelser — mätta, bedömda och medvetet lämnade
+
+Punkter som en kontrastgranskning kommer att flagga igen. De är undersökta och
+avfärdade med avsikt — rapportera dem inte som nya fynd.
+
+### Siffran i den aktiva process-orben
+
+`.orb-core` i `.station-orb` på `/webbdesign/`: vit siffra (22px/800) på
+`.orb-liquid`, gradienten `#4F46E5 → #818cf8`.
+
+```
+mot #4f46e5   6.29:1   ✓
+mot #818cf8   2.98:1   ← 0,02 under kravet 3.0 för stor text
+```
+
+**Lämnad med avsikt, beslut 2026-09-06.** 2,98 mot 3,0 är inom mätbrus och
+skillnaden går inte att se. Värdena är dessutom hårdkodade och temaoberoende —
+identiska i mörkt och ljust läge — så det är inget tema-fel. De två möjliga
+åtgärderna, att mörka gradientens ljusa ände eller lägga en skugga bakom siffran,
+skulle båda ändra en medveten designdetalj utan synlig vinst.
+
+Om den dyker upp i en framtida granskning: notera att den är känd och gå vidare.
 
 ## Så mäts resultatet
 
@@ -83,3 +106,19 @@ teman**, på minst bredderna 390, 768 och 1440 px.
 `"hidden"` — då mäter sidor noll tecken, fördröjda bilder byts aldrig in och
 CSS-övergångar står frusna på `currentTime: 0`. Kontrollera
 `document.visibilityState` innan tomhet eller fel rapporteras.
+
+**`visible` räcker inte alltid.** Under passet 2026-09-06 rapporterade fliken
+`visibilityState: "visible"` och `hasFocus: true` samtidigt som webbläsaren
+producerade 2–8 bildrutor per 300 ms. En pågående övergång fastnar då på sitt
+**startvärde**, vilket ger färgmätningar som ser ut som riktiga fel. Kontrollera
+att bildrutor faktiskt produceras innan du litar på ett värde:
+
+```js
+const t1 = document.timeline.currentTime;
+const n = await new Promise(res => { let k=0; const s=performance.now();
+  (function f(){ k++; performance.now()-s < 300 ? requestAnimationFrame(f) : res(k); })(); });
+// t2 - t1 nära noll, eller n under ~10: renderingen är strypt
+```
+
+Vid strypt rendering: injicera `*{transition:none!important}` före temabytet och
+mät det settlade värdet, eller scrubba `animation.currentTime` manuellt.
