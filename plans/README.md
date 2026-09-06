@@ -61,6 +61,51 @@ har körts först.
   bakgrundszoom som skulle kunna återanvändas på tjänstekorten. Båda är
   markerade i respektive plan. Stäm av dem innan de körs.
 
+## Mätregel: PSI före och efter — lokala siffror räcker inte
+
+**Bakgrund, 2026-09-06.** En vy-gatning av oändliga loopar (`IntersectionObserver`
+som satte `animation-play-state: paused` utanför vyn) rekommenderades på en lokal
+fps-mätning: 50,9 fps med looparna igång mot 60,0 fps med dem pausade, p95
+33,3 → 16,8 ms. En parad omätning i samma session kunde inte reproducera
+skillnaden — siffran var brus från en osättad sida. Ändringen byggdes ändå.
+
+Resultatet mot PSI:
+
+```
+              före        efter       delta
+mobil          97          84         -13
+desktop        99          62         -37
+TBT mobil       2 ms      464 ms
+TBT desktop     0 ms      677 ms
+FCP/LCP/CLS  oförändrade
+```
+
+Isolerat efteråt med Lighthouse desktop, två körningar rygg mot rygg:
+
+```
+med gatingen:   score 56 | TBT 754 ms | Style & Layout 2028 ms
+utan gatingen:  score 97 | TBT 125 ms | Style & Layout  639 ms
+```
+
+Observatörens egen JS-tid var bara **3,6 ms** över 10 callbacks och 31 klassbyten
+under laddningen. Kostnaden låg alltså inte i koden utan i vad ett byte av
+`animation-play-state` på ett element med pågående animation utlöser nedströms i
+renderingskedjan. Exakt vilken mekanism är **inte** utrett.
+
+### Regler som följer av detta
+
+1. **PSI mäts före och efter varje pass som rör rörelse eller skript.** Fredrik
+   kör den, Code väntar in svaret innan nästa steg. Lokala mätningar duger till
+   att hitta buggar, inte till att godkänna prestanda.
+2. **Lokala fps-siffror förutspår inte PSI.** rAF-sampling på en inläst, stillastående
+   sida ser inte recalc-stormar under laddning, och det är i det fönstret TBT mäts.
+3. **Kontrollera maskinens last innan en lokal Lighthouse-körning tolkas.** Under
+   det här passet låg CPU:n på i snitt 63 % med all Chrome dödad, och samma
+   konfiguration gav score mellan 47 och 97 mellan körningar. Interfoliera
+   konfigurationerna (A,B,A,B) så att drift inte hamnar på en av dem.
+4. **En ändring utan uppmätt vinst byggs inte.** Omätningen visade noll vinst
+   redan innan bygget. Det var skäl nog att låta bli.
+
 ## Kända avvikelser — mätta, bedömda och medvetet lämnade
 
 Punkter som en kontrastgranskning kommer att flagga igen. De är undersökta och
