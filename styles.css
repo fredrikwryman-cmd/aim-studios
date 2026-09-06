@@ -946,6 +946,17 @@
   .station-glass h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--text); transition: color 0.4s; }
   .station.active .station-glass h3 { color: #818cf8; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
   .station-glass p { color: var(--muted); font-size: 15px; line-height: 1.6; margin-bottom: 10px; }
+  /* Ljust tema: kortet ar medvetet morkt glas i BADA teman och bakgrunden lamnas
+     orord. Men glaset ar halvgenomskinligt (0.8/0.9) och komponeras mot en ljus
+     sektion, sa det blir ljusare an i morkt lage: #34343b mot #101018. Texten
+     satts darfor ljus har, som i morkt tema. --text och --muted deklareras om
+     lokalt sa att allt som arver dem foljer med - aven innehall som laggs till
+     senare. Uppmatt fore: h3 1.60:1, brodtext 1.69:1, etikett 3.83:1. */
+  :root[data-theme="light"] .station-glass { --text: #FFFFFF; --muted: #c9c9d6; }
+  /* #818cf8 racker inte mot det ljusare glaset (3.83:1 i glasets ljusaste horn).
+     #a5b4fc ar ett steg ljusare ur samma palett och ger 4.98:1 dar. */
+  :root[data-theme="light"] .station-glass .station-meta,
+  :root[data-theme="light"] .station.active .station-glass h3 { color: #a5b4fc; }
   .station-meta { display: inline-block; font-size: 12px; font-weight: 600; color: #818cf8; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 100px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.18); }
   .process-particles { position: absolute; inset: 0; pointer-events: none; }
   .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #6366F1; opacity: 0; animation: particleFloatUp 4s ease-in-out infinite; }
