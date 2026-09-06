@@ -216,7 +216,11 @@
   }
   h1, h2, h3, h4 { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; line-height: 1.08; letter-spacing: -0.02em; font-weight: 700; }
   /* Bebas Neue på stora titlar + lätt shimmer */
-  h1, h2 { font-family: 'Bebas Neue', 'Inter Tight', sans-serif; font-weight: 400; letter-spacing: 0.02em; line-height: 0.98; }
+  /* Bebas Neue satter prickarna pa A och O tatt over versalhojden. Med
+     line-height 0.98 - mindre an teckengraden - fick de ingen luft alls.
+     1.06 ger prickarna utrymme utan att radavstandet i flerradiga rubriker
+     spricker: H1 vaxer 59 -> 64 px per rad, H2 47 -> 51 px. */
+  h1, h2 { font-family: 'Bebas Neue', 'Inter Tight', sans-serif; font-weight: 400; letter-spacing: 0.02em; line-height: 1.06; }
   /* En enda H2-skala for hela sajten - aven slut-CTA-rubrikerna, som forr hade egna inline-storlekar */
   h2 { font-size: clamp(30px, 4.6vw, 48px); }
   h2 { background: linear-gradient(100deg, #fff 34%, #c7d2fe 50%, #fff 66%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: titleSheen 6.5s ease-in-out infinite; }
