@@ -233,46 +233,27 @@ if(!reduce) document.querySelectorAll('.faq-item').forEach(item=>{
   if(!pages) return;
   function fmt(n){return n.toLocaleString('sv-SE').replace(/\u00a0/g,' ');}
   const on=el=>el&&el.classList.contains('on');
-  /* Rullar summan till sitt nya varde i stallet for att byta den pa en bildruta.
-     Samma easeOutCubic som .countup i hjalten, men 400 ms - kalkylatorn petas
-     manga ganger och far inte kannas trog. Avbrytbar: en ny berakning tar over
-     fran det varde som visas just nu, sa snabba klick aldrig hoppar. */
-  let rullRaf=null, visat=null;
-  function rullaTill(mal){
-    if(reduce || visat===null){ if(rullRaf) cancelAnimationFrame(rullRaf); rullRaf=null; visat=mal; amt.textContent=fmt(mal); return; }
-    if(visat===mal) return;
-    if(rullRaf) cancelAnimationFrame(rullRaf);
-    const fran=visat, d=400; let s=null;
-    (function tick(t){
-      if(!s) s=t;
-      const p=Math.min((t-s)/d,1), e=1-Math.pow(1-p,3);
-      visat=Math.round(fran+(mal-fran)*e);
-      amt.textContent=fmt(visat);
-      if(p<1){ rullRaf=requestAnimationFrame(tick); }
-      else { rullRaf=null; visat=mal; amt.textContent=fmt(mal); }
-    })(performance.now());
-  }
-  function calc(rulla){
+  function calc(){
     let tier='starter';
     if(on(seoT)) tier='business';
     if(on(aiT)||on(brandT)) tier='premium';
     const p=+pages.value, incl=INCL[tier], extra=Math.max(0,p-incl);
     const total=PRICE[tier]+extra*900;
     pagesLbl.textContent=p+(p==1?' sida':' sidor');
-    if(rulla) rullaTill(total); else { if(rullRaf) cancelAnimationFrame(rullRaf); rullRaf=null; visat=total; amt.textContent=fmt(total); }
+    amt.textContent=fmt(total);
     if(pkgLbl){
       let t='Motsvarar '+NAME[tier]+'-paketet';
       if(extra>0) t+=' + '+extra+(extra==1?' extra sida':' extra sidor');
       pkgLbl.textContent=t;
     }
   }
-  pages.addEventListener('input',function(){ calc(false); });   /* reglaget ska folja fingret, inte sladda efter */
+  pages.addEventListener('input',calc);
   document.querySelectorAll('.toggle').forEach(tg=>{
-    function flip(){ const on=tg.classList.toggle('on'); tg.setAttribute('aria-checked', String(on)); calc(true); }
+    function flip(){ const on=tg.classList.toggle('on'); tg.setAttribute('aria-checked', String(on)); calc(); }
     tg.addEventListener('click', flip);
     tg.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); flip(); } });
   });
-  calc(false);   /* utgangslaget ritas utan rullning */
+  calc();
 })();
 
 /* ---------- Chatbot (simulated) ---------- */

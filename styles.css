@@ -596,9 +596,7 @@
   .calc-total-l { display: flex; flex-direction: column; gap: 3px; }
   .calc-pkg { font-size: 13px; font-weight: 600; color: var(--light-indigo); }
   .calc-total .lbl { color: var(--muted); }
-  /* tabular-nums: siffrorna far fast bredd sa summan inte skuttar i sidled
-     medan den rullar. Samma grepp som pa .countup i hjalten. */
-  .calc-total .amt { font-family: 'Bebas Neue','Inter Tight',sans-serif; font-weight: 400; font-size: 38px; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+  .calc-total .amt { font-family: 'Bebas Neue','Inter Tight',sans-serif; font-weight: 400; font-size: 38px; letter-spacing: .01em; }
   .calc-total .amt .kr { font-size: 16px; color: var(--muted); }
 
   .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
