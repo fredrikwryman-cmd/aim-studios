@@ -63,7 +63,8 @@ har körts först.
 
 ## Mätregel: PSI före och efter — lokala siffror räcker inte
 
-**Bakgrund, 2026-09-06.** En vy-gatning av oändliga loopar (`IntersectionObserver`
+**Bakgrund, 2026-09-06 till 2026-09-07.** Tva andringar ur samma pass visade sig
+kosta poang och revs bada. Den forsta: en vy-gatning av oändliga loopar (`IntersectionObserver`
 som satte `animation-play-state: paused` utanför vyn) rekommenderades på en lokal
 fps-mätning: 50,9 fps med looparna igång mot 60,0 fps med dem pausade, p95
 33,3 → 16,8 ms. En parad omätning i samma session kunde inte reproducera
@@ -91,6 +92,37 @@ Observatörens egen JS-tid var bara **3,6 ms** över 10 callbacks och 31 klassby
 under laddningen. Kostnaden låg alltså inte i koden utan i vad ett byte av
 `animation-play-state` på ett element med pågående animation utlöser nedströms i
 renderingskedjan. Exakt vilken mekanism är **inte** utrett.
+
+### Bisektionens utfall — vad som revs och vad som blev kvar
+
+Bisekterat med PSI som instrument, en commit i taget, Fredrik korde matningen.
+
+```
+?v=116   utgangslage        mobil 97  desktop 99   TBT   2 /   0 ms
+?v=121   alla fem andringar mobil 84  desktop 62   TBT 464 / 677 ms
+?v=122   C1 riven           mobil 95  desktop 94   TBT 118 / 168 ms
+?v=123   B2 ocksa riven     mobil 97  desktop 99   TBT  30 /  88 ms
+```
+
+**Rivna — bada testade, bada utan uppmätt vinst:**
+
+| | Vad | Kostnad |
+|---|---|---|
+| **C1** | `IntersectionObserver` som satte `animation-play-state: paused` utanför vyn | ~629 ms TBT |
+| **B2** | `requestAnimationFrame`-countup på kalkylatorns summa | ~80 ms TBT |
+
+**Kvar och verifierat oskyldiga** — golvet återställdes exakt med dessa på plats,
+så de behövde aldrig testas var för sig:
+
+- **B1** prisväljaren: siffran tonas ut och in, sparraden fälls med `opacity` + `max-height`
+- **B3** chattpanelens `transform-origin: bottom right`
+- **C4** borttagen död kod (`casesPin`/`casesTrack`)
+
+**Lärdomen:** `requestAnimationFrame`-loopar och toggling av
+`animation-play-state` kostar mer på den här sajten än de ger. **Föreslå dem
+inte igen utan uppmätt vinst från PSI.** Rena CSS-övergångar på `opacity` och
+`transform`, som B1 och B3, är däremot gratis — de kör bara vid interaktion och
+syns inte i TBT.
 
 ### Regler som följer av detta
 
