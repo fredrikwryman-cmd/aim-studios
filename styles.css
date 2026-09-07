@@ -197,7 +197,8 @@
     --bg-card: #FFFFFF;
     --text: #0B0B0F;
     --muted: #55556A;
-    --muted-dim: #9494A6;
+    --muted-dim: #6B6B80;   /* F3: #9494A6 gav 2.77-2.98:1. 19 anvandningar, alla pa ljust underlag. */
+    --light-indigo: #4338CA; /* F4: #818CF8 gav 2.74-2.98:1 pa ljust underlag. */
     --line: rgba(11, 11, 15, 0.08);
     --line-strong: rgba(11, 11, 15, 0.12);
     --glass: rgba(11, 11, 15, 0.02);
@@ -235,8 +236,15 @@
   /* Ordmarket: mork gradient overallt i ljust tema UTOM pa startsidan i toppen,
      dar naven ar genomskinlig over hjaltesektionen - den ar fast #0B0B0F i bada
      teman och kraver den ljusa gradienten. */
-  :root[data-theme="light"] body.subpage .logo-text,
-  :root[data-theme="light"] header.is-solid .logo-text { background-image: linear-gradient(90deg, var(--text), var(--primary), var(--text), var(--primary)); }
+  :root[data-theme="light"] .logo-text { background-image: linear-gradient(90deg, var(--text), var(--primary), var(--text), var(--primary)); }
+  /* Enda undantaget: startsidans topplage. Dar ar naven genomskinlig och hjalten
+     ligger bakom med fast #0B0B0F i bada teman, sa ordmarket maste vara ljust.
+     Uppmatt bakgrund bakom ordmarket vid scroll 0: #0B0B0F.
+     Villkoret hanger nu pa hjaltens existens i stallet for pa .subpage. Det ar
+     samma utfall i varje lage som finns pa sajten - regeln ar omskriven, inte
+     andrad - men den beskriver nu den faktiska orsaken: det ar den morka hjalten
+     bakom en genomskinlig nav som kraver ljus text, inte vilken sidtyp det ar. */
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .logo-text { background-image: linear-gradient(90deg,#fff,#a5b4fc,#fff,#a5b4fc); }
   @media (prefers-reduced-motion: reduce) { h2 { animation: none; } }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
@@ -262,7 +270,9 @@
 
   /* buttons */
   .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-family: 'Inter Tight'; font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s, scale .16s var(--ease); white-space: nowrap; }
-  .btn-primary { background: linear-gradient(180deg, var(--primary-soft), var(--primary)); color: #fff; box-shadow: 0 10px 30px -8px rgba(79,70,229,0.6); }
+  /* F5: ljusaste stoppet var --primary-soft #6366F1, vit text pa det = 4.47:1.
+     Gradienten morkas ett steg sa vit text klarar 4.5:1 over HELA forloppet. */
+  .btn-primary { background: linear-gradient(180deg, var(--primary), #4338CA); color: #fff; box-shadow: 0 10px 30px -8px rgba(79,70,229,0.6); }
   .btn-primary:hover { box-shadow: 0 16px 44px -10px rgba(79,70,229,0.8); }
   .btn-secondary { background: var(--glass); color: var(--text); border-color: var(--line-strong); }
   .btn-secondary:hover { border-color: rgba(120,120,160,0.5); }
@@ -314,7 +324,7 @@
   .navlink:hover { color: var(--text); }
   .navlink.active { color: var(--text); }
   .nav-ai { display: inline-flex; align-items: center; }
-  .ai-badge { display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #000; background: var(--light-indigo); padding: 2px 6px; /* p5 kontrast: 4.70:1 -> 7.04:1 */ border-radius: 100px; margin-left: 5px; animation: aiBadgePulse 2.5s ease-in-out infinite; }
+  .ai-badge { display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #000; background: #818cf8;   /* fast varde: brickan har svart text och far inte folja --light-indigo som morknar i ljust tema */ padding: 2px 6px; /* p5 kontrast: 4.70:1 -> 7.04:1 */ border-radius: 100px; margin-left: 5px; animation: aiBadgePulse 2.5s ease-in-out infinite; }
   @keyframes aiBadgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); } 50% { box-shadow: 0 0 0 6px rgba(99,102,241,0); } }
 
   .nav-right { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
@@ -323,7 +333,7 @@
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
 
-  .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, #818CF8, var(--primary)); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
+  .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, var(--primary), #4338CA); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
   .nav-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 14px 34px -10px rgba(79,70,229,0.85), 0 0 20px -4px rgba(99,102,241,0.5), 0 0 0 1px rgba(129,140,248,0.5); }
   .btn-arrow { display: inline-block; transition: transform .25s var(--ease); }
   .nav-cta:hover .btn-arrow { transform: translateX(4px); }
@@ -752,6 +762,10 @@
   @keyframes tickDraw { to { stroke-dashoffset: 0; } }
   .err { border-color: #ef4444 !important; }
   .form-error { display: none; text-align: center; font-size: 13px; color: #ef4444; margin-top: 10px; }
+  /* #ef4444 ar avstamd for mork bakgrund (4,87:1) men ger bara 3,76:1 pa det
+     vita kortet i ljust tema. Rott maste vara mork-rott dar for att klara 4,5:1.
+     Overgangen ligger har intill regeln, inte sist i filen. */
+  :root[data-theme="light"] .form-error { color: #B91C1C; }
   .form-error.show { display: block; }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9995; }
 
@@ -986,9 +1000,11 @@
   /* ---------- Footer – Terminal Boot (indigo) ---------- */
   .footer-terminal { position: relative; border-top: 1px solid var(--line); background: var(--bg-soft); overflow: hidden; }
   .terminal-boot { position: relative; max-width: var(--max); margin: 0 auto; padding: 48px 24px 8px; display: flex; flex-direction: column; align-items: flex-start; }
-  .boot-screen { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; color: #818cf8; max-width: 640px; width: 100%; }
+  /* F4: hardkodat #818cf8 gav 2.98:1 mot sidfotens vita botten i ljust tema.
+     Foljer nu --light-indigo som overallt annars. */
+  .boot-screen { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; color: var(--light-indigo); max-width: 640px; width: 100%; }
   .boot-line { text-shadow: 0 0 10px rgba(99,102,241,0.25); white-space: pre-wrap; word-break: break-word; }
-  .boot-cursor { display: inline-block; color: #818cf8; font-size: 16px; animation: blinkCursor 1s step-end infinite; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
+  .boot-cursor { display: inline-block; color: var(--light-indigo); font-size: 16px; animation: blinkCursor 1s step-end infinite; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
   @keyframes blinkCursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
   .boot-progress { width: 100%; max-width: 640px; height: 2px; background: rgba(99,102,241,0.1); border-radius: 1px; margin-top: 20px; overflow: hidden; }
   .boot-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #4F46E5, #818cf8); border-radius: 1px; box-shadow: 0 0 10px rgba(99,102,241,0.4); transition: width 0.25s ease; }
@@ -999,7 +1015,7 @@
   .foot-brand { max-width: 320px; }
   .foot-brand p { color: var(--muted); font-size: 14px; margin-top: 12px; line-height: 1.6; }
   .foot-badges { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-  .foot-badge { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #818cf8; border: 1px solid rgba(99,102,241,0.2); border-radius: 7px; padding: 5px 9px; display: flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.05); transition: all 0.3s ease; }
+  .foot-badge { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--light-indigo); border: 1px solid rgba(99,102,241,0.2); border-radius: 7px; padding: 5px 9px; display: flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.05); transition: all 0.3s ease; }
   .foot-badge:hover { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.4); box-shadow: 0 0 12px -4px rgba(99,102,241,0.3); }
   .foot-col h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-dim); margin-bottom: 14px; font-weight: 600; }
   .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 9px; transition: color 0.2s, transform 0.2s; }
@@ -1014,7 +1030,7 @@
   .social-icon:nth-child(3) { --item-color: #1877F2; }
   .foot-bottom { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--muted-dim); font-size: 13px; }
   .footer-matrix-hint { cursor: pointer; transition: color 0.3s, text-shadow 0.3s; opacity: 0.5; user-select: none; }
-  .footer-matrix-hint:hover { color: #818cf8; opacity: 1; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
+  .footer-matrix-hint:hover { color: var(--light-indigo); opacity: 1; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
   .matrix-rain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
   .matrix-rain.active { opacity: 0.16; }
   body.neon .boot-line { color: #c4b5fd; text-shadow: 0 0 15px rgba(168,85,247,0.5); }
@@ -1191,9 +1207,14 @@
   .svc-tile.tile-seo::before { background-image: url('/assets/tjanst-seo.jpg'); background-image: image-set(url('/assets/tjanst-seo.webp') type('image/webp'), url('/assets/tjanst-seo.jpg') type('image/jpeg')); }
   .svc-tile.tile-ai::before { background-image: url('/assets/tjanst-ai.jpg'); background-image: image-set(url('/assets/tjanst-ai.webp') type('image/webp'), url('/assets/tjanst-ai.jpg') type('image/jpeg')); }
   .svc-tile.tile-branding::before { background-image: url('/assets/tjanst-branding.jpg'); background-image: image-set(url('/assets/tjanst-branding.webp') type('image/webp'), url('/assets/tjanst-branding.jpg') type('image/jpeg')); }
-  .svc-tile h3 { font-size: 20px; margin-bottom: 8px; }
+  /* F1: rutan har alltid mork scrim (::after nedan), sa rubriken ska vara vit i
+     BADA teman. Arvde tidigare var(--text) = #0B0B0F i ljust tema: uppmatt 1.00:1.
+     Samma monster som .svc-tile p, som redan har en fast ljus farg. */
+  .svc-tile h3 { font-size: 20px; margin-bottom: 8px; color: #fff; }
   .svc-tile p { color: #c9c9d6; font-size: 15px; margin-bottom: 16px; flex: 1 1 auto; }
-  .svc-tile .svc-more { margin-top: 0; }
+  /* Rutan ar mork i bada teman, sa lanken far den ljusa indigon fast - annars
+     foljer den --light-indigo som morknar i ljust tema (uppmatt 6.59 -> 2.39:1). */
+  .svc-tile .svc-more { margin-top: 0; color: #818cf8; }
 
   /* ===================================================================
      FAS 3 – Webboptimering / ombyggnad / lopande SEO

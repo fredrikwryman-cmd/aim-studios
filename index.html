@@ -16,7 +16,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/bebasneue-latin.woff2" />
-<link rel="stylesheet" href="styles.css?v=123" />
+<link rel="stylesheet" href="styles.css?v=124" />
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
@@ -533,8 +533,8 @@
           <p class="sub">Fyll i formuläret så hör jag av mig.</p>
           <input type="hidden" name="_subject" value="Ny bokningsförfrågan – AiM Studios">
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
-          <div class="form-row"><div class="field"><label for="namn">Namn</label><input id="namn" name="namn" type="text" placeholder="Ditt namn" required></div><div class="field"><label for="foretag">Företag</label><input id="foretag" name="foretag" type="text" placeholder="Företagsnamn"></div></div>
-          <div class="form-row"><div class="field"><label for="epost">E-post</label><input id="epost" name="epost" type="email" placeholder="namn@foretag.se" required></div><div class="field"><label for="tel">Telefon</label><input id="tel" name="tel" type="tel" placeholder="07X-XXX XX XX"></div></div>
+          <div class="form-row"><div class="field"><label for="namn">Namn</label><input id="namn" name="namn" type="text" placeholder="Ditt namn" autocomplete="name" required></div><div class="field"><label for="foretag">Företag</label><input id="foretag" name="foretag" type="text" placeholder="Företagsnamn" autocomplete="organization"></div></div>
+          <div class="form-row"><div class="field"><label for="epost">E-post</label><input id="epost" name="epost" type="email" placeholder="namn@foretag.se" autocomplete="email" required></div><div class="field"><label for="tel">Telefon</label><input id="tel" name="tel" type="tel" placeholder="07X-XXX XX XX" autocomplete="tel"></div></div>
           <div class="field"><label for="meddelande">Vad vill du uppnå?</label><textarea id="meddelande" name="meddelande" placeholder="Berätta kort om ditt företag och mål..."></textarea></div>
           <p class="form-fine">Jag använder dina uppgifter endast för att kontakta dig. Formuläret hanteras av Formspree i USA – läs mer i <a href="/integritetspolicy.html">integritetspolicyn</a>.</p>
           <button type="submit" class="btn btn-primary form-submit magnetic">Boka gratis strategi-möte →</button>
@@ -687,19 +687,22 @@
     </div>
     <form class="order-form" id="orderForm" action="https://formspree.io/f/xzdlgnlz" method="POST" novalidate>
       <input type="hidden" name="_subject" value="🎉 20% OFF (Easter Egg) – Ny beställning">
-      <input type="hidden" name="Bestallning" id="orderDetails" value="">
+      <input type="hidden" name="bestallning" id="orderDetails" value="">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
       <div class="order-fields">
-        <label class="sr-only" for="oName">Ditt namn</label><input type="text" name="Namn" id="oName" placeholder="Ditt namn" required>
-        <label class="sr-only" for="oEmail">Din e-post</label><input type="email" name="E-post" id="oEmail" placeholder="Din e-post" required>
-        <label class="sr-only" for="oTel">Telefon (valfritt)</label><input type="tel" name="Telefon" id="oTel" placeholder="Telefon (valfritt)">
+        <label class="sr-only" for="oName">Ditt namn</label><input type="text" name="namn" id="oName" placeholder="Ditt namn" autocomplete="name" required>
+        <label class="sr-only" for="oEmail">Din e-post</label><input type="email" name="epost" id="oEmail" placeholder="Din e-post" autocomplete="email" required>
+        <label class="sr-only" for="oTel">Telefon (valfritt)</label><input type="tel" name="tel" id="oTel" placeholder="Telefon (valfritt)" autocomplete="tel">
       </div>
-      <label class="sr-only" for="oMsg">Meddelande (valfritt)</label><textarea name="Meddelande" id="oMsg" placeholder="Något du vill tillägga? (valfritt)" rows="2"></textarea>
+      <label class="sr-only" for="oMsg">Meddelande (valfritt)</label><textarea name="meddelande" id="oMsg" placeholder="Något du vill tillägga? (valfritt)" rows="2"></textarea>
+      <p class="form-fine">Jag använder dina uppgifter endast för att kontakta dig. Formuläret hanteras av Formspree i USA – läs mer i <a href="/integritetspolicy.html">integritetspolicyn</a>.</p>
       <button type="submit" class="btn btn-primary order-submit">Skicka beställning med 20% rabatt →</button>
+      <p class="form-error" id="orderError">Något gick fel – mejla mig direkt på info@aimstudios.se.</p>
       <p class="order-note">Din order skickas till mig tydligt märkt <b>20% OFF</b>. Jag återkommer inom 24h.</p>
     </form>
   </div>
 </div>
-<script src="unlock.js?v=123" defer></script>
-<script src="scripts.js?v=123" defer></script>
+<script src="unlock.js?v=124" defer></script>
+<script src="scripts.js?v=124" defer></script>
 </body>
 </html>

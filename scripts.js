@@ -723,14 +723,26 @@ document.querySelectorAll('.iridescent').forEach(card=>{
       var nm=document.getElementById('oName'), em=document.getElementById('oEmail'), ok=true;
       if(!nm.value.trim()){ nm.classList.add('err'); ok=false; } else nm.classList.remove('err');
       if(!/\S+@\S+\.\S+/.test(em.value)){ em.classList.add('err'); ok=false; } else em.classList.remove('err');
+      var fel=document.getElementById('orderError');
+      if(fel) fel.classList.remove('show');
       if(!ok) return;
       calc();
+      /* F6d: skicka inte en bestallning utan paketinformation. calc() fyller
+         det dolda faltet; ar det anda tomt har nagot gatt fel och da ska
+         bestallningen inte skickas halvtom. */
+      if(!details || !details.value.trim()){
+        if(fel){ fel.textContent='Kunde inte läsa av ditt paketval – ladda om sidan och försök igen, eller mejla info@aimstudios.se.'; fel.classList.add('show'); }
+        return;
+      }
       var btn=form.querySelector('button[type="submit"]'), orig=btn.textContent; btn.textContent='Skickar…'; btn.disabled=true;
       fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}).then(function(r){
         if(!r.ok) throw 0;
         modal.querySelector('.order-card').innerHTML='<div style="text-align:center;padding:34px 10px;"><div style="font-size:42px;margin-bottom:10px;">🎉</div><h3 style="font-size:24px;margin-bottom:8px;">Tack för din beställning!</h3><p style="color:var(--muted);">Vi hör av oss inom 24h med din 20%-bekräftelse.</p></div>';
         if(typeof burst==='function') burst();
-      }).catch(function(){ btn.textContent=orig; btn.disabled=false; alert('Något gick fel – mejla mig på info@aimstudios.se så ordnar jag det.'); });
+      }).catch(function(){ btn.textContent=orig; btn.disabled=false;
+        /* F6c: felrutan i formularet i stallet for en alert-dialog */
+        if(fel){ fel.textContent='Något gick fel – mejla mig på info@aimstudios.se så ordnar jag det.'; fel.classList.add('show'); }
+      });
     });
     form.querySelectorAll('input').forEach(function(f){ f.addEventListener('input',function(){ f.classList.remove('err'); }); });
   }
