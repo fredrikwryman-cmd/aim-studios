@@ -449,7 +449,9 @@
   @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
   .chart-card .label { font-size: 12px; color: #b6b6c8; display: flex; align-items: center; gap: 6px; }
   .chart-card .value { font-family: 'Inter Tight'; font-size: 24px; font-weight: 700; margin: 4px 0 8px; color: #fff; }
-  .chart-card .value .up { color: var(--accent); font-size: 14px; }
+  /* .chart-card har fast mork bakgrund rgba(20,20,28,0.92) i bada teman, sa
+     --accent #6366F1 gav 4.13:1. Ljusa indigon ar sajtens ton pa morka ytor. */
+  .chart-card .value .up { color: #818cf8; font-size: 14px; }
   .spark { width: 100%; height: 42px; display: block; }
   .pulse { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; animation: pulse 2s infinite; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5);} 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0);} 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0);} }
@@ -498,8 +500,14 @@
   .problem-card:hover .problem-front { border-color: rgba(239,68,68,0.4); box-shadow: 0 0 30px -10px rgba(239,68,68,0.2); }
   .problem-back { background: linear-gradient(135deg, rgba(99,102,241,0.08), var(--bg-card)); border: 1px solid rgba(99,102,241,0.3); transform: rotateX(180deg); box-shadow: 0 0 30px -10px rgba(99,102,241,0.25); }
   .problem-icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-size: 18px; font-weight: 700; flex: none; transition: all .4s ease; }
-  .problem-front .problem-icon { background: rgba(239,68,68,0.12); color: #ef4444; }
-  .problem-back .problem-icon { background: rgba(99,102,241,0.15); color: #6366F1; box-shadow: 0 0 16px -4px rgba(99,102,241,0.4); }
+  .problem-front .problem-icon { background: rgba(239,68,68,0.12); color: #f87171; }
+  .problem-back .problem-icon { background: rgba(99,102,241,0.15); color: #818cf8; box-shadow: 0 0 16px -4px rgba(99,102,241,0.4); }
+  /* Glyfen ligger pa en bricka i sin egen kulor - dar blir paret alltid lagkontrast.
+     Uppmatt fore: 3.22-4.34:1 i bada teman. Brickans ton lamnas orord och bara
+     texten justeras, samma linje som .station-glass. Grundregeln bar morkt temas
+     varden eftersom morkt ar sajtens standardlage. */
+  :root[data-theme="light"] .problem-front .problem-icon { color: #B91C1C; }
+  :root[data-theme="light"] .problem-back .problem-icon { color: #4338CA; }
   .problem-text { font-size: 18px; font-weight: 600; transition: color .3s; }
   .problem-front .problem-text { color: var(--text); }
   .problem-back .problem-text { color: var(--light-indigo); }
@@ -735,6 +743,10 @@
   .field input, .field textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--line-strong); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; transition: border-color .2s, box-shadow .2s; }
   .field input:focus, .field textarea:focus { outline: none; border-color: var(--primary-soft); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
   .field textarea { resize: vertical; min-height: 84px; }
+  /* Utan egen regel arver falten webblasarens standardplatshallare #757575, som
+     ger 3.98-4.14:1 mot de morka korten i morkt tema. --muted-dim ar redan
+     sajtens ton for nedtonad text och klarar bada teman. */
+  input::placeholder, textarea::placeholder { color: var(--muted-dim); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 460px) { .form-row { grid-template-columns: 1fr; } }
   .form-submit { width: 100%; margin-top: 6px; }
@@ -918,6 +930,26 @@
 
   /* ---------- AI Chat Panel (grön) ---------- */
   .ai-chat-panel { background: linear-gradient(135deg, rgba(11,15,12,0.98), rgba(20,28,22,0.99)); border: 1px solid rgba(34,197,94,0.2); box-shadow: 0 24px 60px -20px rgba(0,0,0,0.9), 0 0 60px -30px rgba(34,197,94,0.2); }
+  /* F16: bada AI-ytorna ar morkgrona i BADA teman - .ai-chat-panel har en fast
+     gradient (raden ovan) och .chat-demo.ai-terminal likasa. I ljust tema pekade
+     tokens dar pa mork text mot mork bakgrund: --text #0B0B0F pa #131915 = 1.06:1,
+     --muted #55556A = 2.39:1, --muted-dim = 3.58:1.
+     Samma form som .station-glass: tokens deklareras om lokalt pa ytan i stallet
+     for att fargas per element, sa foljer allt innehall med - aven det som laggs
+     till senare. Vardena ar morkt temas egna, inga nya toner infors.
+     `color` satts uttryckligen: .msg.bot har ingen egen fargdeklaration utan
+     arver body:s FARDIGBERAKNADE farg, och nas darfor inte av en omdeklarerad
+     variabel ensam. */
+  :root[data-theme="light"] .ai-chat-panel,
+  :root[data-theme="light"] .chat-demo.ai-terminal {
+    --text: #FFFFFF;
+    --muted: #A4A4B5;
+    --muted-dim: #8A8A9C;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --glass: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+  }
   .ai-chat-close { margin-left: 4px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; font-size: 18px; line-height: 1; transition: all .2s; flex: none; }
   .ai-chat-close:hover { border-color: #ef4444; color: #ef4444; }
 
