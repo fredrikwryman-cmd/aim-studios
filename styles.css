@@ -177,6 +177,13 @@
     --primary-soft: #6366F1;
     --accent: #6366F1;
     --light-indigo: #818CF8;
+    /* Rod ramp. Rott behover olika ljushet beroende pa vilken yta det ligger pa,
+       darav tre steg i stallet for ett: -soft pa morka ytor, -strong pa ljusa.
+       Alla tre ar deklarerade har i basen och galler bada teman om de inte
+       skrivs over per tema. */
+    --danger: #EF4444;
+    --danger-soft: #F87171;
+    --danger-strong: #B91C1C;
     --text: #FFFFFF;
     --muted: #A4A4B5;
     --muted-dim: #8A8A9C;
@@ -485,7 +492,7 @@
   .problem-sec { position: relative; overflow: hidden; }
   .glitch-text { position: relative; }
   .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
-  .glitch-text.active::before { animation: glitch1 .34s linear; color: #ef4444; -webkit-text-fill-color: #ef4444; z-index: -1; }
+  .glitch-text.active::before { animation: glitch1 .34s linear; color: var(--danger); -webkit-text-fill-color: var(--danger); z-index: -1; }
   .glitch-text.active::after { animation: glitch2 .34s linear; color: #6366F1; -webkit-text-fill-color: #6366F1; z-index: -2; }
   @keyframes glitch1 { 0%,100% { opacity:0; transform: translate(0); } 20% { opacity:.8; transform: translate(-2px,2px); } 40% { opacity:.8; transform: translate(2px,-2px); } 60% { opacity:0; transform: translate(0); } }
   @keyframes glitch2 { 0%,100% { opacity:0; transform: translate(0); } 20% { opacity:.8; transform: translate(2px,-2px); } 40% { opacity:.8; transform: translate(-2px,2px); } 60% { opacity:0; transform: translate(0); } }
@@ -500,14 +507,13 @@
   .problem-card:hover .problem-front { border-color: rgba(239,68,68,0.4); box-shadow: 0 0 30px -10px rgba(239,68,68,0.2); }
   .problem-back { background: linear-gradient(135deg, rgba(99,102,241,0.08), var(--bg-card)); border: 1px solid rgba(99,102,241,0.3); transform: rotateX(180deg); box-shadow: 0 0 30px -10px rgba(99,102,241,0.25); }
   .problem-icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-size: 18px; font-weight: 700; flex: none; transition: all .4s ease; }
-  .problem-front .problem-icon { background: rgba(239,68,68,0.12); color: #f87171; }
-  .problem-back .problem-icon { background: rgba(99,102,241,0.15); color: #818cf8; box-shadow: 0 0 16px -4px rgba(99,102,241,0.4); }
+  .problem-front .problem-icon { background: rgba(239,68,68,0.12); color: var(--danger-soft); }
+  .problem-back .problem-icon { background: rgba(99,102,241,0.15); color: var(--light-indigo); box-shadow: 0 0 16px -4px rgba(99,102,241,0.4); }
   /* Glyfen ligger pa en bricka i sin egen kulor - dar blir paret alltid lagkontrast.
      Uppmatt fore: 3.22-4.34:1 i bada teman. Brickans ton lamnas orord och bara
      texten justeras, samma linje som .station-glass. Grundregeln bar morkt temas
      varden eftersom morkt ar sajtens standardlage. */
-  :root[data-theme="light"] .problem-front .problem-icon { color: #B91C1C; }
-  :root[data-theme="light"] .problem-back .problem-icon { color: #4338CA; }
+  :root[data-theme="light"] .problem-front .problem-icon { color: var(--danger-strong); }
   .problem-text { font-size: 18px; font-weight: 600; transition: color .3s; }
   .problem-front .problem-text { color: var(--text); }
   .problem-back .problem-text { color: var(--light-indigo); }
@@ -578,8 +584,16 @@
   .ba-after { background: linear-gradient(160deg, #101018, #0c0c12); }
   .ba-before { background: #14110e; clip-path: inset(0 50% 0 0); }
   .ba-label { position: absolute; top: 16px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 12px; border-radius: 8px; }
-  .ba-before .ba-label { left: 16px; background: rgba(0,0,0,0.5); color: #c9a779; }
-  .ba-after .ba-label { right: 16px; background: rgba(99,102,241,0.18); color: var(--accent); }
+  /* Brickorna ligger ovanpa foton, sa DOM-kontrast sager ingenting - de ar
+     pixelmatta mot bildernas ljusaste omraden, vilket ar det avgorande fallet.
+     Fore: #c9a779 pa rgba(0,0,0,0.5) gav 2.26:1 mot ljusaste pixel.
+     Efter: #6366f1 pa rgba(99,102,241,0.18) gav 2.75:1.
+     Bada far nu samma konstruktion och samma alfa 0.85 sa att de laser som ett
+     par; kuloren skiljer dem at. Indigoskarmen ar avsiktlig - den ar
+     varumarkessignalen for "efter" och far inte bli en svart platta.
+     Uppmatt efter: fore 7.12:1, efter 5.45:1 mot respektive ljusaste pixel. */
+  .ba-before .ba-label { left: 16px; background: rgba(0,0,0,0.85); color: #c9a779; }
+  .ba-after .ba-label { right: 16px; background: rgba(30,27,75,0.85); color: #a5b4fc; }
   .old-h { font-family: Times, serif; color: #d8d2c8; font-size: 26px; margin-bottom: 14px; }
   .old-line { height: 8px; background: #3a342c; border-radius: 2px; margin-bottom: 8px; }
   .old-line.s { width: 70%; } .old-line.s2 { width: 85%; }
@@ -772,12 +786,12 @@
   @keyframes tickPop { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: none; } }
   .form-success.show .tick polyline { stroke-dasharray: 23; stroke-dashoffset: 23; animation: tickDraw .42s var(--ease) .18s forwards; }
   @keyframes tickDraw { to { stroke-dashoffset: 0; } }
-  .err { border-color: #ef4444 !important; }
-  .form-error { display: none; text-align: center; font-size: 13px; color: #ef4444; margin-top: 10px; }
+  .err { border-color: var(--danger) !important; }
+  .form-error { display: none; text-align: center; font-size: 13px; color: var(--danger); margin-top: 10px; }
   /* #ef4444 ar avstamd for mork bakgrund (4,87:1) men ger bara 3,76:1 pa det
      vita kortet i ljust tema. Rott maste vara mork-rott dar for att klara 4,5:1.
      Overgangen ligger har intill regeln, inte sist i filen. */
-  :root[data-theme="light"] .form-error { color: #B91C1C; }
+  :root[data-theme="light"] .form-error { color: var(--danger-strong); }
   .form-error.show { display: block; }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9995; }
 
@@ -890,7 +904,7 @@
   .terminal-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid rgba(34,197,94,0.12); background: rgba(0,0,0,0.3); }
   .terminal-dots { display: flex; gap: 6px; flex: none; }
   .terminal-dots span { width: 10px; height: 10px; border-radius: 50%; }
-  .terminal-dots span:nth-child(1) { background: #ef4444; }
+  .terminal-dots span:nth-child(1) { background: var(--danger); }
   .terminal-dots span:nth-child(2) { background: #f59e0b; }
   .terminal-dots span:nth-child(3) { background: #22C55E; }
   .terminal-title { flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(34,197,94,0.75); letter-spacing: 0.05em; }
@@ -951,7 +965,7 @@
     color: var(--text);
   }
   .ai-chat-close { margin-left: 4px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; font-size: 18px; line-height: 1; transition: all .2s; flex: none; }
-  .ai-chat-close:hover { border-color: #ef4444; color: #ef4444; }
+  .ai-chat-close:hover { border-color: var(--danger); color: var(--danger); }
 
   @media (max-width: 560px) { .ai-orb { width: 54px; height: 54px; } .ai-orb-core { width: 20px; height: 20px; } .ring-3 { width: 64px; height: 64px; } }
   @media (prefers-reduced-motion: reduce) { .ai-orb-core, .ai-orb-ring, .ai-orb-particles::before, .ai-orb-particles::after, .ai-scan-line { animation: none; } .ai-scan-line { opacity: 0; } }
@@ -1161,7 +1175,7 @@
   .order-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
   #oName { grid-column: 1 / -1; }
   .order-form input, .order-form textarea { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line-strong); background: var(--bg-soft); color: var(--text); font: inherit; font-size: 14px; }
-  .order-form input.err { border-color: #ef4444; }
+  .order-form input.err { border-color: var(--danger); }
   .order-form textarea { margin-bottom: 12px; resize: vertical; }
   .order-submit { width: 100%; }
   .order-note { font-size: 12px; color: var(--muted-dim); text-align: center; margin-top: 10px; }

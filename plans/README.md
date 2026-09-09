@@ -161,6 +161,99 @@ skulle båda ändra en medveten designdetalj utan synlig vinst.
 
 Om den dyker upp i en framtida granskning: notera att den är känd och gå vidare.
 
+## Kontrastsvepets blinda fläckar — rättade 2026-09-08/09
+
+Svepet missade **åtta** verkliga fel i AI-chattpanelen och rapporterade **två**
+fel som inte fanns. Alla fem orsakerna är kända och rättade. Bygg vidare på det
+här, skriv inte ett nytt svep från noll.
+
+### 1. Enteckens-element hoppades över
+
+Filtret var `textContent.trim().length > 1`. Det tog bort stängknappens `×`
+(uppmätt 2,61:1), `✓`/`✕` i `.problem-icon` (3,22–4,34:1) och `▲` i
+`.chart-card` (4,13:1). **Regel: `length > 0`.** Ett tecken är text.
+
+### 2. Pseudo-element lästes inte
+
+`::placeholder` saknades helt. Elva fält föll tillbaka på webbläsarens
+standardfärg `#757575` och gav 3,98–4,14:1 i mörkt tema, osett i månader.
+**Regel: läs `getComputedStyle(el, '::placeholder')` för `input`/`textarea`.**
+Begränsa till fälttyper som faktiskt kan ha platshållare — `input[type=range]`
+har ingen, och då returnerar anropet elementets egen färg, vilket gav ett
+falskt fel på 1,56:1.
+
+### 3. `background-clip: text` dubbelräknades
+
+En förfader med `background-clip: text` målar sin gradient **bara inuti
+glyferna**, aldrig bakom dem. Svepet läste den ändå som bakgrund och
+rapporterade `.process-neon` på 1,03:1. Rätt värde är 5,84:1.
+
+```js
+// i bakgrundssokningen: hoppa over en sadan forfader helt
+if ((cs.webkitBackgroundClip || cs.backgroundClip) === 'text') { n = n.parentElement; continue; }
+```
+
+Samma sak från andra hållet: ett element vars egen `-webkit-text-fill-color`
+är `transparent` målas av förfaderns bakgrundsklipp och ska hoppas över som
+textelement.
+
+### 4. Foton under en genomskinlig tvätt — DOM:en kan inte svara
+
+Det här är den viktigaste. Ligger text på en halvgenomskinlig platta ovanpå ett
+foto är DOM-bakgrunden **meningslös** — den säger vad tvätten komponeras mot i
+CSS, inte vad ögat ser. `.ba-after .ba-label` rapporterades som 3,33:1. Verkligt
+värde mot fotots ljusaste pixlar: **2,75:1**. `.ba-before .ba-label` flaggades
+inte alls och låg på **2,26:1**.
+
+**Regel: gå uppåt i trädet; hittas en `background-image: url(...)` ska
+elementet flaggas för pixelmätning i stället för att läsas ur DOM:en.**
+
+```js
+let p = el, overFoto = false;
+while (p && p.nodeType === 1) {
+  const bi = getComputedStyle(p).backgroundImage;
+  if (bi && bi !== 'none' && /url\(/.test(bi)) { overFoto = true; break; }
+  p = p.parentElement;
+}
+// overFoto === true  ->  DOM-siffran ar en gissning. Pixelmat.
+```
+
+**Så pixelmäts det** — via canvas, inte skärmdump. Bilderna är samma origin, så
+de kan ritas och läsas direkt. Det är exakt, tål att fliken laddas om och
+kräver inga filer på disk:
+
+```js
+// cover + center: mappa etikettens ruta till bildens koordinater
+const skala = Math.max(rL.width / img.naturalWidth, rL.height / img.naturalHeight);
+const offX = (rL.width  - img.naturalWidth  * skala) / 2;
+const offY = (rL.height - img.naturalHeight * skala) / 2;
+ctx.drawImage(img, ((rE.left - rL.left) - offX) / skala, ((rE.top - rL.top) - offY) / skala,
+                   rE.width / skala, rE.height / skala, 0, 0, cv.width, cv.height);
+// komponera sedan tvatten over VARJE pixel och ta lagsta kontrasten
+```
+
+**Det avgörande fallet är fotots ljusaste pixlar**, inte medelvärdet. En bricka
+kan mäta 7,19:1 mot medel och 4,06:1 mot de ljusaste — och det är de ljusaste
+som avgör om texten går att läsa.
+
+### 5. `color(srgb ...)` lästes som 0–255
+
+`color-mix()` ger beräknade värden i formen `color(srgb 0.96 0.96 0.98 / 0.92)`
+med flyttal i intervallet 0–1. Parsern läste dem som 0–255 och gjorde den ljusa
+menyn till `#010101`. **Regel: `color(...)` → multiplicera med 255.** Tre
+användningar i `styles.css`: solid nav, mobilöverlägget, `.logo-item:hover`.
+
+### Vad svepet fortfarande inte klarar
+
+- **Hovertillstånd** mäts inte. `:hover`-regler som byter färg är osedda.
+- **Fokusringar** mäts inte.
+- **Text över video eller `<img>`** — samma problem som punkt 4, men canvas-
+  mappningen ovan är skriven för `background-image` med `cover`. Andra
+  `background-size` kräver egen mappning.
+- **Dolda ytor** måste öppnas manuellt före svepet: `#orderModal.open`,
+  `#fabPanel.open`, `.form-error.show`, `.reveal.in`. Missas det granskas
+  de aldrig — beställningsmodalen var osedd i hela etapp 1.
+
 ## Så mäts resultatet
 
 Varje plan har ett eget mätskript under **Verification** som ska köras **både
