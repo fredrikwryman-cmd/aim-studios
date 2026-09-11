@@ -164,7 +164,8 @@ Om den dyker upp i en framtida granskning: notera att den är känd och gå vida
 ## Kontrastsvepets blinda fläckar — rättade 2026-09-08/09
 
 Svepet missade **åtta** verkliga fel i AI-chattpanelen och rapporterade **två**
-fel som inte fanns. Alla fem orsakerna är kända och rättade. Bygg vidare på det
+fel som inte fanns. Fem orsaker hittades där. En sjätte (opacitet) och en sjunde
+(gradientbakgrunder) kom till 2026-09-12. Alla sju är kända och rättade. Bygg vidare på det
 här, skriv inte ett nytt svep från noll.
 
 ### 1. Enteckens-element hoppades över
@@ -242,6 +243,76 @@ som avgör om texten går att läsa.
 med flyttal i intervallet 0–1. Parsern läste dem som 0–255 och gjorde den ljusa
 menyn till `#010101`. **Regel: `color(...)` → multiplicera med 255.** Tre
 användningar i `styles.css`: solid nav, mobilöverlägget, `.logo-item:hover`.
+
+### 6. `opacity` mättes aldrig — den deklarerade färgen är inte den man ser
+
+Upptäckt 2026-09-12 när kodregnsknappen skulle läggas bredvid temaknappen i
+headern. `.theme-toggle` deklarerar `color: var(--text)` och `opacity: .5`.
+Svepet läste `color` ur `getComputedStyle` och fick vit på mörkt — **19,2:1**.
+Det är inte vad som målas. `opacity` skapar en kompositeringsgrupp: elementet
+ritas mot transparent och läggs sedan över det som finns **bakom** gruppen.
+Den effektiva ikonfärgen är `rgb(133,133,135)`, inte vit, och kontrasten är
+**5,34:1** i mörkt och **3,61:1** i ljust tema.
+
+Båda klarar kravet 3:1 för grafiska objekt, så temaknappen lämnades orörd. Men
+felmarginalen i mätningen var 13,8 respektive 14,3 steg. Samma konstruktion med
+en svagare grundfärg, eller `opacity: .35`, hade fallit igenom osedd — precis
+som `.ba-before` gjorde i punkt 4.
+
+**Regel: multiplicera ihop `opacity` hela vägen upp i trädet, och komponera både
+förgrund och yta mot det som ligger bakom det översta genomskinliga elementet.**
+Elementets egen bakgrund ska dessutom multipliceras med samma faktor — en
+`rgba(255,255,255,.03)`-yta i en grupp med `opacity: .5` har effektiv alfa
+`.015`, inte `.03`.
+
+```js
+// Ackumulerad opacitet + det oversta element som ar genomskinligt
+function opkedja(el){
+  let o = 1, n = el, topp = el;
+  while (n && n.nodeType === 1) {
+    const v = parseFloat(getComputedStyle(n).opacity);
+    if (!isNaN(v) && v < 1) { o *= v; topp = n; }
+    n = n.parentElement;
+  }
+  return { o, topp };
+}
+const over = (f, b) => [0,1,2].map(i => f[i]*f[3] + b[i]*(1-f[3])).concat([1]);
+
+const { o, topp } = opkedja(el);
+const bakomGruppen = bakgrundBakom(topp);              // se punkt 3 och 4
+const egen  = parse(getComputedStyle(el).backgroundColor) || [0,0,0,0];
+const yta   = over([egen[0], egen[1], egen[2], (egen[3]||0) * o], bakomGruppen);
+const fg    = parse(getComputedStyle(el).color);
+const fgEff = over([fg[0], fg[1], fg[2], (fg[3] ?? 1) * o], yta);
+kontrast(fgEff, yta);          // <- det har ar siffran som galler
+```
+
+**Följden för nya komponenter:** sätt hellre färgen på `color` vid full
+opacitet än på `opacity`. Kodregnsknappen `.matrix-toggle` gör det —
+`color: var(--muted-dim)`, `opacity: 1` — och landar på **5,50:1** mörkt och
+**4,63:1** ljust. Den ser likadan ut som temaknappen bredvid, men dess siffra
+går att läsa direkt ur DOM:en utan den här korrigeringen.
+
+### 7. Gradientbakgrunder lästes som genomskinliga
+
+Samma pass, samma svep. `.nav-cta` har `background: linear-gradient(...)` och
+`background-color: rgba(0,0,0,0)`. Svepet gick förbi elementet, hittade sidans
+ljusa botten och rapporterade vit text på `#F6F6FB` — **1,08:1**. Ett fel som
+inte finns: verkligt värde är **6,29:1** mot gradientens ljusaste stopp.
+
+**Regel: en `background-image` med `gradient(` är ett ogenomskinligt lager.
+Plocka ut färgstoppen och låt det sämsta stoppet avgöra.**
+
+```js
+function stopp(bi){
+  if (!bi || bi === 'none' || !/gradient\(/.test(bi)) return null;
+  const m = bi.match(/(?:rgba?\([^)]*\)|color\(srgb[^)]*\)|#[0-9a-f]{3,8})/gi);
+  return m ? m.map(parse).filter(c => c && c[3] > 0) : null;
+}
+// i bakgrundssokningen, FORE avlasningen av backgroundColor:
+const st = stopp(cs.backgroundImage);
+if (st && st.length) return { stopp: st };   // mat mot varje stopp, ta lagsta
+```
 
 ### Vad svepet fortfarande inte klarar
 

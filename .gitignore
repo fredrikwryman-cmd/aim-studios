@@ -1,0 +1,2 @@
+# Playwright-artefakter: konsolloggar och skarmdumpar, aterskapas vid varje korning
+.playwright-mcp/

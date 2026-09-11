@@ -339,6 +339,16 @@
   .theme-toggle:hover { border-color: rgba(120,120,160,0.5); transform: rotate(18deg); opacity: 1; }
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
+  /* Kodregnsknappen. Samma matt, radie, ram och yta som .theme-toggle sa att de
+     tva laser som ett par - men fargen sitter pa color vid full opacitet i
+     stallet for opacity: .5. Skalet: opacity flyttar den EFFEKTIVA ikonfargen
+     bort fran den deklarerade, och da blir 3:1-kravet for grafiska objekt inte
+     matbart ur DOM:en. var(--muted-dim) landar dessutom pa samma upplevda
+     tyngd som temaknappens 50 %-vita ikon. Se punkt 6 i plans/README.md. */
+  .matrix-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted-dim); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; padding: 0; transition: color .2s, border-color .2s, background .2s, scale .16s var(--ease); }
+  .matrix-toggle svg { width: 18px; height: 18px; display: block; }
+  .matrix-toggle:hover { color: var(--accent); border-color: rgba(99,102,241,0.45); }
+  .matrix-toggle[aria-pressed="true"] { color: var(--accent); border-color: rgba(99,102,241,0.55); background: rgba(99,102,241,0.10); }
 
   .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, var(--primary), #4338CA); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
   .nav-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 14px 34px -10px rgba(79,70,229,0.85), 0 0 20px -4px rgba(99,102,241,0.5), 0 0 0 1px rgba(129,140,248,0.5); }
@@ -395,7 +405,7 @@
     .logo-text { animation: none; background-position: 0 50%; }
     .status-dot, .ai-badge { animation: none !important; }
     .mobile-nav a, .mobile-overlay.open .mobile-nav a { animation: none !important; opacity: 1; transform: none; }
-    .nav, .nav-cta, .theme-toggle, .navlink, .nav-ind, .logo-status, .mobile-overlay { transition: none !important; }
+    .nav, .nav-cta, .theme-toggle, .matrix-toggle, .navlink, .nav-ind, .logo-status, .mobile-overlay { transition: none !important; }
   }
 
   /* ===== Aktivt navlänk-tillstånd (nuvarande sida) ===== */
@@ -795,12 +805,6 @@
   .form-error.show { display: block; }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9995; }
 
-  /* footer – se Terminal Boot-block längst ner */
-  .foot-socials { display: flex; gap: 10px; }
-  .foot-socials a { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--muted); transition: color .2s, border-color .2s; }
-  .foot-socials a:hover { color: var(--text); border-color: rgba(120,120,160,0.5); }
-  .foot-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--muted-dim); font-size: 13px; }
-
   .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
   .reveal.in { opacity: 1; transform: none; }
 
@@ -1043,48 +1047,29 @@
   }
   @media (max-width: 560px) { .station-glass { padding: 20px; } .station-glass h3 { font-size: 18px; } }
 
-  /* ---------- Footer – Terminal Boot (indigo) ---------- */
-  .footer-terminal { position: relative; border-top: 1px solid var(--line); background: var(--bg-soft); overflow: hidden; }
-  .terminal-boot { position: relative; max-width: var(--max); margin: 0 auto; padding: 48px 24px 8px; display: flex; flex-direction: column; align-items: flex-start; }
-  /* F4: hardkodat #818cf8 gav 2.98:1 mot sidfotens vita botten i ljust tema.
-     Foljer nu --light-indigo som overallt annars. */
-  .boot-screen { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; color: var(--light-indigo); max-width: 640px; width: 100%; }
-  .boot-line { text-shadow: 0 0 10px rgba(99,102,241,0.25); white-space: pre-wrap; word-break: break-word; }
-  .boot-cursor { display: inline-block; color: var(--light-indigo); font-size: 16px; animation: blinkCursor 1s step-end infinite; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
-  @keyframes blinkCursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-  .boot-progress { width: 100%; max-width: 640px; height: 2px; background: rgba(99,102,241,0.1); border-radius: 1px; margin-top: 20px; overflow: hidden; }
-  .boot-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #4F46E5, #818cf8); border-radius: 1px; box-shadow: 0 0 10px rgba(99,102,241,0.4); transition: width 0.25s ease; }
+  /* ---------- Footer ---------- */
+  /* Uppgift 2e: den gra overkanten (--line) byttes mot en dampad indigolinje.
+     rgba(99,102,241,.30) ar --accent #6366F1 vid 30 % - samma idiom som resten
+     av filen anvander for indigotoner. .footer-glow-line togs bort samtidigt:
+     utan terminaltexten hamnade den 1 px under kanten och gav en dubbel linje.
+     Det tog ocksa bort en oandlig glowLinePulse-animation. */
+  .footer-terminal { position: relative; border-top: 1px solid rgba(99,102,241,0.30); background: var(--bg-soft); overflow: hidden; }
   .footer-content { position: relative; }
-  .footer-glow-line { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #4F46E5, #818cf8, #4F46E5, transparent); opacity: 0.6; animation: glowLinePulse 3s ease-in-out infinite; }
-  @keyframes glowLinePulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.75; } }
-  .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; padding: 44px 0 36px; }
-  .foot-brand { max-width: 320px; }
-  .foot-brand p { color: var(--muted); font-size: 14px; margin-top: 12px; line-height: 1.6; }
-  .foot-badges { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-  .foot-badge { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--light-indigo); border: 1px solid rgba(99,102,241,0.2); border-radius: 7px; padding: 5px 9px; display: flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.05); transition: all 0.3s ease; }
-  .foot-badge:hover { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.4); box-shadow: 0 0 12px -4px rgba(99,102,241,0.3); }
+  .foot-lead { padding: 52px 0 0; max-width: var(--text-max); color: var(--text); font-size: 17px; line-height: 1.6; }
+  .foot-lead a { color: var(--light-indigo); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
+  .foot-lead a:hover { color: var(--text); }
+  .foot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 220px)); gap: 40px; padding: 36px 0 30px; }
   .foot-col h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-dim); margin-bottom: 14px; font-weight: 600; }
   .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 9px; transition: color 0.2s, transform 0.2s; }
   .foot-col a:hover { color: var(--text); transform: translateX(4px); }
-  .foot-socials { display: flex; gap: 10px; }
-  .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--muted); transition: all 0.3s ease; background: var(--glass); position: relative; overflow: hidden; }
-  .social-icon::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, var(--item-color, #6366F1), transparent 70%); opacity: 0; transition: opacity 0.3s; }
-  .social-icon:hover::before { opacity: 0.15; }
-  .social-icon:hover { color: var(--text); border-color: var(--item-color, var(--line-strong)); transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.3); }
-  .social-icon:nth-child(1) { --item-color: #E4405F; }
-  .social-icon:nth-child(2) { --item-color: #0A66C2; }
-  .social-icon:nth-child(3) { --item-color: #1877F2; }
-  .foot-bottom { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--muted-dim); font-size: 13px; }
-  .footer-matrix-hint { cursor: pointer; transition: color 0.3s, text-shadow 0.3s; opacity: 0.5; user-select: none; }
-  .footer-matrix-hint:hover { color: var(--light-indigo); opacity: 1; text-shadow: 0 0 10px rgba(99,102,241,0.6); }
+  /* .foot-col .foot-note slar .foot-col span pa specificitet (0,2,0 mot 0,1,1) */
+  .foot-col .foot-note { color: var(--muted-dim); }
+  .foot-bottom { padding: 20px 0 28px; border-top: 1px solid var(--line); text-align: center; color: var(--muted-dim); font-size: 13px; }
+  .foot-bottom a { color: var(--muted-dim); transition: color 0.2s; }
+  .foot-bottom a:hover { color: var(--text); }
   .matrix-rain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
   .matrix-rain.active { opacity: 0.16; }
-  body.neon .boot-line { color: #c4b5fd; text-shadow: 0 0 15px rgba(168,85,247,0.5); }
-  body.neon .boot-cursor { color: #c4b5fd; text-shadow: 0 0 15px rgba(168,85,247,0.8); }
-  body.neon .boot-progress-bar { background: linear-gradient(90deg, #818cf8, #a855f7); box-shadow: 0 0 15px rgba(168,85,247,0.6); }
-  body.neon .footer-glow-line { background: linear-gradient(90deg, transparent, #818cf8, #a855f7, #818cf8, transparent); }
-  @media (prefers-reduced-motion: reduce) { .boot-cursor { animation: none; } .footer-glow-line { animation: none; } }
-  @media (max-width: 768px) { .foot-grid { flex-direction: column; gap: 32px; } .boot-screen { font-size: 12px; } .terminal-boot { padding: 36px 18px 4px; } }
+  @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr; gap: 26px; padding: 30px 0 26px; } .foot-lead { padding-top: 40px; font-size: 16px; } }
 
   /* ---------- Tillgänglighet: skip-link + global fokus ---------- */
   .skip-link { position: absolute; top: -56px; left: 8px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 10000; font-weight: 600; text-decoration: none; transition: top .2s var(--ease); }
@@ -1361,7 +1346,7 @@
   .form-submit:active { scale: 0.97; }
 
   .theme-toggle:active,
-  .social-icon:active,
+  .matrix-toggle:active,
   .terminal-send:active,
   .pkg-close:active { scale: 0.95; }
 
@@ -1380,7 +1365,6 @@
     .price-card:hover,
     .pkg-close:hover,
     .foot-col a:hover,
-    .social-icon:hover,
     .svc-card:hover,
     a.case-card:hover { transform: none; }
     .problem-card:hover:not(.flipped) .problem-inner { transform: none; }
