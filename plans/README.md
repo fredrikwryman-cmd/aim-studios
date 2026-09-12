@@ -168,6 +168,112 @@ finns inte kvar i `styles.css` — verifierat med grep, noll träffar. Footerns
 4. **En ändring utan uppmätt vinst byggs inte.** Omätningen visade noll vinst
    redan innan bygget. Det var skäl nog att låta bli.
 
+## Speed Index är bimodalt på den här sajten — uppmätt 2026-09-12
+
+**Detta är viktigare än enskilda pass.** Flera beslut i loggen ovan vilar på
+enstaka PSI-körningar. Den grunden håller inte för SI.
+
+Uppgift 4 — `@font-face` flyttat till `assets/fonts/fonts.css` — mätte
+**SI 4182 ms** mot föregående commits **1051 ms**. Fyra gånger långsammare, och
+praktiskt taget identiskt med de **4154 ms** sajten låg på före typsnittspasset.
+En interfolierad A/B mot ett worktree av föregående commit visade motsatsen:
+
+```
+              SI      FCP    typsnitt applicerade
+v129        6587     6596    6148 ms
+v130        5101     4932    5876 ms
+v129        6182     6084    6355 ms
+v130        5089     4948    5868 ms
+snitt   v129 6385    v130 5095    delta -1290 ms
+```
+
+Ändringen friskrevs. Därefter kördes PSI fyra gånger på `?v=130` med **identisk
+kod och ingenting ändrat emellan**:
+
+```
+mobil      99 · 97 · 97
+desktop   100 · 99 · 100 · 100
+SI mobil, de tva korningar dar den noterades:   1051 ms   och   4182 ms
+```
+
+**Det är beviset.** Samma commit, samma sida, fyra gånger. Prestandapoängen
+svänger två steg på mobil och ett på desktop, och Speed Index skiljer fyra
+gånger mellan två körningar av exakt samma kod. **Både 1051 och 4182 ms är
+sanna värden.** Hade vi mätt en gång före och en gång efter vilken ändring som
+helst, hade vi kunnat få vilken slutsats vi ville.
+
+### Orsaken: 23 oändliga animationer löper genom hela mätfönstret
+
+Speed Index mäter visuell stabilisering. En sida som aldrig slutar röra sig
+stabiliseras aldrig, och värdet beror då på vad mätfönstret råkar fånga.
+
+Startsidan har 23 löpande oändliga animationer, varav **10 inom vyporten
+412x823 vid scrollläge 0** — alltså inom det Lighthouse filmar. Fyra av dem
+utlöser ommålning, inte bara komposition:
+
+```
+logoGradient   span.logo-text      y=16    background-position   malar om
+pulse          span.pulse          y=331   box-shadow            malar om
+promoPulse     #promoSticker       y=692   box-shadow            malar om
+orbPulse       div.ai-orb-core     y=737   transform, box-shadow malar om
+promoBreathe   div.promo-vp        y=691   transform             komposit
+particleFloat  div.ai-orb-particles y=701  transform, opacity    komposit  (2 st)
+ringSpin       div.ai-orb-ring     y=704   transform             komposit  (3 st)
+```
+
+Cyklerna är 2000-12000 ms, alltså längre än mätfönstret. Ingen hinner tillbaka
+till utgångsläget. Samma kärna finns på alla åtta riktiga sidor; `/webbdesign/`
+har flest med 29 löpande. `404.html` och `integritetspolicy.html` har noll.
+
+**Detta är inte nytt och inte infört av något enskilt pass.** Animationerna har
+funnits där hela tiden. Det som är nytt är att vi vet om dem.
+
+### Regler för hur PSI ska läsas
+
+1. **En enskild PSI-körning är inte bevis.** Kör tre, använd medianen.
+2. **Ett delta under cirka 3000 ms i SI är brus** tills motsatsen visats med
+   interfolierad A/B. Det var spannet mellan de två lägena här.
+3. **FCP, LCP, TBT och CLS är stabila och går att lita på enskilt.** SI gör det
+   inte — och eftersom SI väger in i prestandapoängen är **poängen själv lika
+   opålitlig**. I passet ovan rörde sig FCP 222 ms och LCP 133 ms medan SI
+   påstods ha rört sig 3131 ms.
+4. **Metoden som faktiskt avgör** är interfolierad A/B mot ett git-worktree av
+   föregående commit, inte PSI före och efter.
+
+### Riggen — parametrar att återanvända
+
+Så att nästa mätning går att jämföra med den här:
+
+```
+git worktree add --detach <tmp>/v<N-1> HEAD~1     # foregaende commit
+lokal statisk server for bada trad, korrekta cache-headers
+  (no-store ger falska dubbletthamtningar av woff2 nar en familj
+   har flera @font-face mot samma URL - det kontaminerade forsta matningen)
+
+vyport          412 x 823
+deviceScaleFactor  1,75
+isMobile        true
+CPU             4x strypning   (Emulation.setCPUThrottlingRate)
+natverk         1,6 Mbit/s ned, 750 kbit/s upp, 150 ms RTT
+ordning         A,B,A,B - aldrig A,A,B,B
+```
+
+SI beräknas ur `Page.startScreencast` med histogramlikhet mot sista bildrutan.
+Skripten ligger inte i repot; de byggs om vid behov ur den här beskrivningen.
+
+### Vad detta betyder för äldre beslut
+
+Två beslut i loggen ovan vilar delvis på enstaka SI- eller poängmätningar och
+bör inte åberopas som bevisade:
+
+- **Kodregnet gjordes opt-in** delvis på prestandaargument.
+- **`glowLinePulse` revs** och beslutet bekräftades med "desktop 99 -> 100".
+
+Båda kan mycket väl ha varit rätt av andra skäl — kodregnet ritar på canvas
+varje bildruta, och den dubbla footerlinjen var ett verkligt grafiskt fel. Men
+**poängdeltat i sig bevisade ingenting.** Riv inte upp besluten; åberopa bara
+inte siffrorna.
+
 ## Kända avvikelser — mätta, bedömda och medvetet lämnade
 
 Punkter som en kontrastgranskning kommer att flagga igen. De är undersökta och
