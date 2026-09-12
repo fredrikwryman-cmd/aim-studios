@@ -1048,11 +1048,11 @@
   @media (max-width: 560px) { .station-glass { padding: 20px; } .station-glass h3 { font-size: 18px; } }
 
   /* ---------- Footer ---------- */
-  /* Uppgift 2e: den gra overkanten (--line) byttes mot en dampad indigolinje.
+  /* F18: den gra overkanten (--line) byttes mot en dampad indigolinje.
      rgba(99,102,241,.30) ar --accent #6366F1 vid 30 % - samma idiom som resten
-     av filen anvander for indigotoner. .footer-glow-line togs bort samtidigt:
-     utan terminaltexten hamnade den 1 px under kanten och gav en dubbel linje.
-     Det tog ocksa bort en oandlig glowLinePulse-animation. */
+     av filen anvander for indigotoner. Den animerade linje som forr lag vid
+     overkanten av .footer-content revs i samma pass, och beslutet bekraftades
+     i F19. Bygg inte tillbaka den - skalen star i plans/README.md. */
   .footer-terminal { position: relative; border-top: 1px solid rgba(99,102,241,0.30); background: var(--bg-soft); overflow: hidden; }
   .footer-content { position: relative; }
   .foot-lead { padding: 52px 0 0; max-width: var(--text-max); color: var(--text); font-size: 17px; line-height: 1.6; }

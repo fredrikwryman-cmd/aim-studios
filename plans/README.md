@@ -124,6 +124,36 @@ inte igen utan uppmätt vinst från PSI.** Rena CSS-övergångar på `opacity` o
 `transform`, som B1 och B3, är däremot gratis — de kör bara vid interaktion och
 syns inte i TBT.
 
+
+### Rivet i F18, bekräftat i F19: `glowLinePulse`
+
+`.footer-glow-line` — en 1 px indigogradient vid överkanten av `.footer-content`
+som pulsade mellan `opacity` 0,3 och 0,75 var tredje sekund, oändligt — revs i
+F18 när terminaltexten ovanför footern togs bort. Utan terminaltexten hamnade
+den 1 px under footerns egen överkant och gav en dubbel linje. Överkanten är
+sedan dess en statisk dämpad indigolinje, `rgba(99,102,241,.30)`.
+
+```
+?v=126   före F18    mobil 97  desktop  99
+?v=127   efter F18   mobil 97  desktop 100   TBT 16 / 9 ms   CLS 0 / 0
+```
+
+**Desktop gick 99 → 100 i samma pass som pulsen försvann.** Passet innehöll
+fler ändringar, så poängen kan inte tillskrivas enbart den — men den gick åt
+rätt håll, och det räcker. Frågan om att bygga tillbaka linjen ställdes i F19
+och **avslogs, alternativ 1 av tre**:
+
+- Vi bygger inte tillbaka delar av det som gav den enda gratispoängen på länge.
+- En uttonande gradient på en 1 px-linje är en detalj ingen besökare lägger
+  märke till. Komplexitet i CSS:en utan synlig vinst.
+- Den nya footern är avskalad med flit. Pulsen och gradienten hörde till den
+  gamla footern med terminaltext och tre klumpar i bottenraden. Den finns inte
+  längre.
+
+**Utred inte det här igen.** `.footer-glow-line` och `@keyframes glowLinePulse`
+finns inte kvar i `styles.css` — verifierat med grep, noll träffar. Footerns
+överkant rörs inte.
+
 ### Regler som följer av detta
 
 1. **PSI mäts före och efter varje pass som rör rörelse eller skript.** Fredrik
