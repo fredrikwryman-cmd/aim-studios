@@ -886,21 +886,33 @@
      i F19. Bygg inte tillbaka den - skalen star i plans/README.md. */
   .footer-terminal { position: relative; border-top: 1px solid rgba(99,102,241,0.30); background: var(--bg-soft); overflow: hidden; }
   .footer-content { position: relative; }
-  .foot-lead { padding: 52px 0 0; max-width: var(--text-max); color: var(--text); font-size: 17px; line-height: 1.6; }
-  .foot-lead a { color: var(--light-indigo); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
-  .foot-lead a:hover { color: var(--text); }
-  .foot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 220px)); gap: 40px; padding: 36px 0 30px; }
-  .foot-col h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-dim); margin-bottom: 14px; font-weight: 600; }
-  .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 14px; margin-bottom: 9px; transition: color 0.2s, transform 0.2s; }
+  /* Tre kolumner: intro+mejl, tjanster, kontakt. Mejladressen star pa ETT
+     stalle - i introkolumnen. Kontaktkolumnen har telefon och svarstid.
+     Fargerna ar enbart --text, --muted och --muted-dim vid FULL opacitet.
+     Ingen opacity pa text nagonstans i footern: det ar punkt 6 i
+     plans/README.md, dar temaknappen matte 19,2:1 deklarerat mot 5,34:1
+     effektivt. En deklarerad farg som inte ar den man ser gar inte att
+     granska. Ingen Bebas Neue heller - den ar ett displaysnitt for siffror. */
+  /* Introspåret kapas till 420 px i SPARET, inte bara pa innehallet. Med
+     minmax(0,1fr) pa forsta sparet blev det uppmatta avstandet till Tjanster
+     350 px trots gap: 52px - tomrummet hamnade i sparet, inte i gapet. */
+  .foot-grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr) minmax(0, 1fr); gap: 52px; padding: 68px 0 0; align-items: start; }
+  .foot-intro { max-width: 420px; }
+  .foot-lead { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-size: 24px; font-weight: 600; line-height: 1.6; color: var(--text); }
+  .foot-mail { display: inline-block; margin-top: 18px; color: var(--muted); font-size: 17px; font-weight: 500; line-height: 1.7; transition: color 0.2s; }
+  .foot-mail:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+  .foot-col h3 { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 18px; }
+  .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 10px; transition: color 0.2s, transform 0.2s; }
   .foot-col a:hover { color: var(--text); transform: translateX(4px); }
   /* .foot-col .foot-note slar .foot-col span pa specificitet (0,2,0 mot 0,1,1) */
   .foot-col .foot-note { color: var(--muted-dim); }
-  .foot-bottom { padding: 20px 0 28px; border-top: 1px solid var(--line); text-align: center; color: var(--muted-dim); font-size: 13px; }
+  .foot-bottom { margin-top: 40px; padding: 24px 0 64px; border-top: 1px solid var(--line); text-align: center; color: var(--muted-dim); font-size: 13px; line-height: 1.7; }
   .foot-bottom a { color: var(--muted-dim); transition: color 0.2s; }
   .foot-bottom a:hover { color: var(--text); }
   .matrix-rain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
   .matrix-rain.active { opacity: 0.16; }
-  @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr; gap: 26px; padding: 30px 0 26px; } .foot-lead { padding-top: 40px; font-size: 16px; } }
+  /* Mobil: staplat i DOM-ordning - intro+mejl, TJANSTER, KONTAKT, bottenrad. */
+  @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr; gap: 28px; padding: 60px 0 0; } .foot-intro { max-width: none; } .foot-lead { font-size: 22px; } .foot-mail { font-size: 16px; margin-top: 14px; } .foot-bottom { margin-top: 32px; padding: 22px 0 60px; } }
 
   /* ---------- Tillgänglighet: skip-link + global fokus ---------- */
   .skip-link { position: absolute; top: -56px; left: 8px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 10000; font-weight: 600; text-decoration: none; transition: top .2s var(--ease); }
