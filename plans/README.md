@@ -274,6 +274,49 @@ varje bildruta, och den dubbla footerlinjen var ett verkligt grafiskt fel. Men
 **poängdeltat i sig bevisade ingenting.** Riv inte upp besluten; åberopa bara
 inte siffrorna.
 
+### Spåret är stängt: de fyra ommålande animationerna lämnas som de är
+
+Beslut 2026-09-12, F20. **Utred inte det här igen.**
+
+De fyra animationer som löper inom vyporten och utlöser ommålning är kartlagda
+och **medvetet lämnade orörda**:
+
+```
+logoGradient   span.logo-text        y=16    background-position   107x32 px    ~3 400 px2   8 sidor
+pulse          span.pulse            y=331   box-shadow             23x23 px       529 px2   8 sidor
+promoPulse     #promoSticker         y=692   box-shadow           162x162 px   ~26 000 px2   bara /
+orbPulse       div.ai-orb-core       y=737   transform,box-shadow 176x176 px   ~31 000 px2   8 sidor
+```
+
+**Skälet:** en konvertering till `transform`/`opacity` minskar ommålningen men
+inte pixelförändringen. Speed Index mäter det senare — den skiljer inte på en
+pixel som ändrats av en ommålning och en som flyttats av kompositorn. TBT ligger
+dessutom redan på 0 ms på både mobil och desktop, så det finns inget uppmätt
+CPU-problem att lösa. **Vinsten går inte att mäta, alltså byggs ändringen inte**
+— samma regel som i punkt 4 ovan.
+
+För fullständighetens skull, så att analysen inte behöver göras om: `promoPulse`
+och `pulse` hade gått att bygga om rakt av — `.promo-sticker::after` bär redan
+pulsen ensam och `.pulse::after` är fri. `orbPulse` hade gått med en
+fidelitetsrisk, eftersom en skalad glöd även skalar sin suddighet medan en
+animerad `blur` inte gör det. `logoGradient` hade **inte** gått utan att bygga om
+headerns markup — `background-clip: text` målar gradienten inuti glyferna, och
+en `transform` flyttar glyferna med sig. Genomgående hake: `box-shadow`-spridning
+är absoluta pixlar medan `scale` är relativt, så klistermärket hade krävt två
+skalvärden för sina två breakpoints.
+
+**Den enda ändring som faktiskt skulle flytta SI** är att låta animationerna
+upphöra efter ett ändligt antal iterationer, eller att inte starta dem i första
+vyn — framför allt orben, som är fast i vyporten på alla åtta sidor. Det är en
+**designändring, inte en optimering, och den är avvisad.**
+
+### `/webbdesign/` skiljer sig inte i art
+
+29 löpande mot startsidans 23. Hela skillnaden är 16 `particleFloatUp` — ren
+`transform`/`opacity` och **noll av dem i första vyn**. I vyporten har
+`/webbdesign/` nio mot startsidans tio, och de ommålande är fyra på båda.
+Rättas kärnan rättas den överallt; sidan behöver ingen egen åtgärd.
+
 ## Kända avvikelser — mätta, bedömda och medvetet lämnade
 
 Punkter som en kontrastgranskning kommer att flagga igen. De är undersökta och
