@@ -300,14 +300,7 @@
   .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2c2c38; display: block; }
   .browser-url { margin-left: 12px; font-size: 12px; color: #8A8A9C; background: #0B0B0F; padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
   .browser-body { position: relative; aspect-ratio: 16/10; background: #0e0e15; }
-  .browser-body video, .browser-body img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .browser-poster { position: absolute; inset: 0; padding: 22px; }
-  .mini-hero { height: 14px; width: 62%; border-radius: 5px; background: linear-gradient(90deg, var(--primary-soft), var(--primary)); margin-bottom: 9px; }
-  .mini-line { height: 9px; border-radius: 4px; background: rgba(255,255,255,0.10); margin-bottom: 8px; }
-  .mini-line.w1 { width: 88%; } .mini-line.w2 { width: 70%; }
-  .mini-row { display: flex; gap: 10px; margin: 16px 0; }
-  .mini-card { flex: 1; height: 48px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
-  .mini-btn { height: 28px; width: 120px; border-radius: 8px; background: var(--accent); margin-top: 4px; }
+  .browser-body img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .chart-card { position: absolute; bottom: -26px; left: -26px; width: 220px; background: rgba(20,20,28,0.92); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); animation: floaty 5s ease-in-out infinite; z-index: 3; }
   @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
@@ -914,12 +907,6 @@
   .skip-link:focus { top: 8px; }
   :focus-visible { outline: 3px solid #6366F1; outline-offset: 2px; }
 
-
-  /* hero-video: visa stillbild vid reduced-motion */
-  @media (prefers-reduced-motion: reduce) {
-    .hero-vid { display: none; }
-    .browser-body { aspect-ratio: 16 / 9; background-image: url('assets/hero-poster.jpg'); background-size: cover; background-position: center; }
-  }
 
   /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
   .svc-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
