@@ -1047,8 +1047,11 @@
   body[data-bg="branding"] { --bgimg: url(/assets/bg-branding.webp); }
   body[data-bg="case"] { --bgimg: url(/assets/bg-case.webp); }
   body[data-bg="om-oss"] { --bgimg: url(/assets/bg-om-oss.webp); }
+  /* Skotsel ateranvander bg-seo (inga nya bildfiler), samma som webboptimering gor med bg-webbdesign */
+  body[data-bg="skotsel"] { --bgimg: url(/assets/bg-seo.webp); }
   /* per-sida läsbarhet: busiga motiv dämpas, lugna får synas mer */
   body[data-bg="seo"]::before { opacity: .55; }
+  body[data-bg="skotsel"]::before { opacity: .55; }
   body[data-bg="om-oss"]::before { opacity: .55; }
   body[data-bg="ai-losningar"]::before { opacity: .55; }
   body[data-bg="branding"]::before { opacity: .55; }
