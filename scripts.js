@@ -5,17 +5,18 @@ const header = document.getElementById('header'), progress = document.getElement
 function onScroll(){
   const h = document.documentElement;
   const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
-  progress.style.width = (p*100)+'%';
+  if (progress) progress.style.width = (p*100)+'%';
   /* menyn blir ogenomskinlig sa fort sidan lamnat toppen */
-  header.classList.toggle('is-solid', h.scrollTop > 8);
+  if (header) header.classList.toggle('is-solid', h.scrollTop > 8);
 }
-window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+if (header || progress) { window.addEventListener('scroll', onScroll, {passive:true}); onScroll(); }
 
 /* ---------- Custom cursor + magnetic (en rAF-loop, snärtig) ---------- */
 (function(){
   if (reduce || matchMedia('(max-width:900px)').matches || matchMedia('(pointer:coarse)').matches) return;
   document.body.classList.add('has-cursor');
   const dot=document.getElementById('cDot'), ring=document.getElementById('cRing');
+  if(!dot || !ring) return;
   dot.style.display='none'; // riktiga muspekaren visas istället
   let mx=innerWidth/2, my=innerHeight/2, px=mx, py=my, rx=mx, ry=my;
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
@@ -287,7 +288,7 @@ wireChatInput('demoInput','demoSend',demoAsk);
 wireChatInput('fabInput','fabSend',fabAsk);
 // Orb-launcher → chat-panel (klick + tangentbord)
 const aiOrb=document.getElementById('aiOrbContainer'), fabPanel=document.getElementById('fabPanel'), fabClose=document.getElementById('fabClose');
-function toggleChat(){ const open=fabPanel.classList.toggle('open'); if(open){ const fi=document.getElementById('fabInput'); if(fi) setTimeout(()=>fi.focus(),80); } }
+function toggleChat(){ if(!fabPanel) return; const open=fabPanel.classList.toggle('open'); if(open){ const fi=document.getElementById('fabInput'); if(fi) setTimeout(()=>fi.focus(),80); } }
 if(aiOrb&&fabPanel){
   aiOrb.addEventListener('click',toggleChat);
   aiOrb.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleChat(); } });
@@ -306,7 +307,7 @@ if(form){
   form.addEventListener('submit',async e=>{
     e.preventDefault();
     let ok=true;
-    [['namn',v=>v.trim()],['epost',v=>/\S+@\S+\.\S+/.test(v)]].forEach(([id,test])=>{const f=document.getElementById(id);const valid=test(f.value);f.classList.toggle('err',!valid);if(!valid)ok=false;});
+    [['namn',v=>v.trim()],['epost',v=>/\S+@\S+\.\S+/.test(v)]].forEach(([id,test])=>{const f=document.getElementById(id);if(!f)return;const valid=test(f.value);f.classList.toggle('err',!valid);if(!valid)ok=false;});
     if(!ok)return;
     const err=document.getElementById('formError'); if(err)err.classList.remove('show');
     const btn=form.querySelector('button[type="submit"]'); const orig=btn.textContent; btn.textContent='Skickar…'; btn.style.opacity='.7'; btn.disabled=true;
@@ -316,10 +317,10 @@ if(form){
       /* height animeras medvetet: kortet kollapsar ~260 px och en teleport har ar varre
          an en layout-animation som kors en gang per besok i basta fall. */
       const kort=form.closest('.form-card');
-      const h0=kort.getBoundingClientRect().height;
+      const h0=kort?kort.getBoundingClientRect().height:0;
       form.style.display='none';
-      document.getElementById('formSuccess').classList.add('show');
-      const h1=kort.getBoundingClientRect().height;
+      const klar=document.getElementById('formSuccess'); if(klar) klar.classList.add('show');
+      const h1=kort?kort.getBoundingClientRect().height:0;
       if(!reduce && Math.abs(h1-h0)>8){
         kort.style.overflow='hidden';
         kort.style.height=h0+'px';
@@ -717,6 +718,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     form.addEventListener('submit',function(e){
       e.preventDefault();
       var nm=document.getElementById('oName'), em=document.getElementById('oEmail'), ok=true;
+      if(!nm || !em) return;
       if(!nm.value.trim()){ nm.classList.add('err'); ok=false; } else nm.classList.remove('err');
       if(!/\S+@\S+\.\S+/.test(em.value)){ em.classList.add('err'); ok=false; } else em.classList.remove('err');
       var fel=document.getElementById('orderError');
