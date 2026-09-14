@@ -210,18 +210,29 @@
   }
 
 
-  /* ===== Mobil (<=880px): solid bar + hamburgare ===== */
-  @media (max-width: 880px) {
+  /* Statusbrickan ar 153,6 px och ar det forsta som far ge vika. Med atta lankar
+     kraver raden 1510 px med brickan synlig och 1334,4 px utan. Den doljs darfor
+     redan vid 1550 px - 40 px over behovet - i stallet for att vanta pa
+     mobilbrytpunkten. */
+  @media (max-width: 1550px) {
+    .logo-status { display: none; }
+  }
+
+  /* ===== Mobil (<=1380px): solid bar + hamburgare =====
+     Atta lankar med fulla etiketter och dold statusbricka kraver 1334,4 px.
+     Brytpunkten ligger 45,6 px over det. Tidigare 880 px gav ett band mellan
+     881 och 1020 dar desktop-navbaren visades utan att rymmas - CTA:n klipptes
+     av viewporten. */
+  @media (max-width: 1380px) {
     .nav-center { display: none; }
     .theme-toggle { display: none; }
     .nav-right .nav-cta { display: none; }
     .menu-btn { display: grid; }
-    .logo-status { display: none; }
     .nav { padding: 0 18px; height: 64px; }
   }
 
   /* ===== Mobil fullskärms-overlay ===== */
-  .mobile-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 32px; background: var(--bg); background: color-mix(in srgb, var(--bg) 96%, transparent); -webkit-backdrop-filter: blur(26px); backdrop-filter: blur(26px); opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility .35s; }
+  .mobile-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 84px 32px 32px; overflow-y: auto; background: var(--bg); background: color-mix(in srgb, var(--bg) 96%, transparent); -webkit-backdrop-filter: blur(26px); backdrop-filter: blur(26px); opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility .35s; }
   .mobile-overlay.open { opacity: 1; visibility: visible; }
   .mobile-close { position: absolute; top: 22px; right: 22px; width: 46px; height: 46px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; }
   .mobile-close svg { width: 24px; height: 24px; }
@@ -234,11 +245,21 @@
   .mobile-overlay.open .mobile-nav a:nth-child(4){ animation-delay: .24s; }
   .mobile-overlay.open .mobile-nav a:nth-child(5){ animation-delay: .30s; }
   .mobile-overlay.open .mobile-nav a:nth-child(6){ animation-delay: .36s; }
+  .mobile-overlay.open .mobile-nav a:nth-child(7){ animation-delay: .42s; }
+  .mobile-overlay.open .mobile-nav a:nth-child(8){ animation-delay: .48s; }
   @keyframes mobileItemIn { to { opacity: 1; transform: none; } }
   .mobile-nav a:hover { color: var(--primary-soft); }
   .mobile-cta { margin-top: 20px; width: 100%; max-width: 320px; height: 54px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; font-family: 'Inter Tight'; font-weight: 700; font-size: 18px; color: #fff; background: linear-gradient(180deg, var(--primary-soft), var(--primary)); box-shadow: 0 12px 32px -8px rgba(79,70,229,0.6); }
   .mobile-theme { margin-top: 4px; background: none; border: 0; color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; padding: 10px; }
-  @media (min-width: 881px) { .mobile-overlay { display: none; } }
+  /* Stangknappen sitter absolut och slutar vid 68 px. Overlayn har darfor 84 px
+     takhojd sa forsta menyposten aldrig hamnar bakom den. Under 820 px hojd
+     racker inte utrymmet for att centrera atta poster - da toppstalls de i
+     stallet, for centrering med overflow klipper toppen och gor de oversta
+     posterna onabara. */
+  @media (max-height: 820px) {
+    .mobile-overlay { justify-content: flex-start; }
+  }
+  @media (min-width: 1381px) { .mobile-overlay { display: none; } }
 
   :root[data-theme="light"] .nav-center { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.06); }
   :root[data-theme="light"] .nav-ind { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.08); }
