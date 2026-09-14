@@ -170,11 +170,13 @@
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: statusPulse 2s ease-in-out infinite; flex: 0 0 auto; }
   @keyframes statusPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
 
-  .nav-center { position: relative; display: flex; align-items: center; gap: 4px; padding: 5px 6px; border-radius: 100px; background: var(--glass); border: 1px solid var(--line); }
+  .nav-center { position: relative; display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 100px; background: var(--glass); border: 1px solid var(--line); }
   .nav-ind { position: absolute; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: 100px; background: var(--glass); border: 1px solid var(--line-strong); opacity: 0; z-index: 0; transition: transform .4s var(--ease), width .4s var(--ease), opacity .3s; pointer-events: none; }
-  .navlink { position: relative; z-index: 1; padding: 8px 16px; border-radius: 100px; font-size: 13.5px; font-weight: 500; letter-spacing: 0.01em; color: var(--muted); white-space: nowrap; transition: color .25s; }
+  .navlink { --navlink-pad: 10px; position: relative; z-index: 1; padding: 6px var(--navlink-pad); border-radius: 100px; font-size: 12.5px; font-weight: 500; letter-spacing: 0.01em; color: var(--muted); white-space: nowrap; transition: color .25s; }
   .navlink::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 0; height: 2px; border-radius: 2px; background: var(--primary-soft); transition: width 0.3s var(--ease), left 0.3s var(--ease); }
-  .navlink:hover::after { width: calc(100% - 28px); left: 14px; }
+  /* Matten foljer --navlink-pad sa strecket tacker exakt textens bredd aven om
+     paddingen andras. Var tidigare fasta 28px/14px, alltsa last vid padding 16. */
+  .navlink:hover::after { width: calc(100% - 2 * var(--navlink-pad)); left: var(--navlink-pad); }
   .navlink:hover { color: var(--text); }
   .navlink.active { color: var(--text); }
   .nav-ai { display: inline-flex; align-items: center; }
@@ -210,20 +212,20 @@
   }
 
 
-  /* Statusbrickan ar 153,6 px och ar det forsta som far ge vika. Med atta lankar
-     kraver raden 1510 px med brickan synlig och 1334,4 px utan. Den doljs darfor
-     redan vid 1550 px - 40 px over behovet - i stallet for att vanta pa
-     mobilbrytpunkten. */
-  @media (max-width: 1550px) {
+  /* Statusbrickan ar 153,6 px och ar det forsta som far ge vika. Binarsokt med
+     atta lankar, 12,5 px text och 8 px gap: raden ryms ned till 1413 px med
+     brickan synlig och 1237 px utan. Den doljs darfor under 1453 px - 40 px
+     over sitt eget behov. */
+  @media (max-width: 1453px) {
     .logo-status { display: none; }
   }
 
-  /* ===== Mobil (<=1380px): solid bar + hamburgare =====
-     Atta lankar med fulla etiketter och dold statusbricka kraver 1334,4 px.
-     Brytpunkten ligger 45,6 px over det. Tidigare 880 px gav ett band mellan
-     881 och 1020 dar desktop-navbaren visades utan att rymmas - CTA:n klipptes
-     av viewporten. */
-  @media (max-width: 1380px) {
+  /* ===== Mobil (<=1277px): solid bar + hamburgare =====
+     Binarsokt: atta lankar med fulla etiketter, 12,5 px text, 6/10 padding och
+     8 px gap ryms ned till 1237 px med statusbrickan dold. Brytpunkten ligger
+     40 px over det. Vald sa att 1280 px - omaximerade fonster, MacBook 13 i
+     skalat lage, surfplattor i liggande - far hela lankraden med 43 px luft. */
+  @media (max-width: 1277px) {
     .nav-center { display: none; }
     .theme-toggle { display: none; }
     .nav-right .nav-cta { display: none; }
@@ -259,7 +261,7 @@
   @media (max-height: 820px) {
     .mobile-overlay { justify-content: flex-start; }
   }
-  @media (min-width: 1381px) { .mobile-overlay { display: none; } }
+  @media (min-width: 1278px) { .mobile-overlay { display: none; } }
 
   :root[data-theme="light"] .nav-center { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.06); }
   :root[data-theme="light"] .nav-ind { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.08); }
