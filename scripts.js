@@ -526,7 +526,24 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     if(card) card.classList.add('selected');
     modal.classList.add('open');
     document.body.style.overflow='hidden'; flip.scrollTop=0;
-    setTimeout(()=>{const c=flip.querySelector('.pkg-close'); if(c) c.focus();},80);
+    /* Kortet vrids in fran rotateY(-90deg). Ett element som star pa kant har ingen
+       renderad bredd och kan inte ta emot fokus - focus() blir en tyst no-op utan
+       att kasta nagot. Uppmatt: anropet misslyckades vid 80 och 150 ms och lyckades
+       forst fran 250 ms. Vi vantar darfor pa att vridningen ar klar, med en
+       tidsgrans som skydd om transitionend uteblir (t.ex. reduced motion). */
+    /* Kortet vrids in fran rotateY(-90deg). Ett element som star pa kant har ingen
+       renderad bredd och kan inte ta emot fokus - focus() blir en tyst no-op utan
+       att kasta nagot. Uppmatt: anropet misslyckades vid 80 och 150 ms och lyckades
+       forst fran 250 ms. Vi forsoker darfor per bildruta tills fokus sitter, med en
+       tidsgrans. transitionend duger inte: under reduced motion uteblir den. */
+    const deadline=Date.now()+800;
+    const fokusera=()=>{
+      if(!modal.classList.contains('open')) return;
+      const c=flip.querySelector('.pkg-close'); if(!c) return;
+      c.focus();
+      if(document.activeElement!==c && Date.now()<deadline) requestAnimationFrame(fokusera);
+    };
+    requestAnimationFrame(fokusera);
   }
   function closeModal(){
     modal.classList.remove('open');
