@@ -139,7 +139,10 @@
   .btn:hover .btn-arrow { transform: translateX(4px); }
 
   /* ===== NAVBAR v2 – Floating glass command bar ===== */
-  :root { --nav-h: 76px; --nav-pill-h: 38px; }
+  :root { --nav-h: 76px; --nav-pill-h: 38px; --header-h: 76px; }
+  /* Sidhuvudet ar sticky och skulle annars ligga over det som far fokus vid
+     ett ankarhopp. Uppmatt hojd: 76 px fran 1278 px, 64 px darunder. Plus 8 px luft. */
+  html { scroll-padding-top: calc(var(--header-h) + 8px); }
 
   header { position: sticky; top: 0; left: 0; right: 0; z-index: 100; background: transparent; }
   .nav {
@@ -226,6 +229,7 @@
      40 px over det. Vald sa att 1280 px - omaximerade fonster, MacBook 13 i
      skalat lage, surfplattor i liggande - far hela lankraden med 43 px luft. */
   @media (max-width: 1277px) {
+    :root { --header-h: 64px; }
     .nav-center { display: none; }
     .theme-toggle { display: none; }
     .nav-right .nav-cta { display: none; }
@@ -395,7 +399,9 @@
   .solution-line { height: 1px; width: 0; background: linear-gradient(90deg, transparent, var(--accent), transparent); transition: width .8s var(--ease) .2s; }
   .problem-solution.in .solution-line { width: 80px; }
   .solution-text { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); white-space: nowrap; }
-  .solution-accent { color: var(--accent); text-shadow: 0 0 20px rgba(99,102,241,0.4); }
+  /* <strong> defaultar till font-weight: bolder, vilket mot foralderns 700 blir 900.
+     Vikten nitas darfor till 700 - bytet till strong ska vara visuellt neutralt. */
+  .solution-accent { color: var(--accent); font-weight: 700; text-shadow: 0 0 20px rgba(99,102,241,0.4); }
   body.neon .problem-back { border-color: #22ffa7; box-shadow: 0 0 40px -10px rgba(34,255,167,0.3); }
   body.neon .problem-back .problem-icon { box-shadow: 0 0 20px -2px #22ffa7; }
   body.neon .solution-accent { text-shadow: 0 0 30px rgba(34,255,167,0.6); }
