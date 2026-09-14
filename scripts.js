@@ -479,8 +479,11 @@ document.querySelectorAll('.iridescent').forEach(card=>{
       `<p class="pm-fine">Allt utöver paketet sker mot löpande räkning eller fast offert – du godkänner alltid priset först. Domän &amp; hosting tillkommer och ägs av dig.</p></div>`+
       `<button type="button" class="btn btn-primary pm-book" data-book>Boka det här paketet →</button>`;
   }
-  function openModal(key,card){
-    lastFocus=card||document.activeElement; render(key);
+  function openModal(key,card,trigger){
+    /* Fokus ska tillbaka till det som oppnade modalen. Tidigare sattes lastFocus
+       till kortet, som varken har tabindex eller roll - card.focus() gjorde da
+       ingenting och fokus blev kvar i den stangda modalen. */
+    lastFocus=(trigger&&trigger.focus)?trigger:(card||document.activeElement); render(key);
     document.querySelectorAll('.price-card.selected').forEach(c=>c.classList.remove('selected'));
     if(card) card.classList.add('selected');
     modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
@@ -494,10 +497,12 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     if(lastFocus&&lastFocus.focus) lastFocus.focus();
   }
   document.querySelectorAll('.price-card[data-pkg]').forEach(card=>{
-    const open=()=>openModal(card.dataset.pkg,card);
     const btn=card.querySelector('.pkg-open');
-    if(btn) btn.addEventListener('click',e=>{ e.stopPropagation(); open(); });
-    card.addEventListener('click',open);
+    const open=()=>openModal(card.dataset.pkg,card,btn);
+    /* Knappen ar den enda vagen in. Kortet hade tidigare en egen click-lyssnare,
+       vilket gjorde <div>-en till ett klickmal utan roll, namn eller tangentbordsvag.
+       stopPropagation behovs inte langre: ingen forfader lyssnar pa click. */
+    if(btn) btn.addEventListener('click',open);
   });
   modal.addEventListener('click',e=>{
     if(e.target.closest('[data-close]')){ closeModal(); return; }
@@ -663,14 +668,24 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     });
     s.addEventListener('mouseleave',function(){ s.style.transform=''; });
   }
+  /* Bara den sida som ar vand mot betraktaren exponeras. Baksidan ar dold med
+     backface-visibility men lag kvar i tillganglighetstradet. */
+  var front=s.querySelector('.promo-front'), back=s.querySelector('.promo-back');
+  function syncFaces(){
+    var vand=s.classList.contains('flipped');
+    if(front) front.setAttribute('aria-hidden', vand?'true':'false');
+    if(back)  back.setAttribute('aria-hidden', vand?'false':'true');
+  }
+  syncFaces();
   function activate(){
     if(unlocked){ if(window.openAimOrder) window.openAimOrder(); return; }
     s.classList.toggle('flipped');
+    syncFaces();
   }
   s.addEventListener('click',activate);
   s.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(); } });
   addEventListener('q9:ok',function(){
-    unlocked=true; s.classList.remove('flipped'); s.classList.add('unlocked');
+    unlocked=true; s.classList.remove('flipped'); s.classList.add('unlocked'); syncFaces();
     s.setAttribute('aria-label','20% upplåst – klicka för att beställa');
     var hint=s.querySelector('.promo-hint'); if(hint) hint.textContent='✓ beställ →';
   });
@@ -748,6 +763,24 @@ document.querySelectorAll('.iridescent').forEach(card=>{
 })();
 
 /* ---------- Navbar = raka <a>-länkar, ingen dropdown-JS (medvetet borttagen) ---------- */
+
+/* ---------- Marquee: pausknapp (WCAG 2.2.2) ----------
+   Pausar BADA sparen, inte bara det exponerade - annars fortsatter dubbletten
+   att rulla bakom. Etiketten vaxlar och aria-pressed foljer med. */
+(function(){
+  var btn=document.getElementById('marqueePause'); if(!btn) return;
+  var spar=[].slice.call(document.querySelectorAll('.marquee-track'));
+  if(!spar.length){ btn.remove(); return; }
+  var txt=btn.querySelector('.marquee-pause-txt');
+  btn.addEventListener('click',function(){
+    /* Etiketten bar tillstandet. aria-pressed anvands medvetet INTE ocksa -
+       tva samtidiga tillstandsmarkeringar lases upp dubbelt. */
+    var ny=!btn.classList.contains('is-paused');
+    btn.classList.toggle('is-paused', ny);
+    spar.forEach(function(t){ t.classList.toggle('is-paused', ny); });
+    if(txt) txt.textContent = ny ? 'Spela' : 'Pausa';
+  });
+})();
 
 /* ---------- Löpande skötsel: prisväljare (Månadsvis / Kvartal / År) ---------- */
 (function(){

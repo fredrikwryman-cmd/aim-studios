@@ -16,8 +16,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/bebasneue-latin.woff2" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css?v=140" />
-<link rel="stylesheet" href="styles.css?v=140" />
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=141" />
+<link rel="stylesheet" href="styles.css?v=141" />
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
@@ -76,7 +76,8 @@
 <!-- HEADER -->
 <header id="header">
   <div class="nav" id="navBar"><canvas class="neural-canvas" aria-hidden="true"></canvas><div class="neural-spotlight" aria-hidden="true"></div>
-    <a href="/#top" class="logo" id="logoLink" aria-current="page" aria-label="AiM Studios Öppen för projekt – till startsidan">
+    <div class="logo-wrap">
+      <a href="/#top" class="logo" id="logoLink" aria-current="page" aria-label="AiM Studios – till startsidan">
       <span class="logo-mark">
         <svg viewBox="0 0 100 100" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
@@ -87,8 +88,9 @@
         </svg>
       </span>
       <span class="logo-text">AiM Studios</span>
+      </a>
       <span class="logo-status"><span class="status-dot" aria-hidden="true"></span>Öppen för projekt</span>
-    </a>
+    </div>
     <nav class="nav-center" id="navCenter" aria-label="Primär navigation">
       <span class="nav-ind" id="navInd" aria-hidden="true"></span>
       <a class="navlink" href="/webbdesign/">Webbdesign</a>
@@ -187,7 +189,10 @@
 <!-- PROOF -->
 <section class="proof">
   <div class="wrap">
-    <p class="proof-label">Branscher jag bygger för</p>
+    <div class="proof-head">
+      <p class="proof-label">Branscher jag bygger för</p>
+      <button type="button" class="marquee-pause" id="marqueePause"><span class="marquee-pause-ikon" aria-hidden="true"></span><span class="marquee-pause-txt">Pausa</span></button>
+    </div>
     <div class="marquee-3d">
       <div class="marquee-layer" id="marqueeFront">
         <div class="marquee-track" style="animation-duration:22s;animation-direction:reverse;"><span class="logo-item"><span class="glyph" style="--item-glow:#f59e0b;">B</span> Bygg &amp; hantverk</span><span class="logo-item"><span class="glyph" style="--item-glow:#ef4444;">R</span> Restaurang &amp; café</span><span class="logo-item"><span class="glyph" style="--item-glow:#6366F1;">K</span> Konsult &amp; tjänster</span><span class="logo-item"><span class="glyph" style="--item-glow:#8b5cf6;">E</span> E-handel</span><span class="logo-item"><span class="glyph" style="--item-glow:#818cf8;">S</span> Städ &amp; service</span><span class="logo-item"><span class="glyph" style="--item-glow:#ec4899;">H</span> Hälsa &amp; skönhet</span></div>
@@ -604,7 +609,7 @@
     </form>
   </div>
 </div>
-<script src="unlock.js?v=140" defer></script>
-<script src="scripts.js?v=140" defer></script>
+<script src="unlock.js?v=141" defer></script>
+<script src="scripts.js?v=141" defer></script>
 </body>
 </html>

@@ -165,7 +165,11 @@
   }
   @keyframes navDropIn { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
 
-  .logo { display: flex; align-items: center; gap: 14px; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; position: relative; cursor: pointer; flex: 0 0 auto; margin-right: 8px; }
+  /* .logo-wrap holler ihop lanken och statusbrickan. Brickan lag tidigare inuti
+     <a> och blev en del av lankens namn. Gap och marginal ar flyttade hit sa att
+     den visuella placeringen ar oforandrad. */
+  .logo-wrap { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; margin-right: 8px; }
+  .logo { display: flex; align-items: center; gap: 14px; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; position: relative; cursor: pointer; flex: 0 0 auto; }
   .logo-mark { width: 32px; height: 32px; display: grid; place-items: center; }
   .logo-text { background: linear-gradient(90deg,#fff,#a5b4fc,#fff,#a5b4fc); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: logoGradient 5s ease infinite; }
   @keyframes logoGradient { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
@@ -345,6 +349,20 @@
   /* ---------- Holographic Velocity Marquee ---------- */
   .proof { padding: 56px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--bg), var(--bg-soft), var(--bg)); overflow: hidden; perspective: 1200px; }
   .proof-label { text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-dim); margin-bottom: 32px; }
+  /* WCAG 2.2.2: bandet rullar oandligt, sa det maste ga att pausa med tangentbord.
+     Hover raknas inte. Traffytan ar minst 44x44 aven pa mobil. */
+  .proof-head { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+  .marquee-pause { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 16px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; cursor: pointer; transition: color .2s, background .2s, border-color .2s; }
+  .marquee-pause:hover { color: var(--text); border-color: rgba(120,120,160,0.5); }
+  .marquee-pause-ikon { width: 10px; height: 12px; flex: none; background: currentColor;
+    -webkit-mask: linear-gradient(#000 0 0) 0/3px 12px no-repeat, linear-gradient(#000 0 0) 7px/3px 12px no-repeat;
+            mask: linear-gradient(#000 0 0) 0/3px 12px no-repeat, linear-gradient(#000 0 0) 7px/3px 12px no-repeat; }
+  .marquee-pause.is-paused .marquee-pause-ikon {
+    -webkit-mask: none; mask: none; width: 0; height: 0;
+    border-left: 10px solid currentColor; border-top: 6px solid transparent; border-bottom: 6px solid transparent; background: transparent; }
+  .marquee-track.is-paused { animation-play-state: paused; }
+  @media (max-width: 560px) { .marquee-pause { min-width: 44px; } }
+
   .marquee-3d { position: relative; transform-style: preserve-3d; transform: rotateX(4deg) rotateY(-2deg); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
   .marquee-3d:hover { transform: rotateX(2deg) rotateY(0deg); }
   .marquee-layer { display: flex; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
@@ -416,7 +434,7 @@
   .switch-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: center; }
   @media (max-width: 900px) { .switch-grid { grid-template-columns: 1fr; gap: 36px; } }
   .switch-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
-  .switch-tab { padding: 10px 18px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-family: 'Inter Tight'; font-weight: 600; font-size: 15px; cursor: pointer; transition: all .25s var(--ease); }
+  .switch-tab { padding: 10px 18px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-family: 'Inter Tight'; font-weight: 600; font-size: 15px; cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease); }
   .switch-tab.active { color: #fff; border-color: transparent; }
   .switch-preview { border-radius: var(--radius-lg); border: 1px solid var(--line-strong); overflow: hidden; box-shadow: var(--shadow); transition: background .5s var(--ease); }
   .sp-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.25); }
@@ -519,8 +537,9 @@
   .price-feats li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
   .price-feats .check { width: 20px; height: 20px; } .price-feats .check svg { width: 12px; height: 12px; }
   .price-card .pkg-open { width: 100%; margin-top: 4px; }
-  .price-card[data-pkg] { cursor: pointer; }
-  .price-card[data-pkg]:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 3px; }
+  /* Kortet ar inte langre klickbart - knappen .pkg-open ar vagen in. Darfor
+     ingen cursor: pointer, och den forra :focus-visible-regeln ar borta: <div>-en
+     har varken tabindex eller roll och kunde aldrig ta emot fokus. */
   .price-card.selected { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary), 0 24px 60px -20px rgba(79,70,229,.5); }
 
   /* ---- Paket-modal (3D-flip) ---- */
@@ -577,7 +596,7 @@
   .typing span:nth-child(2){ animation-delay:.2s } .typing span:nth-child(3){ animation-delay:.4s }
   @keyframes blink { 0%,60%,100%{opacity:.3} 30%{opacity:1} }
   .chat-input { display: flex; gap: 8px; padding: 14px; border-top: 1px solid var(--line); }
-  .chat-chip { padding: 8px 13px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-size: 13px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+  .chat-chip { padding: 8px 13px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-size: 13px; cursor: pointer; transition: color .2s, background .2s, border-color .2s; white-space: nowrap; }
   .chat-chip:hover { color: var(--text); border-color: var(--primary); }
   .chat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 16px; }
   .ai-badge-demo { font-size: 11px; color: var(--muted-dim); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
@@ -777,7 +796,7 @@
   .terminal-prompt { color: #22C55E; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; flex: none; }
   .terminal-input input { flex: 1; background: transparent; border: none; color: var(--text); font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; outline: none; min-width: 0; }
   .terminal-input input::placeholder { color: var(--muted-dim); }
-  .terminal-send { width: 36px; height: 36px; border-radius: 10px; border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.1); display: grid; place-items: center; cursor: pointer; transition: all .3s ease; flex: none; }
+  .terminal-send { width: 36px; height: 36px; border-radius: 10px; border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.1); display: grid; place-items: center; cursor: pointer; transition: color .3s ease, background .3s ease, border-color .3s ease; flex: none; }
   .terminal-send:hover { background: rgba(34,197,94,0.2); box-shadow: 0 0 20px -4px rgba(34,197,94,0.4); }
   .terminal-send svg { width: 16px; height: 16px; }
   /* avatar-preview i bot-bubblan (K1) */
@@ -828,7 +847,7 @@
     --glass: rgba(255, 255, 255, 0.03);
     color: var(--text);
   }
-  .ai-chat-close { margin-left: 4px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; font-size: 18px; line-height: 1; transition: all .2s; flex: none; }
+  .ai-chat-close { margin-left: 4px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; font-size: 18px; line-height: 1; transition: color .2s, background .2s, border-color .2s; flex: none; }
   .ai-chat-close:hover { border-color: var(--danger); color: var(--danger); }
 
   @media (max-width: 560px) { .ai-orb { width: 54px; height: 54px; } .ai-orb-core { width: 20px; height: 20px; } .ring-3 { width: 64px; height: 64px; } }
@@ -947,6 +966,26 @@
   .skip-link { position: absolute; top: -56px; left: 8px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 10000; font-weight: 600; text-decoration: none; transition: top .2s var(--ease); }
   .skip-link:focus { top: 8px; }
   :focus-visible { outline: 3px solid #6366F1; outline-offset: 2px; }
+  /* Tabb-fokus kan landa i ett .reveal-block som annu inte revealats och da
+     ligger pa opacity: 0. Blocket gors synligt direkt nar nagot inuti far
+     fokus. Reveal-mekanismen sjalv ar orord - nar blocket sedan revealas pa
+     vanligt satt tar .in over med samma slutvarden. */
+  .reveal:focus-within { opacity: 1; transform: none; transition: none; }
+
+  /* Fokusringens kontrast mot sin faktiska bakgrund, uppmatt vid fokus.
+     I morkt lage klarar #6366F1 och #22C55E 3:1 overallt. I ljust lage foll
+     fyra kombinationer i AI-chatten och terminalen, vars ytor ar gra aven dar:
+       terminalinput   gron pa rgb(197,197,201)  1,32:1
+       chattens stang  indigo pa rgb(172,172,176) 1,98:1
+       orben           gron pa rgb(246,246,251)  2,12:1
+       terminal-send   indigo pa rgb(197,197,201) 2,59:1
+     Ringarna morknas darfor i ljust lage. */
+  :root[data-theme="light"] :focus-visible { outline-color: #3730A3; }
+  :root[data-theme="light"] .ai-orb-container:focus-visible,
+  :root[data-theme="light"] .terminal-input input:focus-visible { outline-color: #14532D; }
+  /* Hjaltesektionen behaller mork botten aven i ljust lage, sa den morknade
+     ringen skulle falla dar (1,98:1 mot rgb(11,11,15)). Ljus ring i stallet. */
+  :root[data-theme="light"] .hero :focus-visible { outline-color: #A5B4FC; }
 
 
   /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
