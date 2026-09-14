@@ -431,7 +431,6 @@
   .case-visual picture { display: block; width: 100%; height: 100%; }
   .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
   .case-body { padding: 24px; }
-  .case-grid--feature .case-body { padding: 32px; }
   .case-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   .badge-ex { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); text-transform: uppercase; }
   .case-row { font-size: 14px; color: var(--muted); margin: 9px 0; }
@@ -660,7 +659,7 @@
   .form-error.show { display: block; }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9995; }
 
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
   .reveal.in { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
@@ -720,7 +719,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    .reveal { opacity: 1; transform: none; }
+    .reveal { opacity: 1; transform: none; transition-delay: 0s !important; }
     html { scroll-behavior: auto; }
     .cursor-dot, .cursor-ring { display: none; }
     body.has-cursor { cursor: auto; }
@@ -1031,6 +1030,83 @@
   /* ===== A11y: fokusring for annars outline:none-falt ===== */
   .terminal-input input:focus-visible { outline: 2px solid #22C55E; outline-offset: 2px; }
   input[type=range].slider:focus-visible { outline: 2px solid #6366F1; outline-offset: 3px; }
+
+  /* =================================================================
+     UTVALDA PROJEKT - editorial-features pa /case/
+     Casen ar inte kort utan uppslag: nummer, linje, titel, ingress,
+     stor skarmbild i en enkel browserram, metadata och lank.
+     Designexemplen langre ner behaller .case-card och rors inte.
+     ================================================================= */
+  .case-work { padding: 24px 0 130px; }
+  .case-feature + .case-feature { margin-top: 150px; }
+
+  .case-head { display: flex; align-items: center; gap: 20px; }
+  .case-num { font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; color: var(--light-indigo); flex: none; font-variant-numeric: tabular-nums; }
+  .case-rule { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
+  .case-head .badge-live, .case-head .badge-wip { flex: none; }
+
+  .case-title { font-size: clamp(34px, 5.2vw, 58px); line-height: 1.02; letter-spacing: -0.025em; margin: 26px 0 0; }
+  .case-lead { font-family: 'Inter Tight', sans-serif; font-size: clamp(19px, 2.1vw, 27px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--muted); max-width: 620px; margin: 18px 0 0; }
+
+  /* Skarmbilden. aspect-ratio 16/9 matchar kallbilderna 820x458 exakt, sa
+     ingenting beskars - och utrymmet reserveras fore inladdning, CLS 0. */
+  .case-shot { display: block; margin-top: 48px; border: 1px solid var(--line-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-card); box-shadow: var(--shadow); transition: transform .6s var(--ease), box-shadow .6s var(--ease), border-color .6s var(--ease); }
+  .case-chrome { display: flex; align-items: center; gap: 7px; padding: 13px 18px; border-bottom: 1px solid var(--line); background: var(--bg-soft); }
+  .case-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong); flex: none; }
+  .case-url { margin-left: 14px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.01em; color: var(--muted-dim); }
+  .case-shot-img { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-soft); }
+  .case-shot-img picture { display: block; width: 100%; height: 100%; }
+  .case-shot-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .9s var(--ease); }
+  .case-shot:hover { transform: translateY(-6px); border-color: rgba(99,102,241,0.42); box-shadow: 0 44px 90px -34px rgba(0,0,0,0.62); }
+  .case-shot:hover .case-shot-img img { transform: scale(1.02); }
+  .case-shot:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 4px; }
+
+  /* Metadata: taggrad, en sarskiljande mening, datapunkter och lank.
+     Lanken star till hoger pa desktop, under pa mobil. */
+  .case-meta { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 26px 48px; align-items: end; margin-top: 34px; }
+  .case-tags { grid-column: 1 / -1; margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .case-tag-sep { color: var(--muted-dim); margin: 0 4px; }
+  .case-sub { grid-column: 1 / -1; margin: 0; max-width: var(--text-max); font-size: 15px; line-height: 1.75; color: var(--muted); }
+
+  .case-data { grid-column: 1; display: flex; flex-wrap: wrap; gap: 22px 46px; margin: 0; }
+  .case-data > div { display: flex; flex-direction: column-reverse; gap: 5px; }
+  .case-data dt { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-dim); }
+  .case-data dd { margin: 0; font-family: 'Inter Tight', sans-serif; font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: -0.01em; color: var(--text); font-variant-numeric: tabular-nums; }
+  .case-data dd.ej { font-size: 15px; font-weight: 500; font-style: italic; letter-spacing: 0; color: var(--muted-dim); }
+
+  .case-act { grid-column: 2; justify-self: end; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .case-act .case-note { margin: 0; }
+  .case-cta { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter Tight', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); white-space: nowrap; transition: color .25s var(--ease); }
+  .case-arrow { display: inline-block; transition: transform .35s var(--ease); }
+  .case-cta:hover { color: var(--light-indigo); }
+  .case-cta:hover .case-arrow, .case-shot:hover ~ .case-meta .case-arrow { transform: translateX(6px); }
+  .case-cta:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 4px; border-radius: 4px; }
+
+  /* Skiljelinje mot koncepten, sa det aldrig blandas ihop med kunduppdrag */
+  .case-lab { padding-top: 0; }
+  .case-lab-rule { height: 1px; background: var(--line); margin: 0 0 90px; }
+
+  @media (max-width: 860px) {
+    .case-work { padding: 8px 0 96px; }
+    .case-feature + .case-feature { margin-top: 104px; }
+    .case-head { gap: 14px; }
+    .case-title { margin-top: 20px; }
+    .case-lead { margin-top: 14px; }
+    .case-shot { margin-top: 32px; border-radius: var(--radius); }
+    .case-chrome { padding: 11px 14px; }
+    .case-chrome i { width: 8px; height: 8px; }
+    .case-meta { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
+    .case-data { grid-column: 1; gap: 20px 34px; }
+    .case-data dd { font-size: 21px; }
+    .case-act { grid-column: 1; justify-self: start; text-align: left; align-items: flex-start; }
+    .case-lab-rule { margin-bottom: 62px; }
+  }
+  /* Pekskarm: ingen lyft-hover som fastnar efter tryck */
+  @media (hover: none), (pointer: coarse) {
+    .case-shot:hover { transform: none; box-shadow: var(--shadow); }
+    .case-shot:hover .case-shot-img img { transform: none; }
+  }
+
   /* ===== Badge for riktiga projekt (indigo, vs dampad .badge-ex) ===== */
   /* LANSERAD - caset ar live och klickbart. Starkast vikt. */
   .badge-live { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--primary-soft); color: #fff; background: var(--primary); text-transform: uppercase; white-space: nowrap; }
@@ -1087,40 +1163,9 @@
   /* ===== /case/ : rutnät av case-kort (ej startsidans pin-scroll) ===== */
   .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
   .case-grid .case-card { width: auto; }
-  /* ===== Feature-korten: ett kort per rad over hela innehallsspalten =====
-     Designexemplen ligger i .case-grid utan modifier och rors inte av detta.
-     Monstret ar .final-cards: ett kort med en egen grid inuti. */
-  .case-grid--feature { grid-template-columns: 1fr; }
-  /* Bilden ar ett band over hela kortbredden. aspect-ratio i stallet for hojd
-     sa att utrymmet reserveras fore inladdning - CLS forblir 0. Kallbilden ar
-     16/9 (1,79), sa bandet beskar toppen, vilket ar ratt for skarmbilder av
-     sajter. 2,8 visar 64 % av skarmbilden mot 50 % vid 3,6 - mer av det
-     faktiska arbetet syns, och farre rubriker kapas mitt i en mening. */
-  .case-grid--feature .case-visual { aspect-ratio: 2.8; }
-  .case-cols { display: grid; grid-template-columns: 1.5fr 1fr 0.85fr; gap: 40px; align-items: start; }
-  .case-col-main .case-name { font-size: 21px; margin-bottom: 6px; }
-  .case-what { font-size: 14px; font-weight: 600; color: var(--text); margin: 0 0 12px; }
-  .case-col-main .case-row { margin: 0; }
-  /* Matvardena: ett falt per rad, samma uppsattning pa alla kort. Vardet star
-     ensamt i sitt <dd> sa det gar att byta utan att rora nagon prosa. */
-  .case-metrics-list { margin: 0; }
-  .case-metrics-list > div { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--line); }
-  .case-metrics-list > div:first-child { padding-top: 0; }
-  .case-metrics-list > div:last-child { border-bottom: 0; }
-  .case-metrics-list dt { font-size: 13px; color: var(--muted); }
-  .case-metrics-list dd { margin: 0; font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .case-metrics-list dd.ej { font-size: 13px; font-weight: 500; font-style: italic; color: var(--muted-dim); }
-  .case-side { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-  .case-side .case-note { margin: 0; }
-  .case-side .case-link { margin-top: 0; padding-top: 0; }
-  /* Det mest sarskiljande fyndet, over hela kortets bredd under spalterna. */
-  .case-finding { margin: 30px 0 0; padding-top: 22px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.7; color: var(--muted); }
-  @media (max-width: 860px) {
-    .case-cols { grid-template-columns: 1fr; gap: 26px; }
-    .case-grid--feature .case-visual { aspect-ratio: 16 / 9; }
-    .case-finding { margin-top: 24px; padding-top: 18px; }
-  }
-  @media (max-width: 560px) { .case-grid, .case-grid--feature { grid-template-columns: 1fr; } }
+  /* Designexemplens rutnat. Feature-casen anvander inte langre .case-card -
+     de ar editorial-features, se .case-feature langre ner. */
+  @media (max-width: 560px) { .case-grid { grid-template-columns: 1fr; } }
 
   /* ===== Startsida: bantad tjänste-ÖVERSIKT (4 rutor → tjänstesidor) ===== */
   .svc-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
