@@ -1042,8 +1042,10 @@
   @media (prefers-reduced-motion: reduce) { .promo-sticker, .promo-card, .promo-vp { transition: none; animation: none; } .promo-sticker::after { animation: none; } }
 
   /* ---------- Beställnings-modal (egg-låst, 20% off) ---------- */
-  .order-overlay { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(5,5,9,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  .order-overlay.open { display: flex; }
+  /* Samma doljningsmonster som ovriga dialoger: visibility i stallet for display.
+     Elementet ar position: fixed, sa permanent display: flex paverkar inget flode. */
+  .order-overlay { position: fixed; inset: 0; z-index: 200; display: flex; visibility: hidden; align-items: center; justify-content: center; padding: 20px; background: rgba(5,5,9,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .order-overlay.open { visibility: visible; }
   .order-card { position: relative; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; background: var(--bg-card); border: 1px solid var(--line-strong); border-radius: 24px; padding: 34px; box-shadow: 0 40px 100px -30px rgba(0,0,0,0.85); animation: orderIn .4s var(--ease); }
   @keyframes orderIn { from { opacity: 0; transform: translateY(20px) scale(.98); } to { opacity: 1; transform: none; } }
   .order-close { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg-soft); color: var(--muted); cursor: pointer; font-size: 14px; line-height: 1; }

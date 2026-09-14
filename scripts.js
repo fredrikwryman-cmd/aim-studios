@@ -197,11 +197,16 @@ if(!reduce) document.querySelectorAll('.faq-item').forEach(item=>{
   // Mobil: fullskärms-overlay (fade)
   const menuBtn=document.getElementById('menuBtn'), overlay=document.getElementById('mobileMenu'), closeBtn=document.getElementById('menuClose');
   if(overlay){
-    const open=()=>{ overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false'); menuBtn&&menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
-    const close=()=>{ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); menuBtn&&menuBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+    /* visibility: hidden i CSS tar bort menyn ur bade tabbordning och
+       tillganglighetstrad, sa aria-hidden behovs inte utover det. */
+    const open=()=>{ overlay.classList.add('open'); menuBtn&&menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden';
+      setTimeout(()=>{ if(closeBtn) closeBtn.focus(); },60); };
+    const close=()=>{ overlay.classList.remove('open'); menuBtn&&menuBtn.setAttribute('aria-expanded','false'); document.body.style.overflow='';
+      if(menuBtn) menuBtn.focus(); };
     menuBtn&&menuBtn.addEventListener('click',open);
     closeBtn&&closeBtn.addEventListener('click',close);
     overlay.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+    overlay.addEventListener('keydown',e=>fokusfalla(overlay,e));
     addEventListener('keydown',e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
   }
 })();
@@ -291,7 +296,17 @@ const aiOrb=document.getElementById('aiOrbContainer'), fabPanel=document.getElem
 /* Chattpanelen ar en dialog: fokus flyttas in vid oppning, cirkulerar inuti,
    och lamnas tillbaka till orben vid stangning. Escape stanger alltid. */
 const FOKUSERBARA='a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])';
-function fabFokuserbara(){ return fabPanel?[...fabPanel.querySelectorAll(FOKUSERBARA)].filter(e=>!e.disabled):[]; }
+/* Gemensam fokusfalla for dialoger. Anropas fran keydown pa behallaren.
+   Monstret finns pa ETT stalle - chattpanelen och paketmodalen delar det. */
+function fokusfalla(behallare, e){
+  if(e.key!=='Tab' || !behallare) return;
+  const f=[...behallare.querySelectorAll(FOKUSERBARA)]
+    .filter(x=>!x.disabled && x.offsetWidth>0 && x.offsetHeight>0);
+  if(!f.length) return;
+  const forsta=f[0], sista=f[f.length-1];
+  if(e.shiftKey && document.activeElement===forsta){ e.preventDefault(); sista.focus(); }
+  else if(!e.shiftKey && document.activeElement===sista){ e.preventDefault(); forsta.focus(); }
+}
 function openChat(){
   if(!fabPanel) return;
   fabPanel.classList.add('open');
@@ -307,13 +322,7 @@ function closeChat(){
 function toggleChat(){ if(!fabPanel) return; fabPanel.classList.contains('open')?closeChat():openChat(); }
 if(fabPanel){
   /* Tab cirkulerar inuti panelen. Escape och stangknappen ar alltid vagen ut. */
-  fabPanel.addEventListener('keydown',e=>{
-    if(e.key!=='Tab') return;
-    const f=fabFokuserbara(); if(!f.length) return;
-    const forsta=f[0], sista=f[f.length-1];
-    if(e.shiftKey && document.activeElement===forsta){ e.preventDefault(); sista.focus(); }
-    else if(!e.shiftKey && document.activeElement===sista){ e.preventDefault(); forsta.focus(); }
-  });
+  fabPanel.addEventListener('keydown',e=>fokusfalla(fabPanel,e));
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape' && fabPanel.classList.contains('open')){ e.preventDefault(); closeChat(); }
   });
@@ -515,12 +524,12 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     lastFocus=(trigger&&trigger.focus)?trigger:(card||document.activeElement); render(key);
     document.querySelectorAll('.price-card.selected').forEach(c=>c.classList.remove('selected'));
     if(card) card.classList.add('selected');
-    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    modal.classList.add('open');
     document.body.style.overflow='hidden'; flip.scrollTop=0;
     setTimeout(()=>{const c=flip.querySelector('.pkg-close'); if(c) c.focus();},80);
   }
   function closeModal(){
-    modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+    modal.classList.remove('open');
     document.body.style.overflow='';
     document.querySelectorAll('.price-card.selected').forEach(c=>c.classList.remove('selected'));
     if(lastFocus&&lastFocus.focus) lastFocus.focus();
@@ -533,6 +542,9 @@ document.querySelectorAll('.iridescent').forEach(card=>{
        stopPropagation behovs inte langre: ingen forfader lyssnar pa click. */
     if(btn) btn.addEventListener('click',open);
   });
+  /* Samma falla som chattpanelen, samma hjalpfunktion. visibility: hidden i CSS
+     skoter bade tabbordning och tillganglighetstrad, sa aria-hidden behovs inte. */
+  modal.addEventListener('keydown',e=>fokusfalla(modal,e));
   modal.addEventListener('click',e=>{
     if(e.target.closest('[data-close]')){ closeModal(); return; }
     if(e.target.closest('[data-book]')){
@@ -749,13 +761,19 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     row.querySelector('.step-up').addEventListener('click',function(){ qEl.textContent=(+qEl.textContent+1); calc(); });
     row.querySelector('.step-dn').addEventListener('click',function(){ qEl.textContent=Math.max(0,+qEl.textContent-1); calc(); });
   });
+  var cb=document.getElementById('orderClose');
+  var oppnadeAv=null;
   function open(){
     if(!(window.__q9 && window.__q9.k())) return;   /* äkta lås: kräver att egget knäckts */
-    calc(); modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+    oppnadeAv=document.activeElement;
+    calc(); modal.classList.add('open'); document.body.style.overflow='hidden';
+    setTimeout(function(){ if(cb) cb.focus(); },60);
   }
-  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  function close(){ modal.classList.remove('open'); document.body.style.overflow='';
+    if(oppnadeAv && oppnadeAv.focus) oppnadeAv.focus(); }
   window.openAimOrder=open;
-  var cb=document.getElementById('orderClose'); if(cb) cb.addEventListener('click',close);
+  if(cb) cb.addEventListener('click',close);
+  modal.addEventListener('keydown',function(e){ fokusfalla(modal,e); });
   modal.addEventListener('click',function(e){ if(e.target===modal) close(); });
   addEventListener('keydown',function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) close(); });
   if(form){
