@@ -602,14 +602,18 @@
   .ai-badge-demo { font-size: 11px; color: var(--muted-dim); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
 
   /* floating chat widget */
-  .fab-panel { position: fixed; bottom: 96px; right: 24px; z-index: 9990; width: 350px; max-width: calc(100vw - 32px); border: 1px solid var(--line-strong); border-radius: 20px; background: var(--bg-card); box-shadow: var(--shadow); overflow: hidden; transform: translateY(16px) scale(.96); opacity: 0; pointer-events: none;
+  /* Stangd panel ska vara helt otillganglig: visibility: hidden tar bort hela
+   deltradet ur bade tabbordningen och tillganglighetstradet. Den vaxlar med
+   0 s fordrojning vid oppning och efter 0,3 s vid stangning, sa uttoningen
+   hinner spelas klart innan panelen doljs. */
+  .fab-panel { position: fixed; bottom: 96px; right: 24px; z-index: 9990; width: 350px; max-width: calc(100vw - 32px); border: 1px solid var(--line-strong); border-radius: 20px; background: var(--bg-card); box-shadow: var(--shadow); overflow: hidden; transform: translateY(16px) scale(.96); opacity: 0; visibility: hidden; pointer-events: none;
     /* Panelen vaxer ur orben som oppnade den, inte ur sin egen mitt.
        Orben sitter i nedre hogra hornet, darav bottom right.
        transition: all animerade aven box-shadow och border - nu bara de
        tva egenskaper som faktiskt ror sig. */
     transform-origin: bottom right;
-    transition: transform .3s var(--ease), opacity .3s var(--ease); }
-  .fab-panel.open { transform: none; opacity: 1; pointer-events: auto; }
+    transition: transform .3s var(--ease), opacity .3s var(--ease), visibility 0s linear .3s; }
+  .fab-panel.open { transform: none; opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
   .fab-panel .chat-body { height: 300px; }
 
   /* faq */
@@ -970,7 +974,11 @@
      ligger pa opacity: 0. Blocket gors synligt direkt nar nagot inuti far
      fokus. Reveal-mekanismen sjalv ar orord - nar blocket sedan revealas pa
      vanligt satt tar .in over med samma slutvarden. */
-  .reveal:focus-within { opacity: 1; transform: none; transition: none; }
+  /* animation: none behovs ocksa. .svc-card.reveal.in kor keyframen revealIn,
+     och en pagaende animation overrider deklarerad opacity - blocket tonade
+     darfor in fran 0 IGEN efter att fokus redan gjort det synligt. Uppmatt
+     dipp: opacity 0,34 vid 420 ms med fokus i blocket. */
+  .reveal:focus-within { opacity: 1; transform: none; transition: none; animation: none; }
 
   /* Fokusringens kontrast mot sin faktiska bakgrund, uppmatt vid fokus.
      I morkt lage klarar #6366F1 och #22C55E 3:1 overallt. I ljust lage foll
@@ -995,6 +1003,10 @@
      sa korten poppade in i stallet for att tona. Intoningen kors som keyframes:
      transitionen ovan far da vara kvar orord for hover-lyftet pa 300 ms. */
   .svc-card.reveal.in { animation: revealIn .8s var(--ease); }
+  /* Foljeregel till .reveal:focus-within. Den generella regeln (0,2,0) forlorar
+     mot raden ovan (0,3,0), sa fokusfallet maste matchas har med (0,4,0) -
+     annars startar revealIn om fran opacity 0 medan fokus redan ligger inne. */
+  .svc-card.reveal.in:focus-within { animation: none; }
   @keyframes revealIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 64px; }
   .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 48px; }

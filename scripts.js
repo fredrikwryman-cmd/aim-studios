@@ -288,12 +288,41 @@ wireChatInput('demoInput','demoSend',demoAsk);
 wireChatInput('fabInput','fabSend',fabAsk);
 // Orb-launcher → chat-panel (klick + tangentbord)
 const aiOrb=document.getElementById('aiOrbContainer'), fabPanel=document.getElementById('fabPanel'), fabClose=document.getElementById('fabClose');
-function toggleChat(){ if(!fabPanel) return; const open=fabPanel.classList.toggle('open'); if(open){ const fi=document.getElementById('fabInput'); if(fi) setTimeout(()=>fi.focus(),80); } }
+/* Chattpanelen ar en dialog: fokus flyttas in vid oppning, cirkulerar inuti,
+   och lamnas tillbaka till orben vid stangning. Escape stanger alltid. */
+const FOKUSERBARA='a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])';
+function fabFokuserbara(){ return fabPanel?[...fabPanel.querySelectorAll(FOKUSERBARA)].filter(e=>!e.disabled):[]; }
+function openChat(){
+  if(!fabPanel) return;
+  fabPanel.classList.add('open');
+  if(aiOrb) aiOrb.setAttribute('aria-expanded','true');
+  /* Textfaltet, inte stangknappen: panelens syfte ar att skriva i den. */
+  const fi=document.getElementById('fabInput'); if(fi) setTimeout(()=>fi.focus(),80);
+}
+function closeChat(){
+  if(!fabPanel) return;
+  fabPanel.classList.remove('open');
+  if(aiOrb){ aiOrb.setAttribute('aria-expanded','false'); aiOrb.focus(); }
+}
+function toggleChat(){ if(!fabPanel) return; fabPanel.classList.contains('open')?closeChat():openChat(); }
+if(fabPanel){
+  /* Tab cirkulerar inuti panelen. Escape och stangknappen ar alltid vagen ut. */
+  fabPanel.addEventListener('keydown',e=>{
+    if(e.key!=='Tab') return;
+    const f=fabFokuserbara(); if(!f.length) return;
+    const forsta=f[0], sista=f[f.length-1];
+    if(e.shiftKey && document.activeElement===forsta){ e.preventDefault(); sista.focus(); }
+    else if(!e.shiftKey && document.activeElement===sista){ e.preventDefault(); forsta.focus(); }
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape' && fabPanel.classList.contains('open')){ e.preventDefault(); closeChat(); }
+  });
+}
 if(aiOrb&&fabPanel){
   aiOrb.addEventListener('click',toggleChat);
   aiOrb.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleChat(); } });
 }
-if(fabClose){ fabClose.addEventListener('click',e=>{ e.stopPropagation(); fabPanel.classList.remove('open'); }); }
+if(fabClose){ fabClose.addEventListener('click',e=>{ e.stopPropagation(); closeChat(); }); }
 
 /* ---------- Navbar-indikator (scroll-spy + hover) ---------- */
 
