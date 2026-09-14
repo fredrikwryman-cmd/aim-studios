@@ -431,6 +431,7 @@
   .case-visual picture { display: block; width: 100%; height: 100%; }
   .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
   .case-body { padding: 24px; }
+  .case-grid--feature .case-body { padding: 32px; }
   .case-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   .badge-ex { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); text-transform: uppercase; }
   .case-row { font-size: 14px; color: var(--muted); margin: 9px 0; }
@@ -1086,8 +1087,39 @@
   /* ===== /case/ : rutnät av case-kort (ej startsidans pin-scroll) ===== */
   .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
   .case-grid .case-card { width: auto; }
-  .case-grid--feature { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
-  /* feature-kortens bild styrs nu av .case-visual aspect-ratio 16/9 (bredare kort = större bild) */
+  /* ===== Feature-korten: ett kort per rad over hela innehallsspalten =====
+     Designexemplen ligger i .case-grid utan modifier och rors inte av detta.
+     Monstret ar .final-cards: ett kort med en egen grid inuti. */
+  .case-grid--feature { grid-template-columns: 1fr; }
+  /* Bilden ar ett band over hela kortbredden. aspect-ratio i stallet for hojd
+     sa att utrymmet reserveras fore inladdning - CLS forblir 0. Kallbilden ar
+     16/9 (1,79), sa bandet beskar toppen, vilket ar ratt for skarmbilder av
+     sajter. 2,8 visar 64 % av skarmbilden mot 50 % vid 3,6 - mer av det
+     faktiska arbetet syns, och farre rubriker kapas mitt i en mening. */
+  .case-grid--feature .case-visual { aspect-ratio: 2.8; }
+  .case-cols { display: grid; grid-template-columns: 1.5fr 1fr 0.85fr; gap: 40px; align-items: start; }
+  .case-col-main .case-name { font-size: 21px; margin-bottom: 6px; }
+  .case-what { font-size: 14px; font-weight: 600; color: var(--text); margin: 0 0 12px; }
+  .case-col-main .case-row { margin: 0; }
+  /* Matvardena: ett falt per rad, samma uppsattning pa alla kort. Vardet star
+     ensamt i sitt <dd> sa det gar att byta utan att rora nagon prosa. */
+  .case-metrics-list { margin: 0; }
+  .case-metrics-list > div { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .case-metrics-list > div:first-child { padding-top: 0; }
+  .case-metrics-list > div:last-child { border-bottom: 0; }
+  .case-metrics-list dt { font-size: 13px; color: var(--muted); }
+  .case-metrics-list dd { margin: 0; font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .case-metrics-list dd.ej { font-size: 13px; font-weight: 500; font-style: italic; color: var(--muted-dim); }
+  .case-side { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .case-side .case-note { margin: 0; }
+  .case-side .case-link { margin-top: 0; padding-top: 0; }
+  /* Det mest sarskiljande fyndet, over hela kortets bredd under spalterna. */
+  .case-finding { margin: 30px 0 0; padding-top: 22px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.7; color: var(--muted); }
+  @media (max-width: 860px) {
+    .case-cols { grid-template-columns: 1fr; gap: 26px; }
+    .case-grid--feature .case-visual { aspect-ratio: 16 / 9; }
+    .case-finding { margin-top: 24px; padding-top: 18px; }
+  }
   @media (max-width: 560px) { .case-grid, .case-grid--feature { grid-template-columns: 1fr; } }
 
   /* ===== Startsida: bantad tjänste-ÖVERSIKT (4 rutor → tjänstesidor) ===== */
