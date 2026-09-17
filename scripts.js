@@ -643,6 +643,16 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   var active=false, anim=null, drops=[];
   var NYCKEL='aim-matrix';   // samma stil som aim-theme och cookie-consent
 
+  /* Regnet ritar over hela vyn och kolliderar darfor med hero-rutnatet. Laget
+     publiceras pa tva satt: en handelse for den som redan lyssnar, och en global
+     for den som initieras efter att regnet redan startat (autostart fran
+     localStorage sker innan senare moduler har hunnit registrera sig). */
+  window.aimKodregn = { aktiv:false };
+  function signalera(){
+    window.aimKodregn.aktiv = active;
+    dispatchEvent(new CustomEvent('aim:kodregn', { detail:{ aktiv:active } }));
+  }
+
   function size(){ canvas.width=innerWidth; canvas.height=innerHeight; drops=Array(Math.max(1,Math.floor(canvas.width/fontSize))).fill(1); }
   function draw(){
     ctx.fillStyle='rgba(11,11,15,0.06)'; ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -658,6 +668,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     if(active) return; active=true;
     size(); canvas.classList.add('active'); draw();
     btn.setAttribute('aria-pressed','true');
+    signalera();
   }
   function stop(){
     if(!active) return; active=false;
@@ -665,6 +676,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     if(anim) cancelAnimationFrame(anim); anim=null;
     ctx.clearRect(0,0,canvas.width,canvas.height);
     btn.setAttribute('aria-pressed','false');
+    signalera();
   }
   btn.addEventListener('click', function(){
     if(active) stop(); else start();
@@ -676,6 +688,173 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   var sparat = null; try { sparat = localStorage.getItem(NYCKEL); } catch(e){}
   if(sparat === 'on' && !mindreRorelse) start();
 })();
+
+/* ---------- Interaktivt rutnat i heron (ersatter webblasarmockupen) ----------
+   Skrivet efter en React-komponent fran React Bits, men i vanilla JS: sajten har
+   inget byggsteg och inga beroenden, och ska inte fa nagra.
+
+   Det bar hela poangen att den SOVER. Nar sista cellen tonat ut slutar den begara
+   bildrutor helt - ingen tom rAF-loop som tickar 60 ggr/s over en yta dar
+   ingenting hander. Den vaknar pa pekarrorelse och tryck, och somnar av sig sjalv
+   igen. Skillnaden ar noll CPU i vila mot en permanent loop. */
+(function(){
+  var ruta=document.getElementById('heroRuta'); if(!ruta) return;
+  var cv=document.getElementById('heroRutaCv'); if(!cv || !cv.getContext) return;
+
+  /* Mindre rorelse: ingen canvas startas over huvud taget. Canvasen plockas ur
+     DOM:en och rutan far ett statiskt rutnat via CSS-klassen. */
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    ruta.classList.add('stilla'); cv.remove(); return;
+  }
+
+  var ctx=cv.getContext('2d');
+  var CELL=55, RADIE=130, HALL=150, TONA=800, LINJE=2.7, RINGFART=250;
+  var R=99, G=102, B=241;                       /* var(--accent) #6366F1 */
+  var SMAL=matchMedia('(max-width: 879px)');    /* under 880 px finns ingen pekare att folja */
+
+  var celler=[], kolumner=0, rader=0, bredd=0, hojd=0;
+  var ringar=[], raf=0, kor=false, iVy=true, kodregn=false;
+
+  function matt(){
+    var r=ruta.getBoundingClientRect();
+    bredd=r.width; hojd=r.height;
+    /* devicePixelRatio klamras till 2. Over det vaxer antalet fragment kvadratiskt
+       utan att nagon ser skillnad pa en 2,7 px linje. */
+    var dpr=Math.min(devicePixelRatio||1, 2);
+    cv.width=Math.round(bredd*dpr); cv.height=Math.round(hojd*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    kolumner=Math.ceil(bredd/CELL); rader=Math.ceil(hojd/CELL);
+    celler=new Array(kolumner*rader);
+    for(var i=0;i<celler.length;i++) celler[i]={s:0,t:0};
+  }
+
+  /* smoothstep - samma mjuka avtoning fran centrum som forlagan. */
+  function mjuk(k){ k=k<0?0:(k>1?1:k); return k*k*(3-2*k); }
+
+  /* Ljuset halls HALL ms pa full styrka och tonar sedan ut linjart over TONA ms. */
+  function alfa(c,nu){
+    if(c.s<=0) return 0;
+    var alder=nu-c.t;
+    if(alder<HALL) return c.s;
+    var k=1-(alder-HALL)/TONA;
+    return k>0 ? c.s*k : 0;
+  }
+
+  /* En svagare traff far aldrig slacka en cell som redan lyser starkare - da
+     skulle rutnatet flimra nar pekaren rors langsamt. */
+  function tand(x,y,styrka,nu){
+    if(styrka<=0) return;
+    var c=celler[y*kolumner+x]; if(!c) return;
+    if(styrka>=alfa(c,nu)){ c.s=styrka; c.t=nu; }
+  }
+
+  function lys(px,py,nu){
+    var x0=Math.max(0,Math.floor((px-RADIE)/CELL)), x1=Math.min(kolumner-1,Math.floor((px+RADIE)/CELL));
+    var y0=Math.max(0,Math.floor((py-RADIE)/CELL)), y1=Math.min(rader-1,Math.floor((py+RADIE)/CELL));
+    for(var y=y0;y<=y1;y++) for(var x=x0;x<=x1;x++){
+      var dx=(x+0.5)*CELL-px, dy=(y+0.5)*CELL-py, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<=RADIE) tand(x,y,mjuk(1-d/RADIE),nu);
+    }
+  }
+
+  function ritaRutnat(nu){
+    raf=0;
+    ctx.clearRect(0,0,bredd,hojd);
+
+    /* Klickringar: expanderar med RINGFART px/s och tander de celler de passerar. */
+    for(var i=ringar.length-1;i>=0;i--){
+      var rg=ringar[i], rad=(nu-rg.t)/1000*RINGFART;
+      if(rad>rg.max){ ringar.splice(i,1); continue; }
+      var band=CELL*0.6;
+      var bx0=Math.max(0,Math.floor((rg.x-rad-band)/CELL)), bx1=Math.min(kolumner-1,Math.floor((rg.x+rad+band)/CELL));
+      var by0=Math.max(0,Math.floor((rg.y-rad-band)/CELL)), by1=Math.min(rader-1,Math.floor((rg.y+rad+band)/CELL));
+      for(var by=by0;by<=by1;by++) for(var bx=bx0;bx<=bx1;bx++){
+        var ddx=(bx+0.5)*CELL-rg.x, ddy=(by+0.5)*CELL-rg.y;
+        var avv=Math.abs(Math.sqrt(ddx*ddx+ddy*ddy)-rad);
+        if(avv<=band) tand(bx,by,mjuk(1-avv/band),nu);
+      }
+    }
+
+    var levande=0;
+    ctx.lineWidth=LINJE;
+    for(var y=0;y<rader;y++) for(var x=0;x<kolumner;x++){
+      var c=celler[y*kolumner+x], a=alfa(c,nu);
+      if(a<=0.004){ if(c.s>0) c.s=0; continue; }
+      levande++;
+      var mx=(x+0.5)*CELL, my=(y+0.5)*CELL;
+      /* Radiell gradient per cell: full styrka i mitten, borta ute vid hornen.
+         Det ar den som gor att cellerna smalter ihop till ljus i stallet for att
+         lasa sig som ett ritat rutnat. Ingen statisk linje, ingen fyllning. */
+      var gr=ctx.createRadialGradient(mx,my,0,mx,my,CELL*0.78);
+      gr.addColorStop(0,'rgba('+R+','+G+','+B+','+a+')');
+      gr.addColorStop(1,'rgba('+R+','+G+','+B+',0)');
+      ctx.strokeStyle=gr;
+      ctx.strokeRect(x*CELL+LINJE/2, y*CELL+LINJE/2, CELL-LINJE, CELL-LINJE);
+    }
+
+    /* Har somnar den: inget lyser och ingen ring lever, alltsa ingen ny bildruta. */
+    if(levande===0 && ringar.length===0){ kor=false; return; }
+    raf=requestAnimationFrame(ritaRutnat);
+  }
+
+  function vack(){
+    if(kor || !iVy || kodregn || document.hidden) return;
+    kor=true; raf=requestAnimationFrame(ritaRutnat);
+  }
+  function stoppa(){
+    kor=false; if(raf){ cancelAnimationFrame(raf); raf=0; }
+    ctx.clearRect(0,0,bredd,hojd);
+    for(var i=0;i<celler.length;i++){ celler[i].s=0; celler[i].t=0; }
+    ringar.length=0;
+  }
+
+  function punkt(e){ var r=cv.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+
+  /* Pekaren foljs bara dar det finns en pekare. Under 880 px reagerar rutnatet
+     enbart pa tryck - ingen permanent rorelse pa mobil. */
+  if(!SMAL.matches){
+    ruta.addEventListener('pointermove', function(e){
+      if(!iVy || kodregn) return;
+      var p=punkt(e); lys(p.x,p.y,performance.now()); vack();
+    }, {passive:true});
+  }
+  ruta.addEventListener('pointerdown', function(e){
+    if(!iVy || kodregn) return;
+    var p=punkt(e);
+    ringar.push({ x:p.x, y:p.y, t:performance.now(),
+      max:Math.max(Math.hypot(p.x,p.y), Math.hypot(bredd-p.x,p.y),
+                   Math.hypot(p.x,hojd-p.y), Math.hypot(bredd-p.x,hojd-p.y)) });
+    vack();
+  }, {passive:true});
+
+  var omT=0;
+  addEventListener('resize', function(){
+    clearTimeout(omT);
+    omT=setTimeout(function(){ var kordes=kor; stoppa(); matt(); if(kordes) vack(); }, 150);
+  }, {passive:true});
+
+  /* Ur vyn -> stopp. Tillbaka -> far vakna igen, men borjar inte rita av sig sjalv. */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      /* Sista posten ar det aktuella laget. Flera poster kan koa ihop i ett och
+         samma anrop, och es[0] ar da den ALDSTA - laser man den fastnar rutnatet
+         som "ur vyn" nar man scrollar tillbaka och vaknar aldrig igen. */
+      iVy=es[es.length-1].isIntersecting;
+      if(!iVy) stoppa();
+    }, {threshold:0}).observe(ruta);
+  }
+  document.addEventListener('visibilitychange', function(){ if(document.hidden) stoppa(); });
+
+  /* Kodregnet lagger sig over hela vyn. Tva canvasar ska aldrig rita samtidigt i
+     heron, sa rutnatet slas av helt sa lange regnet faller och slapps fritt igen
+     nar det slas av. */
+  function regn(aktiv){ kodregn=!!aktiv; if(kodregn) stoppa(); }
+  regn(window.aimKodregn && window.aimKodregn.aktiv);
+  addEventListener('aim:kodregn', function(e){ regn(e.detail && e.detail.aktiv); });
+
+  matt();
+})();
+
 /* ---------- Neuralt header-lager: nätverk + spotlight (vanilla, namespaced) ---------- */
 (function(){
   var header=document.getElementById('header'), bar=document.getElementById('navBar');
