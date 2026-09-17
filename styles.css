@@ -1124,9 +1124,24 @@
   .case-chrome { display: flex; align-items: center; gap: 7px; padding: 13px 18px; border-bottom: 1px solid var(--line); background: var(--bg-soft); }
   .case-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong); flex: none; }
   .case-url { margin-left: 14px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.01em; color: var(--muted-dim); }
-  .case-shot-img { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-soft); }
+  .case-shot-img { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-soft); }
   .case-shot-img picture { display: block; width: 100%; height: 100%; }
   .case-shot-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .9s var(--ease); }
+
+  /* Presentationsvideo ovanpa stillbilden. Den tonas in FORST nar den
+     faktiskt borjat spela (klassen sätts pa playing-handelsen), sa man aldrig
+     ser en tom ruta medan preload="none" hamtar filen.
+
+     pointer-events: none ar avgorande: hela bildbandet ar en <a> till
+     adbyggprojekt.se, och videon far aldrig sno at sig klicket.
+
+     Utan JavaScript satts .spelar aldrig - videon ar osynlig, stillbilden
+     syns, och preload="none" gor att ingenting hamtas. */
+  .case-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; opacity: 0; transition: opacity .4s var(--ease); pointer-events: none; z-index: 1; }
+  .case-video.spelar { opacity: 1; }
+  /* Mindre rorelse: videon startas aldrig av skriptet, och tas dessutom ur
+     flodet helt sa den inte kan visas av misstag. */
+  @media (prefers-reduced-motion: reduce) { .case-video { display: none; } }
   .case-shot:hover { transform: translateY(-6px); border-color: rgba(99,102,241,0.42); box-shadow: 0 44px 90px -34px rgba(0,0,0,0.62); }
   .case-shot:hover .case-shot-img img { transform: scale(1.02); }
   .case-shot:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 4px; }

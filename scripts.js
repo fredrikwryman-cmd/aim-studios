@@ -911,6 +911,57 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   for(var k=0;k<casen.length;k++) io.observe(casen[k]);
 })();
 
+/* ---------- Presentationsvideo i case-kortet pa /case/ ----------
+   Stillbilden ligger kvar under videon och ar det som syns i utgangslaget.
+   Videon ar muted, loopar, har playsinline och preload="none" - ingenting
+   hamtas forran den faktiskt ska spela.
+
+   Desktop (en pekare som kan hovra): spelar pa pointerenter, pausar pa
+   pointerleave.
+   Mobil (ingen hover): spelar nar kortet ar i vyn och pausar nar det lamnar.
+   Klick startar aldrig videon - hela bildbandet ar en lank till
+   adbyggprojekt.se och den ska fortsatta vara det.
+
+   Utan skript, och vid prefers-reduced-motion, hander ingenting alls:
+   .spelar satts aldrig, videon ar osynlig i CSS och stillbilden syns. */
+(function(){
+  var vid=document.querySelector('.case-video'); if(!vid) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var band=vid.closest('.case-shot'); if(!band) return;
+
+  /* Klassen satts pa 'playing', inte direkt vid play(). Med preload="none"
+     finns ingen avkodad bildruta forran filen borjat komma, och utan den har
+     fordrojningen skulle man se en tom ruta over stillbilden. */
+  vid.addEventListener('playing', function(){ vid.classList.add('spelar'); });
+
+  function spela(){
+    var p=vid.play();
+    /* play() avvisas av webblasaren i lagen vi inte styr over (stromsparlage,
+       autoplay-policy). Da ska stillbilden bara ligga kvar, inte ett fel. */
+    if(p && p.catch) p.catch(function(){});
+  }
+  function pausa(){ vid.classList.remove('spelar'); vid.pause(); }
+
+  /* (hover: hover) fragar om pekaren KAN hovra, vilket ar det som skiljer
+     lagena at - inte skarmbredden. En liten laptop ska ha hover, en stor
+     surfplatta ska inte. */
+  if(matchMedia('(hover: hover) and (pointer: fine)').matches){
+    band.addEventListener('pointerenter', spela);
+    band.addEventListener('pointerleave', pausa);
+    band.addEventListener('focusin', spela);
+    band.addEventListener('focusout', pausa);
+  } else if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      /* Sista posten ar det aktuella laget - se samma anmarkning i
+         hero-rutnatet och shadern. */
+      es[es.length-1].isIntersecting ? spela() : pausa();
+    },{ threshold:0.5 }).observe(band);
+  }
+
+  /* Dold flik ska inte spela video. */
+  document.addEventListener('visibilitychange', function(){ if(document.hidden) pausa(); });
+})();
+
 /* ---------- Neuralt header-lager: nätverk + spotlight (vanilla, namespaced) ---------- */
 (function(){
   var header=document.getElementById('header'), bar=document.getElementById('navBar');
