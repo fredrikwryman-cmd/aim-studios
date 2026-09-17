@@ -692,9 +692,13 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   if(sparat === 'on' && !mindreRorelse) start();
 })();
 
-/* ---------- Interaktivt rutnat i heron (ersatter webblasarmockupen) ----------
+/* ---------- Interaktivt rutnat BAKOM hela hero-sektionen ----------
    Skrivet efter en React-komponent fran React Bits, men i vanilla JS: sajten har
    inget byggsteg och inga beroenden, och ska inte fa nagra.
+
+   Lagret tacker hela heron och ligger under rubrik, text, knappar och mockup.
+   Det har pointer-events: none, sa det kan aldrig sno at sig markering eller
+   klick - pekaren folis i stallet genom en lyssnare pa sjalva <section>.
 
    Det bar hela poangen att den SOVER. Nar sista cellen tonat ut slutar den begara
    bildrutor helt - ingen tom rAF-loop som tickar 60 ggr/s over en yta dar
@@ -703,6 +707,9 @@ document.querySelectorAll('.iridescent').forEach(card=>{
 (function(){
   var ruta=document.getElementById('heroRuta'); if(!ruta) return;
   var cv=document.getElementById('heroRutaCv'); if(!cv || !cv.getContext) return;
+  /* Lyssnaren sitter pa heron, inte pa lagret: lagret ar genomskinligt for
+     pekaren och far aldrig ta emot nagot. */
+  var hero=ruta.closest('.hero') || ruta.parentElement;
 
   /* Mindre rorelse: ingen canvas startas over huvud taget. Canvasen plockas ur
      DOM:en och rutan far ett statiskt rutnat via CSS-klassen. */
@@ -814,14 +821,16 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   function punkt(e){ var r=cv.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
 
   /* Pekaren foljs bara dar det finns en pekare. Under 880 px reagerar rutnatet
-     enbart pa tryck - ingen permanent rorelse pa mobil. */
+     enbart pa tryck - ingen permanent rorelse pa mobil. Lyssnaren ar passiv och
+     anropar aldrig preventDefault, sa knappar och lankar i heron fungerar som
+     vanligt aven nar trycket tander en ring. */
   if(!SMAL.matches){
-    ruta.addEventListener('pointermove', function(e){
+    hero.addEventListener('pointermove', function(e){
       if(!iVy || kodregn) return;
       var p=punkt(e); lys(p.x,p.y,performance.now()); vack();
     }, {passive:true});
   }
-  ruta.addEventListener('pointerdown', function(e){
+  hero.addEventListener('pointerdown', function(e){
     if(!iVy || kodregn) return;
     var p=punkt(e);
     ringar.push({ x:p.x, y:p.y, t:performance.now(),

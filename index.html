@@ -16,8 +16,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/bebasneue-latin.woff2" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css?v=152" />
-<link rel="stylesheet" href="styles.css?v=152" />
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=153" />
+<link rel="stylesheet" href="styles.css?v=153" />
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
@@ -136,6 +136,7 @@
   <canvas id="shader" aria-hidden="true"></canvas>
   <div class="hero-fallback"></div>
   <div class="hero-vignette"></div>
+  <div class="hero-ruta" id="heroRuta" aria-hidden="true"><canvas id="heroRutaCv"></canvas></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <span class="eyebrow"><span class="dot"></span> AI Management Studios</span>
@@ -167,8 +168,11 @@
           </div>
         </div>
       </div>
-      <div class="hero-ruta" id="heroRuta">
-        <canvas id="heroRutaCv" aria-hidden="true"></canvas>
+      <div class="browser" id="heroTilt">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">ditt-foretag.se</span></div>
+        <div class="browser-body">
+          <img class="hero-shot" src="assets/hero-poster.jpg" width="1400" height="781" decoding="async" alt="Mörk webbplats med navigering, gradientknapp och två rader innehållskort, visad på en bildskärm i lila och grönt studioljus">
+        </div>
       </div>
       <div class="chart-card">
         <div class="label"><span class="pulse"></span> Inkommande leads</div>
@@ -610,7 +614,7 @@
     </form>
   </div>
 </div>
-<script src="unlock.js?v=152" defer></script>
-<script src="scripts.js?v=152" defer></script>
+<script src="unlock.js?v=153" defer></script>
+<script src="scripts.js?v=153" defer></script>
 </body>
 </html>
