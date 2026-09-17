@@ -858,6 +858,36 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   matt();
 })();
 
+/* ---------- Startsidans sticky case-uppslag: aktivt case ----------
+   Forlagan (Aceternity UI) vaxlar opacitet med motion/react. Har gors det med
+   IntersectionObserver och en klass i stallet - inget bibliotek, inget
+   byggsteg, ingen rAF-loop.
+
+   rootMargin klipper vyn till ett smalt band mitt pa skarmen, samma grepp som
+   navigationens avsnittsmarkor langre upp i filen. Det case som passerar bandet
+   ar det lasaren tittar pa.
+
+   Sjalva bildvaxlingen kraver ingen JavaScript alls: varje bild ar
+   position: sticky inom sitt eget case och slapper taget nar nasta tar over. */
+(function(){
+  var rot=document.getElementById('stickyCase'); if(!rot) return;
+  var casen=rot.querySelectorAll('.sc-case'); if(!casen.length) return;
+
+  /* Mindre rorelse: ingen dampning alls, allt star kvar fullt synligt.
+     Samma sak om IntersectionObserver saknas - da tands .sc-pa aldrig, och
+     CSS:en lamnar alla case pa opacity 1. */
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!('IntersectionObserver' in window)) return;
+
+  rot.classList.add('sc-pa');
+  var io=new IntersectionObserver(function(poster){
+    for(var i=0;i<poster.length;i++){
+      poster[i].target.classList.toggle('ar-aktiv', poster[i].isIntersecting);
+    }
+  },{ rootMargin:'-45% 0px -45% 0px', threshold:0 });
+  for(var i=0;i<casen.length;i++) io.observe(casen[i]);
+})();
+
 /* ---------- Neuralt header-lager: nätverk + spotlight (vanilla, namespaced) ---------- */
 (function(){
   var header=document.getElementById('header'), bar=document.getElementById('navBar');

@@ -1183,19 +1183,79 @@
   /* PAGAENDE - byggd men inte lanserad. Dampad, tydligt lagre vikt. */
   .badge-wip { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); background: transparent; text-transform: uppercase; white-space: nowrap; }
 
-  /* Klickbart case-kort (endast lanserade case) */
-  /* Flexkolumn: bildytan behaller sitt 16/9-forhallande, texten far vaxa och
-     lanken skjuts till botten. Med display:block lag lanken pa olika hojd i
-     korten beroende pa hur lang beskrivningen var (uppmatt 82 px spridning). */
-  a.case-card { display: flex; flex-direction: column; color: inherit; text-decoration: none; transition: border-color .25s var(--ease), transform .25s var(--ease); }
+  /* .case-card ar nu bara designexemplens kort pa /case/. Startsidans
+     feature-case ar ett sticky-uppslag, se .sticky-case langre ner. */
   .case-card .case-visual { flex: none; }
   .case-card .case-body { display: flex; flex-direction: column; flex: 1 1 auto; }
-  .case-card .case-link { margin-top: auto; padding-top: 12px; }
-  a.case-card:hover { border-color: rgba(99,102,241,0.55); transform: translateY(-4px); }
-  a.case-card:hover .case-link { color: var(--light-indigo); gap: 10px; }
   .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
   .case-metrics { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; }
   .case-note { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; font-style: italic; }
+
+  /* ===================================================================
+     STARTSIDAN: sticky case-uppslag
+     Vanster spalt: casen under varandra. Hoger: skarmbilden, som ligger
+     kvar med position: sticky sa lange dess eget case passerar och byts
+     nar nasta tar over.
+
+     Sidans egen scroll driver alltihop. Forlagan (Aceternity) scrollar
+     inuti sig sjalv i en 480 px hog ruta med egen scrollbar - det ar
+     precis det den har inte gor.
+
+     Bilden ligger FORST i DOM. Da far mobilen bild over text gratis, och
+     desktop flyttar den till hoger spalt med explicit grid-placering i
+     stallet for order: en tabbordning som foljer det man ser.
+     =================================================================== */
+  .sticky-case { display: flex; flex-direction: column; gap: 56px; }
+  .sc-case { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .sc-bild { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); }
+  .sc-bild picture { display: block; }
+  /* width/height star pa <img>, och aspect-ratio matchar dem. Rutan har
+     darfor sin hojd innan bilden laddats - ingen layoutforskjutning. */
+  .sc-bild img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
+  /* Ramen ligger i basen, inte i .sc-pa. Lades den till forst nar skriptet
+     kort skulle texten hoppa 20 px i sidled vid init - en layoutforskjutning
+     for ingenting. Nu andras bara fargen. */
+  .sc-text { min-width: 0; border-left: 2px solid transparent; padding-left: 18px; }
+  .sc-text .case-name { font-size: 20px; }
+  .sc-text .case-link { margin-top: 14px; }
+
+  /* AKTIVT CASE
+     Forlagan dampar hela caset med opacitet. Har dampas bara BILDEN, och det
+     aktiva caset markeras med en accentlinje i stallet.
+
+     Skalet ar matt: texten anvander --muted-dim, som ligger pa 5,63:1 i morkt
+     och 5,20:1 i ljust tema mot sektionens bakgrund. Det finns knappt nagon
+     marginal ner till AA:s 4,5. Lagsta opacitet dar ALLA textelement fortfarande
+     klarar sitt krav ar 0,87 i morkt och 0,94 i ljust - en dampning sa svag att
+     ingen ser den. Vid de 0,62 som ser ut som en dampning faller case-metrics
+     till 2,87:1. Bilden har inget kontrastkrav och kan dampas pa riktigt.
+
+     Dampningen tands FORST av skriptet (.sc-pa). Utan JavaScript, och vid
+     prefers-reduced-motion, star allt kvar fullt synligt. */
+  .sticky-case.sc-pa .sc-bild { opacity: 0.4; transition: opacity .45s var(--ease); }
+  .sticky-case.sc-pa .sc-case.ar-aktiv .sc-bild { opacity: 1; }
+  .sticky-case.sc-pa .sc-text { transition: border-color .45s var(--ease); }
+  .sticky-case.sc-pa .sc-case.ar-aktiv .sc-text { border-left-color: var(--accent); }
+
+  /* Tva spalter forst nar de faktiskt far plats. Se BRYTPUNKT nedan. */
+  @media (min-width: 861px) {
+    .sticky-case { gap: 0; }
+    /* min-height ger varje case en stracka att scrolla igenom, och det ar
+       den strackan bilden ligger stilla. Bada spalterna toppstalls: bilden
+       MASTE ligga i radens topp for att sticky ska ha nagon stracka alls, och
+       centrerad text bredvid en toppstalld bild sag skevt ut. Luften hamnar
+       da under casen i stallet, dar nasta bild glider in. */
+    .sc-case { grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; min-height: 66vh; }
+    .sc-text { grid-column: 1; grid-row: 1; }
+    /* top = fixed header (72 px) + luft. Sticky-ytan begransas av casets egen
+       grid-cell, sa bilden slapper taget precis nar nasta case tar over. */
+    .sc-bild { grid-column: 2; grid-row: 1; position: sticky; top: 96px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-case.sc-pa .sc-bild { opacity: 1; transition: none; }
+    .sticky-case.sc-pa .sc-text { transition: none; }
+  }
 
   /* ===================================================================
      FAS 2 – SÖMLÖSA SUBSIDE-BAKGRUNDER (motiv + djup-overlay)
@@ -1375,8 +1435,7 @@
     .price-card:hover,
     .pkg-close:hover,
     .foot-col a:hover,
-    .svc-card:hover,
-    a.case-card:hover { transform: none; }
+    .svc-card:hover { transform: none; }
     .problem-card:hover:not(.flipped) .problem-inner { transform: none; }
   }
 
