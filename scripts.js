@@ -858,34 +858,57 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   matt();
 })();
 
-/* ---------- Startsidans sticky case-uppslag: aktivt case ----------
-   Forlagan (Aceternity UI) vaxlar opacitet med motion/react. Har gors det med
-   IntersectionObserver och en klass i stallet - inget bibliotek, inget
-   byggsteg, ingen rAF-loop.
+/* ---------- Startsidans sticky case-uppslag ----------
+   Hoger panel star still genom hela sektionen (position: sticky i CSS) och
+   bilderna i den tonar over en i taget. Det har skriptet gor bara en sak:
+   halla reda pa VILKET case som passerar, och satta klasser darefter.
 
-   rootMargin klipper vyn till ett smalt band mitt pa skarmen, samma grepp som
-   navigationens avsnittsmarkor langre upp i filen. Det case som passerar bandet
-   ar det lasaren tittar pa.
+   Forlagan (Aceternity UI) vaxlar med motion/react. Har ar det
+   IntersectionObserver och en klass - inget bibliotek, inget byggsteg,
+   ingen rAF-loop.
 
-   Sjalva bildvaxlingen kraver ingen JavaScript alls: varje bild ar
-   position: sticky inom sitt eget case och slapper taget nar nasta tar over. */
+   rootMargin krymper vyn till en i praktiken tunn linje mitt pa skarmen.
+   Pa desktop ligger casen kant i kant, sa exakt ETT case innehaller den
+   linjen at gangen - och bytet sker nar casets mitt passerar mitten av vyn,
+   inte redan nar dess overkant glider in. Ett bredare band lat nasta case ta
+   over medan det forra fortfarande fyllde skarmen.
+
+   Bara intradet reagerar vi pa: det case som senast passerade forblir aktivt
+   tills nasta tar over, sa panelen aldrig star tom vid sektionens borjan
+   eller slut.
+
+   Utan skript satts .sc-pa aldrig. Da star alla skarmar pa opacity 1 och
+   z-index lagger den forsta overst - ett case syns i stallet for tre, men
+   all text, alla matvarden och alla lankar finns kvar for samtliga. */
 (function(){
   var rot=document.getElementById('stickyCase'); if(!rot) return;
-  var casen=rot.querySelectorAll('.sc-case'); if(!casen.length) return;
+  var casen=rot.querySelectorAll('.sc-case');
+  var skarmar=rot.querySelectorAll('.sc-skarm');
+  if(!casen.length || casen.length!==skarmar.length) return;
 
-  /* Mindre rorelse: ingen dampning alls, allt star kvar fullt synligt.
-     Samma sak om IntersectionObserver saknas - da tands .sc-pa aldrig, och
-     CSS:en lamnar alla case pa opacity 1. */
+  /* Mindre rorelse: ingen overtoning alls. Da lamnas laget som utan skript -
+     forsta skarmen syns, texten ar orord. */
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if(!('IntersectionObserver' in window)) return;
 
   rot.classList.add('sc-pa');
+
+  function visa(n){
+    for(var j=0;j<casen.length;j++){
+      casen[j].classList.toggle('ar-aktiv', j===n);
+      skarmar[j].classList.toggle('ar-visas', j===n);
+    }
+  }
+  visa(0);   /* utgangslage tills forsta caset natt bandet */
+
   var io=new IntersectionObserver(function(poster){
     for(var i=0;i<poster.length;i++){
-      poster[i].target.classList.toggle('ar-aktiv', poster[i].isIntersecting);
+      if(!poster[i].isIntersecting) continue;
+      var n=+poster[i].target.getAttribute('data-sc');
+      if(n>=0 && n<casen.length) visa(n);
     }
-  },{ rootMargin:'-45% 0px -45% 0px', threshold:0 });
-  for(var i=0;i<casen.length;i++) io.observe(casen[i]);
+  },{ rootMargin:'-50% 0px -49.9% 0px', threshold:0 });
+  for(var k=0;k<casen.length;k++) io.observe(casen[k]);
 })();
 
 /* ---------- Neuralt header-lager: nätverk + spotlight (vanilla, namespaced) ---------- */

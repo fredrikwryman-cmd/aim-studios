@@ -1193,67 +1193,92 @@
 
   /* ===================================================================
      STARTSIDAN: sticky case-uppslag
-     Vanster spalt: casen under varandra. Hoger: skarmbilden, som ligger
-     kvar med position: sticky sa lange dess eget case passerar och byts
-     nar nasta tar over.
+     En GEMENSAM panel till hoger. Den star still medan hela vanster spalt
+     scrollar forbi, och slapper forst nar sektionen tar slut. Bilderna
+     ligger staplade med absolut positionering i panelen och tonar in en i
+     taget nar respektive case passerar.
 
-     Sidans egen scroll driver alltihop. Forlagan (Aceternity) scrollar
-     inuti sig sjalv i en 480 px hog ruta med egen scrollbar - det ar
-     precis det den har inte gor.
+     Forlagan (Aceternity) scrollar inuti sig sjalv i en 480 px hog ruta med
+     egen scrollbar. Har driver sidans egen scroll allt - panelen ar sticky
+     mot sidan, inte en egen scrollyta.
 
-     Bilden ligger FORST i DOM. Da far mobilen bild over text gratis, och
-     desktop flyttar den till hoger spalt med explicit grid-placering i
-     stallet for order: en tabbordning som foljer det man ser.
+     UTAN JAVASCRIPT: .sc-pa satts aldrig, alla skarmar star pa opacity 1 och
+     z-index lagger den forsta overst. Ett case syns i stallet for tre, men
+     ingenting ar trasigt - all text, alla matvarden och alla lankar finns
+     kvar for samtliga tre.
      =================================================================== */
-  .sticky-case { display: flex; flex-direction: column; gap: 56px; }
-  .sc-case { display: grid; grid-template-columns: 1fr; gap: 18px; }
-  .sc-bild { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); }
-  .sc-bild picture { display: block; }
-  /* width/height star pa <img>, och aspect-ratio matchar dem. Rutan har
-     darfor sin hojd innan bilden laddats - ingen layoutforskjutning. */
-  .sc-bild img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
+  .sticky-case { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .sc-spalt { display: flex; flex-direction: column; gap: 56px; }
+
   /* Ramen ligger i basen, inte i .sc-pa. Lades den till forst nar skriptet
-     kort skulle texten hoppa 20 px i sidled vid init - en layoutforskjutning
-     for ingenting. Nu andras bara fargen. */
+     kort skulle texten hoppa 18 px i sidled vid init. */
   .sc-text { min-width: 0; border-left: 2px solid transparent; padding-left: 18px; }
   .sc-text .case-name { font-size: 20px; }
   .sc-text .case-link { margin-top: 14px; }
 
+  .sc-ram { position: relative; }
+  .sc-skarm { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); }
+  .sc-skarm picture { display: block; }
+  /* width/height star pa <img> och aspect-ratio matchar dem - rutan har sin
+     hojd innan bilden laddats, alltsa ingen layoutforskjutning. */
+  .sc-skarm img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
+
   /* AKTIVT CASE
-     Forlagan dampar hela caset med opacitet. Har dampas bara BILDEN, och det
-     aktiva caset markeras med en accentlinje i stallet.
-
-     Skalet ar matt: texten anvander --muted-dim, som ligger pa 5,63:1 i morkt
-     och 5,20:1 i ljust tema mot sektionens bakgrund. Det finns knappt nagon
-     marginal ner till AA:s 4,5. Lagsta opacitet dar ALLA textelement fortfarande
-     klarar sitt krav ar 0,87 i morkt och 0,94 i ljust - en dampning sa svag att
-     ingen ser den. Vid de 0,62 som ser ut som en dampning faller case-metrics
-     till 2,87:1. Bilden har inget kontrastkrav och kan dampas pa riktigt.
-
-     Dampningen tands FORST av skriptet (.sc-pa). Utan JavaScript, och vid
-     prefers-reduced-motion, star allt kvar fullt synligt. */
-  .sticky-case.sc-pa .sc-bild { opacity: 0.4; transition: opacity .45s var(--ease); }
-  .sticky-case.sc-pa .sc-case.ar-aktiv .sc-bild { opacity: 1; }
+     Dampningen ligger pa BILDEN, aldrig pa texten, och aktivt case markeras
+     med en accentlinje. Skalet ar matt: texten anvander --muted-dim, som
+     ligger pa 5,63:1 i morkt och 5,20:1 i ljust tema mot sektionens bakgrund.
+     Lagsta opacitet dar alla textelement fortfarande klarar AA ar 0,87
+     respektive 0,94 - en dampning ingen ser. Vid 0,62 faller case-metrics
+     till 2,87:1. */
   .sticky-case.sc-pa .sc-text { transition: border-color .45s var(--ease); }
   .sticky-case.sc-pa .sc-case.ar-aktiv .sc-text { border-left-color: var(--accent); }
 
-  /* Tva spalter forst nar de faktiskt far plats. Se BRYTPUNKT nedan. */
+  /* Tva spalter forst nar de faktiskt far plats. Uppmatt: 861 px ger en
+     spalt, 862 px ger tva. Dar ar varje spalt 378 px, vilket ger texten
+     ~50 tecken per rad och skarmbilden 213 px hojd. Ett steg ner, vid
+     768 px, blir bilden 187 px hog och borjar lasa som en miniatyr.
+     Bilden ar den bindande faktorn, inte texten. */
   @media (min-width: 861px) {
-    .sticky-case { gap: 0; }
-    /* min-height ger varje case en stracka att scrolla igenom, och det ar
-       den strackan bilden ligger stilla. Bada spalterna toppstalls: bilden
-       MASTE ligga i radens topp for att sticky ska ha nagon stracka alls, och
-       centrerad text bredvid en toppstalld bild sag skevt ut. Luften hamnar
-       da under casen i stallet, dar nasta bild glider in. */
-    .sc-case { grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; min-height: 66vh; }
-    .sc-text { grid-column: 1; grid-row: 1; }
-    /* top = fixed header (72 px) + luft. Sticky-ytan begransas av casets egen
-       grid-cell, sa bilden slapper taget precis nar nasta case tar over. */
-    .sc-bild { grid-column: 2; grid-row: 1; position: sticky; top: 96px; }
+    .sticky-case { grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .sc-spalt { grid-column: 1; gap: 0; }
+    /* min-height ger varje case en skarmhojd att scrolla igenom. Det ar den
+       strackan panelen star still over. */
+    .sc-case { min-height: 72vh; display: flex; align-items: center; }
+    /* Panelen ar sticky mot HELA .sticky-case, inte mot ett enskilt case.
+       Darfor star den kvar genom alla tre och slapper forst vid sektionens
+       slut. top = fixed header (72 px) + luft. */
+    .sc-panel { grid-column: 2; position: sticky; top: 96px; align-self: start; }
+    .sc-ram { aspect-ratio: 16 / 9; }
+    .sc-skarm { position: absolute; inset: 0; }
+    .sc-skarm img { height: 100%; aspect-ratio: auto; }
+    /* Utan JS: forsta skarmen overst via z-index. Med JS jamnas z-index ut
+       och opaciteten styr overtoningen. */
+    .sc-skarm:nth-child(1) { z-index: 3; }
+    .sc-skarm:nth-child(2) { z-index: 2; }
+    .sc-skarm:nth-child(3) { z-index: 1; }
+    .sticky-case.sc-pa .sc-skarm { opacity: 0; z-index: 1; transition: opacity .5s var(--ease); }
+    .sticky-case.sc-pa .sc-skarm.ar-visas { opacity: 1; z-index: 2; }
+  }
+
+  /* Under brytpunkten: en kolumn med bild over text per case. Panelen och
+     dess ram losas upp med display: contents sa skarmarna blir egna
+     rutnatsceller och kan varvas mellan casen - samma bilder, inga
+     dubbletter i markupen. */
+  @media (max-width: 860px) {
+    .sticky-case { grid-template-columns: 1fr; row-gap: 18px; }
+    .sc-spalt, .sc-panel, .sc-ram { display: contents; }
+    .sc-skarm { position: static; opacity: 1; }
+    .sc-skarm:nth-child(1) { grid-row: 1; }
+    .sc-case[data-sc="0"]  { grid-row: 2; margin-bottom: 38px; }
+    .sc-skarm:nth-child(2) { grid-row: 3; }
+    .sc-case[data-sc="1"]  { grid-row: 4; margin-bottom: 38px; }
+    .sc-skarm:nth-child(3) { grid-row: 5; }
+    .sc-case[data-sc="2"]  { grid-row: 6; }
+    .sticky-case.sc-pa .sc-skarm { opacity: 1; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .sticky-case.sc-pa .sc-bild { opacity: 1; transition: none; }
+    .sticky-case.sc-pa .sc-skarm,
     .sticky-case.sc-pa .sc-text { transition: none; }
   }
 
