@@ -461,7 +461,10 @@ function burst(){
   // Pausa nar hero-ytan ar utanfor vyn och nar fliken ar dold.
   function pulsa(){ (iVy && !document.hidden) ? starta() : stoppa(); }
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){ iVy=es[0].isIntersecting; pulsa(); },{threshold:0}).observe(cv);
+    /* Sista posten ar det aktuella laget. Flera poster kan koa ihop i ett och
+       samma anrop, och es[0] ar da den ALDSTA - laser man den fastnar shadern
+       som "ur vyn" nar man scrollar tillbaka upp och startar aldrig om. */
+    new IntersectionObserver(function(es){ iVy=es[es.length-1].isIntersecting; pulsa(); },{threshold:0}).observe(cv);
   }
   document.addEventListener('visibilitychange',pulsa);
   if(reduce){ rita(performance.now()); } else { pulsa(); }
