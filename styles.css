@@ -842,12 +842,54 @@
   @media (max-width: 380px) { .hero h1.misprint { font-size: 36px; } }
   .mp-ink { position: relative; display: block; isolation: isolate; }
   .mp-size { display: block; visibility: hidden; }
-  .mp-l { display: block; }
+  .mp-l, .mp-drift { display: block; }
   .mp-plate { position: absolute; inset: 0; mix-blend-mode: screen; transform: var(--mp-rest); animation: mpIn .9s backwards; animation-timing-function: cubic-bezier(.3, 1.35, .6, 1); animation-timing-function: linear(0, .05, .169, .322, .484, .637, .769, .877, .958, 1.015, 1.051, 1.07, 1.076, 1.073, 1.064, 1.052, 1.04, 1.029, 1.018, 1.01, 1.004, .999, .996, .995, .994, .994, .995, .996, .997, .998, .999, .999, 1); }
   .mp-p1 { color: #e62b34; color: oklch(0.6 0.22 25); --mp-from: translate(-70px, 34px) rotate(-3deg); --mp-rest: translate(-1.5px, 1px); }
   .mp-p2 { color: #1cb657; color: oklch(0.68 0.18 150); --mp-from: translate(58px, -26px) rotate(2deg); --mp-rest: translate(1.5px, -0.5px); animation-delay: .12s; }
   .mp-p3 { color: #6366F1; --mp-from: translate(-18px, -52px) rotate(4deg); --mp-rest: translate(0, -1.5px); animation-delay: .24s; }
   @keyframes mpIn { from { opacity: 0; transform: var(--mp-from); } to { opacity: 1; transform: var(--mp-rest); } }
+  /* Eget liv utan pekare. Villkoret ar exakt negationen av det som slar pa
+     pekardriften i scripts.js, (min-width: 901px) and (pointer: fine), sa de
+     tva aldrig galler samtidigt. Nastlad @media i stallet for MQ4:s not (...)
+     for bredare stod; yttre villkoret staller in allt vid reducerad rorelse.
+     - mpBreathe: en enda andning, 3 s efter att sista platen landat
+       (0,24 + 0,9 s). Den animerar translate, inte transform: tva
+       transform-animationer pa samma element (mpIn + mpBreathe) gav
+       compositeFailed 64 pa bada, aven om de aldrig overlappar i tid. Uppmatt.
+       0 % och 100 % utelamnas och blir translate: none.
+     - mpScroll: translate pa .mp-drift (ett inre span per plat) mot heron som
+       view-timeline, fran att heron borjar lamna vyn tills den ar borta. Samma
+       storlek och faktorer som pekardriften. Den ligger INTE pa platen: en
+       scrollstyrd translate pa samma element som den tidsstyrda transformen gav
+       compositeFailed 64 (kTargetHasIncompatibleAnimations) pa mpIn och
+       mpBreathe, dvs inflygningen foll tillbaka till huvudtraden. Uppmatt.
+       Utan stod for animation-timeline star platarna stilla (se @supports).
+     noscript-reglerna i index.html (.mp-ink .mp-plate och .mp-ink .mp-drift,
+     0,2,0, senare i kaskaden) slar ut bada utan JavaScript. */
+  .mp-p1 { --mp-dx: -3px; --mp-dy: -1.8px; }
+  .mp-p2 { --mp-dx: 1.8px; --mp-dy: 1.08px; }
+  .mp-p3 { --mp-dx: 3.9px; --mp-dy: 2.34px; }
+  @keyframes mpBreathe { 50% { translate: var(--mp-dx) var(--mp-dy); } }
+  @keyframes mpScroll { to { translate: var(--mp-dx) var(--mp-dy); } }
+  @media (prefers-reduced-motion: no-preference) {
+    @media not all and (min-width: 901px) and (pointer: fine) {
+      .mp-ink .mp-plate {
+        animation: mpIn .9s backwards, mpBreathe 1.2s 4.14s;
+        animation-timing-function: cubic-bezier(.3, 1.35, .6, 1), ease-in-out;
+        animation-timing-function: linear(0, .05, .169, .322, .484, .637, .769, .877, .958, 1.015, 1.051, 1.07, 1.076, 1.073, 1.064, 1.052, 1.04, 1.029, 1.018, 1.01, 1.004, .999, .996, .995, .994, .994, .995, .996, .997, .998, .999, .999, 1), ease-in-out;
+      }
+      .mp-ink .mp-p2 { animation-delay: .12s, 4.14s; }
+      .mp-ink .mp-p3 { animation-delay: .24s, 4.14s; }
+      /* Utan stod ignoreras animation-timeline och mpScroll blir en
+         tidsanimation pa 0 s som med fill both lagger platarna i andlaget.
+         Darfor hela scrolldelen inom @supports. Scrolldriften ligger i en egen
+         regel pa .mp-drift, inte i listan pa platen (se ovan). */
+      @supports (animation-timeline: view()) {
+        .hero { view-timeline-name: --mp-hero; }
+        .mp-drift { animation: mpScroll linear both; animation-timeline: --mp-hero; animation-range: exit 0% exit 100%; }
+      }
+    }
+  }
   @media (prefers-reduced-motion: reduce) { .mp-plate { animation: none; transform: none; translate: none; } }
 
   /* Ambient grid (mus-följande punkt-grid) */
