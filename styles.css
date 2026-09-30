@@ -790,13 +790,33 @@
   .iridescent:hover::after { opacity: 0.6; animation: sheenRotate 3s linear infinite; }
   @keyframes sheenRotate { to { --ang: 360deg; } }
 
-  /* Kinetic hero (rubrik faller på plats) */
-  /* Rubriken star fardigskriven i markup fran forsta bildrutan. Intoningen foljer
-     bara med - ingen fordrojning, ingen fill-mode (den skulle lasa transform och
-     blockera den musdrivna 3D-lutningen i scripts.js). */
-  .kinetic-hero { perspective: 800px; animation: heroIn .4s var(--ease); }
-  .k-line { display: block; }
-  @keyframes heroIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  /* Misprint-rubrik (startsidans hero). Ombyggd i vanilla efter Mellow UI:s
+     MisprintHero: tre fargplatar som flyger in ur register och fjadrar pa plats.
+     - .mp-size ligger i flodet och ger rubriken dess hojd; platarna ar absoluta
+       ovanpa. Texten finns en gang till i .sr-only, allt i .mp-ink ar aria-hidden.
+     - Tre transformlager som aldrig skriver over varandra: h1:an bar tilten fran
+       scripts.js (style.transform), platen bar inflygningen (transform, CSS) och
+       pekardriften (den separata egenskapen translate, scripts.js).
+     - isolation: isolate haller screen-blandningen inom rubriken. Utan den blandas
+       platarna mot shadern och hela heron, och det ar den ytan som ska lamnas ifred.
+     - Fjadern ar en linear()-kurva samplad ur en dampad fjader (k 180, c 17):
+       7,6 % oversving, vilar efter ca 0,75 s. Reservkurvan galler dar linear()
+       saknas.
+     - fill-mode backwards, inte both: vilotransformen star redan i basregeln.
+       Med both raknas animationen som aktiv for evigt och Chrome haller kvar
+       tre kompositlager (568 x 254 px vardera vid 1440) efter landningen. */
+  .hero h1.misprint { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 500; letter-spacing: -0.01em; line-height: 1.02; font-size: clamp(44px, 6.6vw, 76px); transform-style: flat; }
+  @media (max-width: 560px) { .hero h1.misprint { font-size: clamp(38px, 10.5vw, 50px); } }
+  @media (max-width: 380px) { .hero h1.misprint { font-size: 36px; } }
+  .mp-ink { position: relative; display: block; isolation: isolate; }
+  .mp-size { display: block; visibility: hidden; }
+  .mp-l { display: block; }
+  .mp-plate { position: absolute; inset: 0; mix-blend-mode: screen; transform: var(--mp-rest); animation: mpIn .9s backwards; animation-timing-function: cubic-bezier(.3, 1.35, .6, 1); animation-timing-function: linear(0, .05, .169, .322, .484, .637, .769, .877, .958, 1.015, 1.051, 1.07, 1.076, 1.073, 1.064, 1.052, 1.04, 1.029, 1.018, 1.01, 1.004, .999, .996, .995, .994, .994, .995, .996, .997, .998, .999, .999, 1); }
+  .mp-p1 { color: #e62b34; color: oklch(0.6 0.22 25); --mp-from: translate(-70px, 34px) rotate(-3deg); --mp-rest: translate(-1.5px, 1px); }
+  .mp-p2 { color: #1cb657; color: oklch(0.68 0.18 150); --mp-from: translate(58px, -26px) rotate(2deg); --mp-rest: translate(1.5px, -0.5px); animation-delay: .12s; }
+  .mp-p3 { color: #6366F1; --mp-from: translate(-18px, -52px) rotate(4deg); --mp-rest: translate(0, -1.5px); animation-delay: .24s; }
+  @keyframes mpIn { from { opacity: 0; transform: var(--mp-from); } to { opacity: 1; transform: var(--mp-rest); } }
+  @media (prefers-reduced-motion: reduce) { .mp-plate { animation: none; transform: none; translate: none; } }
 
   /* Ambient grid (mus-följande punkt-grid) */
   .ambient-grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }

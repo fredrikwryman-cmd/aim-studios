@@ -73,6 +73,35 @@ if(!reduce && !matchMedia('(pointer:coarse)').matches){
 }
 
 
+/* ---------- Misprint-drift (startsidans hero-rubrik) ---------- */
+/* Pekaren drar platarna lite ur register: max 3 px i x och 1,8 px i y, med
+   faktor -1 / 0,6 / 1,3 per plat. Skriver bara egenskapen translate - inflygningen
+   (transform, CSS) och tilten pa h1:an (style.transform) ror den aldrig.
+   Fjadern sover nar den natt malet; nollstalls pa pointerleave. Under 901 px
+   och med grov pekare finns ingen drift, bara inflygningen. */
+(function(){
+  const h=document.querySelector('.hero h1.misprint');
+  if(!h||reduce) return;
+  const hero=h.closest('.hero'), plates=h.querySelectorAll('.mp-plate');
+  const wide=matchMedia('(min-width: 901px) and (pointer: fine)');
+  const F=[-1,0.6,1.3], MX=3, MY=1.8, K=170, C=19;
+  let px=null, py=0, x=0, y=0, vx=0, vy=0, raf=0, last=0;
+  const write=()=>{plates.forEach((p,i)=>{p.style.translate=(x*MX*F[i]).toFixed(2)+'px '+(y*MY*F[i]).toFixed(2)+'px';});};
+  const clamp=v=>v<-1?-1:v>1?1:v;
+  function step(t){
+    const dt=Math.min((t-last)/1000,1/30); last=t;
+    let tx=0, ty=0;
+    if(px!==null){const r=h.getBoundingClientRect();tx=clamp((px-(r.left+r.width/2))/(r.width/2));ty=clamp((py-(r.top+r.height/2))/(r.height/2));}
+    vx+=(K*(tx-x)-C*vx)*dt; vy+=(K*(ty-y)-C*vy)*dt; x+=vx*dt; y+=vy*dt;
+    if(Math.abs(tx-x)<0.002&&Math.abs(ty-y)<0.002&&Math.abs(vx)<0.01&&Math.abs(vy)<0.01){x=tx;y=ty;vx=vy=0;write();raf=0;return;}
+    write(); raf=requestAnimationFrame(step);
+  }
+  const kick=()=>{if(!raf){last=performance.now();raf=requestAnimationFrame(step);}};
+  hero.addEventListener('pointermove',e=>{if(!wide.matches||e.pointerType!=='mouse')return;px=e.clientX;py=e.clientY;kick();});
+  hero.addEventListener('pointerleave',()=>{px=null;kick();});
+  wide.addEventListener('change',()=>{if(wide.matches)return;cancelAnimationFrame(raf);raf=0;px=null;x=y=vx=vy=0;write();});
+})();
+
 /* ---------- FAQ ---------- */
 /* <details>/<summary> gor svaren lasbara utan JavaScript. Skriptet lagger bara pa
    den mjuka hojdanimationen ovanpa - hoppas over vid prefers-reduced-motion. */
