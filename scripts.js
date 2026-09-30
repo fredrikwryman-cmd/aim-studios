@@ -11,51 +11,68 @@ function onScroll(){
 }
 if (header || progress) { window.addEventListener('scroll', onScroll, {passive:true}); onScroll(); }
 
-/* ---------- Custom cursor + magnetic (en rAF-loop, snärtig) ---------- */
+/* ---------- Λ-pekare ---------- */
+/* Bara med finpekare som kan hovra; pa touch skapas inget element. Positionen
+   skrivs som transform en gang per bildruta och bara medan musen ror sig -
+   ingen loop i vila. Over textfalt doljs market och CSS:en ger tillbaka den
+   riktiga markoren. Klick: ett varv rotateY via Web Animations (kompositorn),
+   spetsen pekar uppat hela varvet. Ingen snurr vid reducerad rorelse. */
 (function(){
-  if (reduce || matchMedia('(max-width:900px)').matches || matchMedia('(pointer:coarse)').matches) return;
-  document.body.classList.add('has-cursor');
-  const dot=document.getElementById('cDot'), ring=document.getElementById('cRing');
-  if(!dot || !ring) return;
-  dot.style.display='none'; // riktiga muspekaren visas istället
-  let mx=innerWidth/2, my=innerHeight/2, px=mx, py=my, rx=mx, ry=my;
-  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-
-  // Magnet: ett aktivt element i taget, fjädrar mjukt tillbaka vid släpp
-  let magEl=null, releasing=false, cx=0, cy=0, tx=0, ty=0;
-  document.querySelectorAll('.magnetic').forEach(el=>{
-    el.addEventListener('pointerenter',()=>{ if(magEl&&magEl!==el) magEl.style.transform=''; magEl=el; releasing=false; });
-    el.addEventListener('pointerleave',()=>{ if(magEl===el){ releasing=true; tx=0; ty=0; } });
-  });
-  document.querySelectorAll('a,button,.switch-tab,.chat-chip,.toggle').forEach(el=>{
-    el.addEventListener('pointerenter',()=>ring.classList.add('hot'));
-    el.addEventListener('pointerleave',()=>ring.classList.remove('hot'));
-  });
-
-  function frame(){
-    const vx=mx-px, vy=my-py; px=mx; py=my;
-    const speed=Math.min(Math.hypot(vx,vy),55);
-    // Ringen följer den riktiga pekaren tätt + töjs i rörelseriktningen
-    rx+=(mx-rx)*0.55; ry+=(my-ry)*0.55;
-    const ang=Math.atan2(vy,vx)*180/Math.PI;
-    const s=1+speed/110;
-    ring.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%) rotate(${ang}deg) scale(${s.toFixed(3)}, ${(1/s).toFixed(3)})`;
-    // Magnet
-    if(magEl){
-      if(!releasing){
-        const r=magEl.getBoundingClientRect();
-        tx=(mx-r.left-r.width/2)*0.32; ty=(my-r.top-r.height/2)*0.42;
-      }
-      cx+=(tx-cx)*0.22; cy+=(ty-cy)*0.22;
-      magEl.style.transform=`translate3d(${cx.toFixed(2)}px,${cy.toFixed(2)}px,0)`;
-      if(releasing && Math.hypot(cx,cy)<0.4){ magEl.style.transform=''; magEl=null; releasing=false; cx=cy=0; }
-    }
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
+  if(!matchMedia('(pointer: fine) and (hover: hover)').matches) return;
+  const el=document.createElement('div');
+  el.className='aim-cursor'; el.setAttribute('aria-hidden','true');
+  el.innerHTML='<span class="ac-spin"><svg viewBox="0 0 100 100" width="33" height="33" fill="none" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="acg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs><g stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86" stroke="#fff" stroke-opacity=".92" stroke-width="13"/><path d="M26 86 L50 16 L74 86" stroke="url(#acg)" stroke-width="9"/></g></svg></span>';
+  document.body.appendChild(el);
+  const spin=el.firstChild, root=document.documentElement;
+  const TEXT='input,textarea,select,[contenteditable]:not([contenteditable="false"])';
+  let x=0, y=0, raf=0, on=false, overText=false, anim=null;
+  const set=v=>{if(v!==on){on=v;el.classList.toggle('on',v);}};
+  const draw=()=>{raf=0;el.style.transform='translate3d('+x+'px,'+y+'px,0)';};
+  addEventListener('pointermove',e=>{
+    if(e.pointerType==='touch'){set(false);return;}
+    x=e.clientX; y=e.clientY;
+    if(!root.classList.contains('aim-cursor-on')) root.classList.add('aim-cursor-on');
+    set(!overText);
+    if(!raf) raf=requestAnimationFrame(draw);
+  },{passive:true});
+  addEventListener('pointerover',e=>{overText=!!(e.target.closest&&e.target.closest(TEXT));if(e.pointerType!=='touch')set(!overText);},{passive:true});
+  addEventListener('pointerout',e=>{if(!e.relatedTarget)set(false);},{passive:true});
+  if(!reduce) addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch'||e.button!==0||overText) return;
+    if(anim) anim.cancel();
+    anim=spin.animate([{transform:'perspective(240px) rotateY(0deg)'},{transform:'perspective(240px) rotateY(360deg)'}],{duration:600,easing:'cubic-bezier(.3,.7,.25,1)'});
+  },{passive:true});
 })();
 
-/* ---------- Magnetic är hopslaget med musloopen ovan ---------- */
+/* ---------- Magnet ---------- */
+/* Knappar med .magnetic dras mot pekaren och fjadrar tillbaka vid slapp.
+   Loopen gar bara medan en knapp ar aktiv och sover nar den stannat. */
+(function(){
+  if (reduce || matchMedia('(max-width:900px)').matches || matchMedia('(pointer:coarse)').matches) return;
+  const mags=document.querySelectorAll('.magnetic');
+  if(!mags.length) return;
+  document.body.classList.add('has-magnet');
+  let mx=0, my=0, magEl=null, releasing=false, cx=0, cy=0, tx=0, ty=0, raf=0;
+  const kick=()=>{if(!raf) raf=requestAnimationFrame(frame);};
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(magEl)kick();},{passive:true});
+  mags.forEach(el=>{
+    el.addEventListener('pointerenter',()=>{ if(magEl&&magEl!==el) magEl.style.transform=''; magEl=el; releasing=false; kick(); });
+    el.addEventListener('pointerleave',()=>{ if(magEl===el){ releasing=true; tx=0; ty=0; kick(); } });
+  });
+  function frame(){
+    raf=0;
+    if(!magEl) return;
+    if(!releasing){
+      const r=magEl.getBoundingClientRect();
+      tx=(mx-r.left-r.width/2)*0.32; ty=(my-r.top-r.height/2)*0.42;
+    }
+    cx+=(tx-cx)*0.22; cy+=(ty-cy)*0.22;
+    magEl.style.transform='translate3d('+cx.toFixed(2)+'px,'+cy.toFixed(2)+'px,0)';
+    if(releasing && Math.hypot(cx,cy)<0.4){ magEl.style.transform=''; magEl=null; releasing=false; cx=cy=0; return; }
+    if(!releasing && Math.abs(tx-cx)<0.05 && Math.abs(ty-cy)<0.05) return;
+    raf=requestAnimationFrame(frame);
+  }
+})();
 
 /* ---------- Reveal ---------- */
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});

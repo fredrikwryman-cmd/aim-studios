@@ -114,13 +114,19 @@
   /* scroll progress */
   .progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 9999; background: linear-gradient(90deg, var(--primary), var(--accent)); box-shadow: 0 0 12px rgba(79,70,229,0.7); }
 
-  /* custom cursor */
-  .cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9997; transform: translate(-50%, -50%); will-change: transform; }
-  .cursor-dot { width: 7px; height: 7px; background: var(--accent); }
-  .cursor-ring { width: 48px; height: 48px; border: 2px solid rgba(99,102,241,0.9); box-shadow: 0 0 20px rgba(99,102,241,0.4), inset 0 0 12px rgba(99,102,241,0.15); transition: width .25s var(--ease), height .25s var(--ease), background .25s, border-color .25s, box-shadow .25s; }
-  .cursor-ring.hot { width: 78px; height: 78px; background: rgba(99,102,241,0.14); border-color: rgba(129,140,248,1); box-shadow: 0 0 32px rgba(99,102,241,0.55), inset 0 0 16px rgba(99,102,241,0.2); }
-  body.has-cursor .magnetic { transition: box-shadow .25s var(--ease), background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), scale .16s var(--ease) !important; will-change: transform; }
-  @media (max-width: 900px) { .cursor-dot, .cursor-ring { display: none; } body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: auto; } }
+  /* Λ-pekare (scripts.js skapar elementet, bara med finpekare). Samma bana
+     som headerns logga, stroke 9 i headerns gradient, ovanpa en vit halo
+     (13) sa market syns mot bade morka och ljusa ytor i bada teman.
+     33 x 33 px ruta ger 26 px hog bana; margin lagger spetsen (50,16 minus
+     rund fog 4,5 = 11,5 i viewBox -> 3,8 px) exakt pa pekarens punkt.
+     Skriptet skriver bara transform. z-index over kakbannern (99990). */
+  .aim-cursor { position: fixed; top: 0; left: 0; z-index: 100000; width: 33px; height: 33px; margin: -3.8px 0 0 -16.5px; pointer-events: none; opacity: 0; will-change: transform; transition: opacity .15s linear; }
+  .aim-cursor.on { opacity: 1; }
+  .ac-spin, .aim-cursor svg { display: block; width: 100%; height: 100%; }
+  html.aim-cursor-on, html.aim-cursor-on * { cursor: none !important; }
+  /* Riktig markor dar man skriver - market doljs samtidigt av skriptet. */
+  html.aim-cursor-on :is(input, textarea, select, [contenteditable]:not([contenteditable="false"]), [contenteditable]:not([contenteditable="false"]) *) { cursor: auto !important; }
+  body.has-magnet .magnetic { transition: box-shadow .25s var(--ease), background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), scale .16s var(--ease) !important; will-change: transform; }
 
   /* buttons */
   .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-family: 'Inter Tight'; font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s, scale .16s var(--ease); white-space: nowrap; }
@@ -809,8 +815,6 @@
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     .reveal { opacity: 1; transform: none; transition-delay: 0s !important; }
     html { scroll-behavior: auto; }
-    .cursor-dot, .cursor-ring { display: none; }
-    body.has-cursor { cursor: auto; }
   }
 
   /* ===== FAS X – WOW ===== */
