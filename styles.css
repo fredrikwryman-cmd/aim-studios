@@ -331,7 +331,39 @@
   .hero-ruta.stilla { background-image: linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px); background-size: 55px 55px, 55px 55px; }
 
   .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
-  .hero .eyebrow { color: #cfcfe0; border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.04); }
+  /* Heropillret ovanfor rubriken: en enda lank till /case/, ritad i HTML/CSS
+     efter referensbilden aim-knapp (ligger inte i repot). Λ-banan ar samma som
+     loggans i headern, har i violett. Kantglod: ::before ar en 1,5 px ram via
+     mask-exclude, ljusast uppe till hoger och borta nere till vanster; box-shadow
+     ger ljuset utanfor. Ringen ar dekor, hela pillret ar klickytan. */
+  .hero-pill { position: relative; display: inline-flex; align-items: center; gap: 18px; height: 66px; padding: 0 11px 0 26px; border-radius: 999px; text-decoration: none; color: #fff; background: linear-gradient(180deg, #08080C, #14141C); box-shadow: 10px -8px 28px -12px rgba(56,189,248,.55), 0 14px 30px -16px rgba(59,130,246,.5), inset 0 1px 0 rgba(255,255,255,.05); transition: box-shadow .3s var(--ease), transform .3s var(--ease); }
+  .hero-pill::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; background: linear-gradient(205deg, #7DD3FC 0%, #3B82F6 24%, rgba(59,130,246,.38) 52%, rgba(99,102,241,.1) 80%, rgba(99,102,241,0) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .hp-logo svg { display: block; width: 34px; height: 34px; filter: drop-shadow(0 0 6px rgba(139,108,246,.6)); }
+  .hp-div { flex: none; width: 1px; height: 32px; background: rgba(129,160,255,.38); }
+  .hp-text { display: flex; flex-direction: column; gap: 7px; line-height: 1; font-family: 'Inter', 'Inter Fallback', sans-serif; text-transform: uppercase; white-space: nowrap; }
+  .hp-t1 { font-size: 16px; font-weight: 600; letter-spacing: .18em; margin-right: -.18em; color: #fff; }
+  .hp-t2 { font-size: 12px; font-weight: 500; letter-spacing: .42em; margin-right: -.42em; color: #A9AFC9; }
+  .hp-ring { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin-left: 8px; border-radius: 50%; border: 1px solid rgba(147,197,253,.72); background: radial-gradient(circle at 50% 30%, #17171f, #09090d); box-shadow: 0 0 14px -3px rgba(96,165,250,.65), inset 0 0 8px rgba(96,165,250,.14); }
+  .hp-ring svg { display: block; transition: transform .3s var(--ease); }
+  @media (hover: hover) {
+    .hero-pill:hover { transform: translateY(-1px); box-shadow: 10px -8px 34px -10px rgba(56,189,248,.7), 0 16px 34px -14px rgba(59,130,246,.6), inset 0 1px 0 rgba(255,255,255,.07); }
+    .hero-pill:hover .hp-ring svg { transform: translateX(2px); }
+  }
+  /* Under 560 px fyller pillret raden i stallet for att spranga den: ringen
+     skjuts till hoger kant och typografin krymper. */
+  @media (max-width: 560px) {
+    .hero-pill { display: flex; width: 100%; max-width: 380px; height: 58px; gap: 12px; padding: 0 8px 0 18px; }
+    .hp-logo svg { width: 27px; height: 27px; }
+    .hp-div { height: 26px; }
+    .hp-text { gap: 5px; }
+    .hp-t1 { font-size: 13px; }
+    .hp-t2 { font-size: 10.5px; }
+    .hp-ring { width: 40px; height: 40px; margin-left: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pill, .hp-ring svg { transition: none; }
+    .hero-pill:hover, .hero-pill:hover .hp-ring svg { transform: none; }
+  }
   .hero h1 { font-size: clamp(38px, 5.8vw, 64px); font-weight: 400; margin: 22px 0 20px; color: #fff; transform-style: preserve-3d; will-change: transform; }
   .hero h1 .hl { color: transparent; background: linear-gradient(120deg, #fff 30%, #8b8bff); -webkit-background-clip: text; background-clip: text; }
   .hero-sub { font-size: 19px; color: #b6b6c8; max-width: 520px; margin-bottom: 26px; }
@@ -1041,6 +1073,10 @@
   /* Hjaltesektionen behaller mork botten aven i ljust lage, sa den morknade
      ringen skulle falla dar (1,98:1 mot rgb(11,11,15)). Ljus ring i stallet. */
   :root[data-theme="light"] .hero :focus-visible { outline-color: #A5B4FC; }
+  /* Heropillret ligger over shaderns bla flackar; indigo och #A5B4FC tappar
+     kontrasten dar. Vit ring i bada teman. :root i selektorn for att sla
+     ljusregeln ovan (0,4,0). */
+  :root .hero .hero-pill:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
 
   /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
