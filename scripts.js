@@ -11,39 +11,6 @@ function onScroll(){
 }
 if (header || progress) { window.addEventListener('scroll', onScroll, {passive:true}); onScroll(); }
 
-/* ---------- Λ-pekare ---------- */
-/* Bara med finpekare (pointer: fine), pa alla bredder; pa touch skapas inget
-   element. Positionen skrivs som transform en gang per bildruta och bara medan musen ror sig -
-   ingen loop i vila. Over textfalt doljs market och CSS:en ger tillbaka den
-   riktiga markoren. Klick: ett varv rotateY via Web Animations (kompositorn),
-   spetsen pekar uppat hela varvet. Ingen snurr vid reducerad rorelse. */
-(function(){
-  if(!matchMedia('(pointer: fine)').matches) return;
-  const el=document.createElement('div');
-  el.className='aim-cursor'; el.setAttribute('aria-hidden','true');
-  el.innerHTML='<span class="ac-spin"><svg viewBox="0 0 100 100" width="32" height="32" fill="none" overflow="visible" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="acg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient><filter id="acf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="10"><path d="M26 86 L50 16 L74 86" stroke="#fff" stroke-opacity=".92" stroke-width="13"/><path d="M26 86 L50 16 L74 86" stroke="url(#acg)" stroke-width="9" filter="url(#acf)"/></g></svg></span>';
-  document.body.appendChild(el);
-  const spin=el.firstChild, root=document.documentElement;
-  const TEXT='input,textarea,select,[contenteditable]:not([contenteditable="false"])';
-  let x=0, y=0, raf=0, on=false, overText=false, anim=null;
-  const set=v=>{if(v!==on){on=v;el.classList.toggle('on',v);}};
-  const draw=()=>{raf=0;el.style.transform='translate3d('+x+'px,'+y+'px,0)';};
-  addEventListener('pointermove',e=>{
-    if(e.pointerType==='touch'){set(false);return;}
-    x=e.clientX; y=e.clientY;
-    if(!root.classList.contains('aim-cursor-on')) root.classList.add('aim-cursor-on');
-    set(!overText);
-    if(!raf) raf=requestAnimationFrame(draw);
-  },{passive:true});
-  addEventListener('pointerover',e=>{overText=!!(e.target.closest&&e.target.closest(TEXT));if(e.pointerType!=='touch')set(!overText);},{passive:true});
-  addEventListener('pointerout',e=>{if(!e.relatedTarget)set(false);},{passive:true});
-  if(!reduce) addEventListener('pointerdown',e=>{
-    if(e.pointerType==='touch'||e.button!==0||overText) return;
-    if(anim) anim.cancel();
-    anim=spin.animate([{transform:'perspective(240px) rotateY(0deg)'},{transform:'perspective(240px) rotateY(360deg)'}],{duration:600,easing:'cubic-bezier(.3,.7,.25,1)'});
-  },{passive:true});
-})();
-
 /* ---------- Magnet ---------- */
 /* Knappar med .magnetic dras mot pekaren och fjadrar tillbaka vid slapp.
    Loopen gar bara medan en knapp ar aktiv och sover nar den stannat. */
