@@ -12,16 +12,16 @@ function onScroll(){
 if (header || progress) { window.addEventListener('scroll', onScroll, {passive:true}); onScroll(); }
 
 /* ---------- Λ-pekare ---------- */
-/* Bara med finpekare som kan hovra; pa touch skapas inget element. Positionen
-   skrivs som transform en gang per bildruta och bara medan musen ror sig -
+/* Bara med finpekare (pointer: fine), pa alla bredder; pa touch skapas inget
+   element. Positionen skrivs som transform en gang per bildruta och bara medan musen ror sig -
    ingen loop i vila. Over textfalt doljs market och CSS:en ger tillbaka den
    riktiga markoren. Klick: ett varv rotateY via Web Animations (kompositorn),
    spetsen pekar uppat hela varvet. Ingen snurr vid reducerad rorelse. */
 (function(){
-  if(!matchMedia('(pointer: fine) and (hover: hover)').matches) return;
+  if(!matchMedia('(pointer: fine)').matches) return;
   const el=document.createElement('div');
   el.className='aim-cursor'; el.setAttribute('aria-hidden','true');
-  el.innerHTML='<span class="ac-spin"><svg viewBox="0 0 100 100" width="33" height="33" fill="none" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="acg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs><g stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86" stroke="#fff" stroke-opacity=".92" stroke-width="13"/><path d="M26 86 L50 16 L74 86" stroke="url(#acg)" stroke-width="9"/></g></svg></span>';
+  el.innerHTML='<span class="ac-spin"><svg viewBox="0 0 100 100" width="32" height="32" fill="none" overflow="visible" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="acg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient><filter id="acf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="10"><path d="M26 86 L50 16 L74 86" stroke="#fff" stroke-opacity=".92" stroke-width="13"/><path d="M26 86 L50 16 L74 86" stroke="url(#acg)" stroke-width="9" filter="url(#acf)"/></g></svg></span>';
   document.body.appendChild(el);
   const spin=el.firstChild, root=document.documentElement;
   const TEXT='input,textarea,select,[contenteditable]:not([contenteditable="false"])';
