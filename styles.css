@@ -801,13 +801,6 @@
   body.neon .eyebrow .dot { box-shadow: 0 0 14px #22ffa7; }
   .egg-toast { position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%) translateY(20px); background: linear-gradient(135deg,#a855f7,#22ffa7); color: #0a210f; font-family: 'Inter Tight'; font-weight: 700; padding: 12px 22px; border-radius: 100px; box-shadow: 0 12px 30px rgba(0,0,0,.45); opacity: 0; pointer-events: none; transition: opacity .4s var(--ease), transform .4s var(--ease); z-index: 99999; }
   .egg-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  /* cookiebanner */
-  #cookie-banner { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 99990; max-width: 580px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--line-strong); border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 14px; transform: translateY(140%); transition: transform .5s var(--ease); }
-  #cookie-banner.show { transform: none; }
-  #cookie-banner p { color: var(--muted); flex: 1; min-width: 220px; margin: 0; }
-  #cookie-banner a { color: var(--light-indigo); text-decoration: underline; }
-  #cookie-banner .cb-actions { display: flex; gap: 10px; }
-  #cookie-banner .btn { padding: 9px 16px; font-size: 14px; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

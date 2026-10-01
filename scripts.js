@@ -160,20 +160,6 @@ if(!reduce) document.querySelectorAll('.faq-item').forEach(item=>{
   render();
 })();
 
-/* ---------- Cookiebanner (GDPR) ---------- */
-(function(){
-  let consent=null;
-  try{ consent=localStorage.getItem('cookie-consent'); }catch(_){}
-  if(consent) return;
-  const b=document.createElement('div');
-  b.id='cookie-banner';
-  b.innerHTML='<p>Jag använder cookies för att förbättra din upplevelse. <a href="/integritetspolicy.html">Läs mer om cookies</a></p><div class="cb-actions"><button class="btn btn-secondary" id="cbDecline">Endast nödvändiga</button><button class="btn btn-primary" id="cbAccept">Acceptera</button></div>';
-  document.body.appendChild(b);
-  requestAnimationFrame(()=>b.classList.add('show'));
-  function close(v){ try{localStorage.setItem('cookie-consent',v);}catch(_){} b.classList.remove('show'); setTimeout(()=>b.remove(),500); }
-  b.querySelector('#cbAccept').addEventListener('click',()=>close('all'));
-  b.querySelector('#cbDecline').addEventListener('click',()=>close('necessary'));
-})();
 /* ---------- Navbar v2 (scroll-spy + tema + mobil-overlay; ingen dock/krympning) ---------- */
 (function(){
   // Aktiv-sektion-indikator som glider under länkarna (transform inom containern)
@@ -657,7 +643,7 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   var ctx=canvas.getContext('2d');
   var chars='AiMSTUDIOS0123456789<>/=+-*', fontSize=14;
   var active=false, anim=null, drops=[];
-  var NYCKEL='aim-matrix';   // samma stil som aim-theme och cookie-consent
+  var NYCKEL='aim-matrix';   // samma stil som aim-theme
 
   /* Regnet ritar over hela vyn och kolliderar darfor med hero-rutnatet. Laget
      publiceras pa tva satt: en handelse for den som redan lyssnar, och en global
