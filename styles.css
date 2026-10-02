@@ -390,7 +390,7 @@
   .browser-url { margin-left: 12px; font-size: 12px; color: #8A8A9C; background: #0B0B0F; padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
   .browser-body { position: relative; aspect-ratio: 16/10; background: #0e0e15; }
   /* <picture> ar inline som standard och skulle lamna en baslinjeglipa under
-     bilden. Samma behandling som .case-visual picture. */
+     bilden. */
   .browser-body picture { display: block; width: 100%; height: 100%; }
   .browser-body img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -511,13 +511,7 @@
   .cases-pin { position: relative; }
   .cases-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
   .cases-track { display: flex; gap: 26px; padding: 0 max(24px, calc((100vw - var(--max)) / 2 + 24px)); will-change: transform; }
-  .case-card { width: 380px; flex: none; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; }
-  .case-visual { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, rgba(79,70,229,0.20), rgba(99,102,241,0.10)); }
-  .case-visual picture { display: block; width: 100%; height: 100%; }
-  .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-  .case-body { padding: 24px; }
   .case-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .badge-ex { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); text-transform: uppercase; }
   .case-row { font-size: 14px; color: var(--muted); margin: 9px 0; }
   .case-row b { color: var(--text); font-weight: 600; }
   .case-metrics { display: flex; gap: 10px; margin-top: 18px; }
@@ -531,7 +525,6 @@
     .cases-pin { height: auto !important; }
     .cases-sticky { position: static; height: auto; display: block; }
     .cases-track { transform: none !important; overflow-x: auto; padding: 0 24px 10px; scroll-snap-type: x mandatory; }
-    .case-card { scroll-snap-align: center; width: 300px; }
     .pin-hint { display: none; }
   }
 
@@ -799,7 +792,7 @@
   body.neon { --primary: #a855f7; --primary-soft: #c084fc; --accent: #22ffa7; }
   body.neon h1, body.neon h2 { text-shadow: 0 0 18px rgba(168,85,247,.55); }
   body.neon .btn-primary { box-shadow: 0 0 30px rgba(168,85,247,.8); }
-  body.neon .price-card, body.neon .case-card { box-shadow: 0 0 24px -4px rgba(34,255,167,.4); }
+  body.neon .price-card { box-shadow: 0 0 24px -4px rgba(34,255,167,.4); }
   body.neon .logo-mark svg { filter: drop-shadow(0 0 9px #c084fc); }
   body.neon .eyebrow .dot { box-shadow: 0 0 14px #22ffa7; }
   .egg-toast { position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%) translateY(20px); background: linear-gradient(135deg,#a855f7,#22ffa7); color: #0a210f; font-family: 'Inter Tight'; font-weight: 700; padding: 12px 22px; border-radius: 100px; box-shadow: 0 12px 30px rgba(0,0,0,.45); opacity: 0; pointer-events: none; transition: opacity .4s var(--ease), transform .4s var(--ease); z-index: 99999; }
@@ -1217,7 +1210,6 @@
      UTVALDA PROJEKT - editorial-features pa /case/
      Casen ar inte kort utan uppslag: nummer, linje, titel, ingress,
      stor skarmbild i en enkel browserram, metadata och lank.
-     Designexemplen langre ner behaller .case-card och rors inte.
      ================================================================= */
   .case-work { padding: 24px 0 130px; }
   .case-feature + .case-feature { margin-top: 150px; }
@@ -1225,7 +1217,7 @@
   .case-head { display: flex; align-items: center; gap: 20px; }
   .case-num { font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; color: var(--light-indigo); flex: none; font-variant-numeric: tabular-nums; }
   .case-rule { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
-  .case-head .badge-live, .case-head .badge-wip { flex: none; }
+  .case-head .badge-live, .case-head .badge-wip, .case-head .badge-build { flex: none; }
 
   .case-title { font-size: clamp(34px, 5.2vw, 58px); line-height: 1.02; letter-spacing: -0.025em; margin: 26px 0 0; }
   .case-lead { font-family: 'Inter Tight', sans-serif; font-size: clamp(19px, 2.1vw, 27px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--muted); max-width: 620px; margin: 18px 0 0; }
@@ -1287,9 +1279,6 @@
   .case-cta:hover .case-arrow, .case-shot:hover ~ .case-meta .case-arrow { transform: translateX(6px); }
   .case-cta:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 4px; border-radius: 4px; }
 
-  /* Skiljelinje mot koncepten, sa det aldrig blandas ihop med kunduppdrag */
-  .case-lab { padding-top: 0; }
-  .case-lab-rule { height: 1px; background: var(--line); margin: 0 0 90px; }
 
   @media (max-width: 860px) {
     .case-work { padding: 8px 0 96px; }
@@ -1304,7 +1293,6 @@
     .case-data { grid-column: 1; gap: 20px 34px; }
     .case-data dd { font-size: 21px; }
     .case-act { grid-column: 1; justify-self: start; text-align: left; align-items: flex-start; }
-    .case-lab-rule { margin-bottom: 62px; }
   }
   /* Pekskarm: ingen lyft-hover som fastnar efter tryck */
   @media (hover: none), (pointer: coarse) {
@@ -1312,16 +1300,17 @@
     .case-shot:hover .case-shot-img img { transform: none; }
   }
 
-  /* ===== Badge for riktiga projekt (indigo, vs dampad .badge-ex) ===== */
+  /* ===== Statusetiketter for riktiga projekt ===== */
   /* LANSERAD - caset ar live och klickbart. Starkast vikt. */
   .badge-live { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--primary-soft); color: #fff; background: var(--primary); text-transform: uppercase; white-space: nowrap; }
   /* PAGAENDE - byggd men inte lanserad. Dampad, tydligt lagre vikt. */
   .badge-wip { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted-dim); background: transparent; text-transform: uppercase; white-space: nowrap; }
+  /* UNDER UPPBYGGNAD - kunden har sagt ja, sajten byggs vidare infor
+     lansering pa eget domannamn. Fylld amber med mork text: skild fran
+     Lanserads indigo och Pagaendes konturer, och lasbar i bada teman utan
+     overstyrning (#1c1206 pa #f5b544: 10,17:1). */
+  .badge-build { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid #f5b544; color: #1c1206; background: #f5b544; text-transform: uppercase; white-space: nowrap; }
 
-  /* .case-card ar nu bara designexemplens kort pa /case/. Startsidans
-     feature-case ar ett sticky-uppslag, se .sticky-case langre ner. */
-  .case-card .case-visual { flex: none; }
-  .case-card .case-body { display: flex; flex-direction: column; flex: 1 1 auto; }
   .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
   .case-metrics { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; }
   .case-note { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; font-style: italic; }
@@ -1450,12 +1439,6 @@
   /* E: undersidornas flyttade moduler får ej lysa vit hårlinje mot mörk bg */
   body.subpage .ai-sec { border-top: 0; border-bottom: 0; }
 
-  /* ===== /case/ : rutnät av case-kort (ej startsidans pin-scroll) ===== */
-  .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
-  .case-grid .case-card { width: auto; }
-  /* Designexemplens rutnat. Feature-casen anvander inte langre .case-card -
-     de ar editorial-features, se .case-feature langre ner. */
-  @media (max-width: 560px) { .case-grid { grid-template-columns: 1fr; } }
 
   /* ===== Startsida: bantad tjänste-ÖVERSIKT (4 rutor → tjänstesidor) ===== */
   .svc-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
