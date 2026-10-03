@@ -1234,18 +1234,17 @@
 
   /* Presentationsvideo ovanpa stillbilden.
 
-     poster pekar pa SAMMA webp som <picture> redan hamtar, inte pa jpg:en.
-     Poster-attributet lyder inte under preload="none" utan hamtas alltid, och
-     med jpg:en blev det 47 KiB extra vid varje sidladdning for en bildruta
-     som aldrig syns - <picture> ligger under och ar det man faktiskt ser.
-     Uppmatt: sidvikten gick 426 -> 474 KiB tills postern pekades om.
+     Ingen poster. Poster-attributet lyder inte under preload="none" utan
+     hamtas alltid, och med fem videor drog det in alla fem stillbilder vid
+     sidladdningen och slog ut deras loading="lazy". Videon ar osynlig tills
+     den spelar, sa en poster syns aldrig - <picture> under ar det man ser.
 
      Den tonas in FORST nar den
      faktiskt borjat spela (klassen sätts pa playing-handelsen), sa man aldrig
      ser en tom ruta medan preload="none" hamtar filen.
 
      pointer-events: none ar avgorande: hela bildbandet ar en <a> till
-     adbyggprojekt.se, och videon far aldrig sno at sig klicket.
+     kundens sajt, och videon far aldrig sno at sig klicket.
 
      Utan JavaScript satts .spelar aldrig - videon ar osynlig, stillbilden
      syns, och preload="none" gor att ingenting hamtas. */

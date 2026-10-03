@@ -919,55 +919,80 @@ document.querySelectorAll('.iridescent').forEach(card=>{
   for(var k=0;k<casen.length;k++) io.observe(casen[k]);
 })();
 
-/* ---------- Presentationsvideo i case-kortet pa /case/ ----------
-   Stillbilden ligger kvar under videon och ar det som syns i utgangslaget.
-   Videon ar muted, loopar, har playsinline och preload="none" - ingenting
-   hamtas forran den faktiskt ska spela.
+/* ---------- Presentationsvideor i case-korten pa /case/ ----------
+   Alla fem case har en video: en langsam skrollning genom kundens sajt.
+   Stillbilden ligger kvar under varje video och ar det som syns i
+   utgangslaget. Videorna ar muted, loopar, har playsinline och
+   preload="none" - ingenting hamtas forran en video faktiskt ska spela.
 
    Desktop (en pekare som kan hovra): spelar pa pointerenter, pausar pa
    pointerleave.
    Mobil (ingen hover): spelar nar kortet ar i vyn och pausar nar det lamnar.
-   Klick startar aldrig videon - hela bildbandet ar en lank till
-   adbyggprojekt.se och den ska fortsatta vara det.
+   Klick startar aldrig en video - hela bildbandet ar en lank till kundens
+   sajt och den ska fortsatta vara det.
+
+   Bara EN video spelar at gangen. Fem samtidiga avkodningar kostar for mycket
+   pa en svag telefon, och det ar bara en man tittar pa.
 
    Utan skript, och vid prefers-reduced-motion, hander ingenting alls:
-   .spelar satts aldrig, videon ar osynlig i CSS och stillbilden syns. */
+   .spelar satts aldrig, videorna ar osynliga i CSS och stillbilderna syns. */
 (function(){
-  var vid=document.querySelector('.case-video'); if(!vid) return;
+  var vids=document.querySelectorAll('.case-video'); if(!vids.length) return;
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var band=vid.closest('.case-shot'); if(!band) return;
+  var aktiv=null;
 
-  /* Klassen satts pa 'playing', inte direkt vid play(). Med preload="none"
-     finns ingen avkodad bildruta forran filen borjat komma, och utan den har
-     fordrojningen skulle man se en tom ruta over stillbilden. */
-  vid.addEventListener('playing', function(){ vid.classList.add('spelar'); });
-
-  function spela(){
+  function pausa(vid){
+    vid.classList.remove('spelar'); vid.pause();
+    if(aktiv===vid) aktiv=null;
+  }
+  function spela(vid){
+    if(aktiv && aktiv!==vid) pausa(aktiv);
+    aktiv=vid;
     var p=vid.play();
     /* play() avvisas av webblasaren i lagen vi inte styr over (stromsparlage,
        autoplay-policy). Da ska stillbilden bara ligga kvar, inte ett fel. */
     if(p && p.catch) p.catch(function(){});
   }
-  function pausa(){ vid.classList.remove('spelar'); vid.pause(); }
 
   /* (hover: hover) fragar om pekaren KAN hovra, vilket ar det som skiljer
      lagena at - inte skarmbredden. En liten laptop ska ha hover, en stor
      surfplatta ska inte. */
-  if(matchMedia('(hover: hover) and (pointer: fine)').matches){
-    band.addEventListener('pointerenter', spela);
-    band.addEventListener('pointerleave', pausa);
-    band.addEventListener('focusin', spela);
-    band.addEventListener('focusout', pausa);
-  } else if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){
-      /* Sista posten ar det aktuella laget - se samma anmarkning i
-         hero-rutnatet och shadern. */
-      es[es.length-1].isIntersecting ? spela() : pausa();
-    },{ threshold:0.5 }).observe(band);
+  var hover=matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var io=(!hover && 'IntersectionObserver' in window) ? new IntersectionObserver(function(es){
+    /* Har ar det flera band, sa varje post galler sitt eget mal. Inom ett och
+       samma mal ar sista posten det aktuella laget - se samma anmarkning i
+       hero-rutnatet och shadern. */
+    var sist=new Map();
+    for(var i=0;i<es.length;i++) sist.set(es[i].target, es[i]);
+    sist.forEach(function(e, band){
+      var vid=band.querySelector('.case-video');
+      e.isIntersecting ? spela(vid) : pausa(vid);
+    });
+  },{ threshold:0.5 }) : null;
+
+  for(var i=0;i<vids.length;i++){
+    (function(vid){
+      var band=vid.closest('.case-shot'); if(!band) return;
+      /* Klassen satts pa 'playing', inte direkt vid play(). Med preload="none"
+         finns ingen avkodad bildruta forran filen borjat komma, och utan den
+         fordrojningen skulle man se en tom ruta over stillbilden. Spelar en
+         annan video redan nar den har kommer igang, ska den inte visas. */
+      vid.addEventListener('playing', function(){
+        if(aktiv===vid) vid.classList.add('spelar'); else vid.pause();
+      });
+      if(hover){
+        band.addEventListener('pointerenter', function(){ spela(vid); });
+        band.addEventListener('pointerleave', function(){ pausa(vid); });
+        band.addEventListener('focusin', function(){ spela(vid); });
+        band.addEventListener('focusout', function(){ pausa(vid); });
+      } else if(io){
+        io.observe(band);
+      }
+    })(vids[i]);
   }
 
   /* Dold flik ska inte spela video. */
-  document.addEventListener('visibilitychange', function(){ if(document.hidden) pausa(); });
+  document.addEventListener('visibilitychange', function(){ if(document.hidden && aktiv) pausa(aktiv); });
 })();
 
 /* ---------- Neuralt header-lager: nätverk + spotlight (vanilla, namespaced) ---------- */
