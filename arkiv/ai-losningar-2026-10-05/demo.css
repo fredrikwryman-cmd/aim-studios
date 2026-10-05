@@ -1,0 +1,36 @@
+/* Arkiverade regler ur styles.css, flyttade 2026-10-05: AI-demot pa /ai-losningar/ borttaget.
+   Regler vars selektorer inte langre matchar nagot i sajtens HTML eller scripts.js.
+   Ordagrant fran commit fedb500. Laddas inte av nagon sida. */
+
+/* AI section */
+.ai-sec { position: relative; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--bg-soft) 0%, #0a0f0c 50%, var(--bg-soft) 100%); }
+/* Mittstoppet #0a0f0c ar hardkodat morkt och gallde bada teman. I ljust lage
+     blev bandet #adaead dar rubriken star - en mork rubrik matte da 2.83:1. */
+:root[data-theme="light"] .ai-sec { background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 50%, var(--bg-soft) 100%); }
+.ai-sec .wrap { position: relative; z-index: 1; }
+.chat-demo { border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; box-shadow: var(--shadow); }
+.ai-badge-demo { font-size: 11px; color: var(--muted-dim); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+/* ---------- AI Section – Terminal Theme ---------- */
+.ai-terminal-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.ai-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(34,197,94,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.04) 1px, transparent 1px); background-size: 60px 60px; -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%); }
+.ai-scan-line { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(34,197,94,0.6), transparent); box-shadow: 0 0 20px rgba(34,197,94,0.3); animation: scanMove 5s ease-in-out infinite; }
+.chat-demo.ai-terminal { background: linear-gradient(135deg, rgba(11,15,12,0.96), rgba(20,28,22,0.98)); border: 1px solid rgba(34,197,94,0.18); box-shadow: 0 0 0 1px rgba(34,197,94,0.08), 0 20px 60px -20px rgba(0,0,0,0.8), 0 0 60px -30px rgba(34,197,94,0.15); }
+.ai-terminal .chat-body .msg.bot { margin-left: 34px; position: relative; }
+.ai-terminal .chat-body .msg.bot::before { content: 'A'; position: absolute; left: -34px; top: 0; width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #22C55E, #15803d); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; box-shadow: 0 0 12px -2px rgba(34,197,94,0.5); }
+:root[data-theme="light"] .chat-demo.ai-terminal {
+    --text: #FFFFFF;
+    --muted: #A4A4B5;
+    --muted-dim: #8A8A9C;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --glass: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+  }
+@media (prefers-reduced-motion: reduce) {
+.ai-scan-line { animation: none; }
+.ai-scan-line { opacity: 0; }
+}
+/* E: undersidornas flyttade moduler får ej lysa vit hårlinje mot mörk bg */
+body.subpage .ai-sec { border-top: 0; border-bottom: 0; }
+
+@keyframes scanMove { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }

@@ -451,15 +451,6 @@
   .price-note { text-align: center; margin-top: 28px; color: var(--muted); font-size: 15px; }
   .price-note b { color: var(--text); }
 
-  /* AI section */
-  .ai-sec { position: relative; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--bg-soft) 0%, #0a0f0c 50%, var(--bg-soft) 100%); }
-  /* Mittstoppet #0a0f0c ar hardkodat morkt och gallde bada teman. I ljust lage
-     blev bandet #adaead dar rubriken star - en mork rubrik matte da 2.83:1. */
-  :root[data-theme="light"] .ai-sec { background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 50%, var(--bg-soft) 100%); }
-  .ai-sec .wrap { position: relative; z-index: 1; }
-
-  .chat-demo { border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; box-shadow: var(--shadow); }
-
   .chat-body { padding: 18px; height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
   .msg { max-width: 80%; padding: 11px 15px; border-radius: 14px; font-size: 14.5px; line-height: 1.5; animation: msgIn .4s var(--ease); }
   @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } }
@@ -473,7 +464,6 @@
   .chat-chip { padding: 8px 13px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-size: 13px; cursor: pointer; transition: color .2s, background .2s, border-color .2s; white-space: nowrap; }
   .chat-chip:hover { color: var(--text); border-color: var(--primary); }
   .chat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 16px; }
-  .ai-badge-demo { font-size: 11px; color: var(--muted-dim); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
 
   /* floating chat widget */
   /* Stangd panel ska vara helt otillganglig: visibility: hidden tar bort hela
@@ -615,13 +605,6 @@
     .iridescent:hover::after { animation: none; }
   }
 
-  /* ---------- AI Section – Terminal Theme ---------- */
-  .ai-terminal-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-  .ai-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(34,197,94,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.04) 1px, transparent 1px); background-size: 60px 60px; -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%); }
-  .ai-scan-line { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(34,197,94,0.6), transparent); box-shadow: 0 0 20px rgba(34,197,94,0.3); animation: scanMove 5s ease-in-out infinite; }
-  @keyframes scanMove { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
-
-  .chat-demo.ai-terminal { background: linear-gradient(135deg, rgba(11,15,12,0.96), rgba(20,28,22,0.98)); border: 1px solid rgba(34,197,94,0.18); box-shadow: 0 0 0 1px rgba(34,197,94,0.08), 0 20px 60px -20px rgba(0,0,0,0.8), 0 0 60px -30px rgba(34,197,94,0.15); }
   .terminal-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid rgba(34,197,94,0.12); background: rgba(0,0,0,0.3); }
   .terminal-dots { display: flex; gap: 6px; flex: none; }
   .terminal-dots span { width: 10px; height: 10px; border-radius: 50%; }
@@ -638,8 +621,8 @@
   .terminal-send:hover { background: rgba(34,197,94,0.2); box-shadow: 0 0 20px -4px rgba(34,197,94,0.4); }
   .terminal-send svg { width: 16px; height: 16px; }
   /* avatar-preview i bot-bubblan (K1) */
-  .ai-terminal .chat-body .msg.bot, .ai-chat-panel .chat-body .msg.bot { margin-left: 34px; position: relative; }
-  .ai-terminal .chat-body .msg.bot::before, .ai-chat-panel .chat-body .msg.bot::before { content: 'A'; position: absolute; left: -34px; top: 0; width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #22C55E, #15803d); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; box-shadow: 0 0 12px -2px rgba(34,197,94,0.5); }
+  .ai-chat-panel .chat-body .msg.bot { margin-left: 34px; position: relative; }
+  .ai-chat-panel .chat-body .msg.bot::before { content: 'A'; position: absolute; left: -34px; top: 0; width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #22C55E, #15803d); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; box-shadow: 0 0 12px -2px rgba(34,197,94,0.5); }
 
   /* ---------- AI Brain Orb (FAB) ---------- */
   .ai-orb-container { position: fixed; bottom: 24px; right: 24px; z-index: 9990; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
@@ -664,8 +647,8 @@
 
   /* ---------- AI Chat Panel (grön) ---------- */
   .ai-chat-panel { background: linear-gradient(135deg, rgba(11,15,12,0.98), rgba(20,28,22,0.99)); border: 1px solid rgba(34,197,94,0.2); box-shadow: 0 24px 60px -20px rgba(0,0,0,0.9), 0 0 60px -30px rgba(34,197,94,0.2); }
-  /* F16: bada AI-ytorna ar morkgrona i BADA teman - .ai-chat-panel har en fast
-     gradient (raden ovan) och .chat-demo.ai-terminal likasa. I ljust tema pekade
+  /* F16: chattpanelen ar morkgron i BADA teman - .ai-chat-panel har en fast
+     gradient (raden ovan). I ljust tema pekade
      tokens dar pa mork text mot mork bakgrund: --text #0B0B0F pa #131915 = 1.06:1,
      --muted #55556A = 2.39:1, --muted-dim = 3.58:1.
      Samma form som .station-glass: tokens deklareras om lokalt pa ytan i stallet
@@ -674,8 +657,7 @@
      `color` satts uttryckligen: .msg.bot har ingen egen fargdeklaration utan
      arver body:s FARDIGBERAKNADE farg, och nas darfor inte av en omdeklarerad
      variabel ensam. */
-  :root[data-theme="light"] .ai-chat-panel,
-  :root[data-theme="light"] .chat-demo.ai-terminal {
+  :root[data-theme="light"] .ai-chat-panel {
     --text: #FFFFFF;
     --muted: #A4A4B5;
     --muted-dim: #8A8A9C;
@@ -688,7 +670,7 @@
   .ai-chat-close:hover { border-color: var(--danger); color: var(--danger); }
 
   @media (max-width: 560px) { .ai-orb { width: 54px; height: 54px; } .ai-orb-core { width: 20px; height: 20px; } .ring-3 { width: 64px; height: 64px; } }
-  @media (prefers-reduced-motion: reduce) { .ai-orb-core, .ai-orb-ring, .ai-orb-particles::before, .ai-orb-particles::after, .ai-scan-line { animation: none; } .ai-scan-line { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .ai-orb-core, .ai-orb-ring, .ai-orb-particles::before, .ai-orb-particles::after { animation: none; } }
 
   /* ---------- Process – Pipeline (indigo) ---------- */
   .process-sec { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg), #0a0a14, var(--bg)); }
@@ -1089,8 +1071,6 @@
   body[data-bg="branding"]::before { opacity: .55; }
   body[data-bg="case"]::before { opacity: .55; }
   @media (max-width: 768px) { body.subpage::before { background-attachment: scroll; background-size: 380px; } }
-  /* E: undersidornas flyttade moduler får ej lysa vit hårlinje mot mörk bg */
-  body.subpage .ai-sec { border-top: 0; border-bottom: 0; }
 
   /* ===================================================================
      FAS 3 – undersidornas tillagg (Om oss, lopande skotsel)

@@ -150,8 +150,6 @@ function chatEngine(bodyEl,chipsEl){
   chipsEl.querySelectorAll('.chat-chip').forEach(c=>c.addEventListener('click',()=>ask(c.dataset.q)));
   return ask;
 }
-const _demoBody=document.getElementById('demoBody'), _demoChips=document.getElementById('demoChips');
-const demoAsk=(_demoBody&&_demoChips)?chatEngine(_demoBody,_demoChips):null;
 const _fabBody=document.getElementById('fabBody'), _fabChips=document.getElementById('fabChips');
 const fabAsk=(_fabBody&&_fabChips)?chatEngine(_fabBody,_fabChips):null;
 // Skrivfält → motor (Enter eller skicka-knapp)
@@ -160,7 +158,6 @@ function wireChatInput(inputId, sendId, ask){
   if(inp){ inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&inp.value.trim()){ ask(inp.value.trim()); inp.value=''; } }); }
   if(snd){ snd.addEventListener('click',()=>{ if(inp&&inp.value.trim()){ ask(inp.value.trim()); inp.value=''; inp.focus(); } }); }
 }
-wireChatInput('demoInput','demoSend',demoAsk);
 wireChatInput('fabInput','fabSend',fabAsk);
 // Orb-launcher → chat-panel (klick + tangentbord)
 const aiOrb=document.getElementById('aiOrbContainer'), fabPanel=document.getElementById('fabPanel'), fabClose=document.getElementById('fabClose');
