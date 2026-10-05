@@ -64,3 +64,14 @@ bredvid temaväxlaren, som är kvar.
 
 Integritetspolicyns punkt om `aim-matrix` i `localStorage` togs bort samtidigt.
 Besökare som slagit på regnet har nyckeln kvar i sin webbläsare. Ingen kod läser den längre.
+
+## webbdesign-2026-10-06 (paketaffären borttagen, /webbdesign/ blev Projektleverans)
+
+Flyttat från commit bc11238. Adressen `/webbdesign/` är kvar med ny sida och
+ny text. Menypunkten heter nu Projektleverans på alla sidor.
+
+| Fil | Vad |
+|---|---|
+| `index.html` | Hela den gamla `/webbdesign/` med kalkylatorn, paketkorten Starter, Business och Premium, paketmodalen, före/efter-reglaget, process-pipelinen och löftet om tio dagar, flyttad med `git mv`. |
+| `moduler.js` | Fyra moduler ur `scripts.js` som bara hade element på den sidan: Before/After, Pricing calculator, Paket-modal (med paketdatan `PKG`, `ADDONS` och knappen "Boka det här paketet") och Process pipeline. `FOKUSERBARA` och `fokusfalla()` ligger kvar i `scripts.js`; mobilmenyn är nu enda anroparen. |
+| `moduler.css` | Regler ur `styles.css` vars selektorer bara träffade de fyra komponenterna, plus keyframes `pkgSweep`, `orbRingPulse` och `particleFloatUp`. Utvalt med skript. `.price-card`, `.price-grid` och `.pop` ligger kvar: `/skotsel/` använder dem. |
