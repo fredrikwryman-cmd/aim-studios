@@ -927,9 +927,13 @@ document.querySelectorAll('.iridescent').forEach(card=>{
 
    Desktop (en pekare som kan hovra): spelar pa pointerenter, pausar pa
    pointerleave.
-   Mobil (ingen hover): spelar nar kortet ar i vyn och pausar nar det lamnar.
-   Klick startar aldrig en video - hela bildbandet ar en lank till kundens
-   sajt och den ska fortsatta vara det.
+   Pekskarm (ingen hover): ingenting hamtas eller spelar forran man trycker.
+   Forsta trycket pa bildbandet startar videon i stallet for att oppna
+   lanken; nasta tryck medan den spelar oppnar kundens sajt som vanligt.
+   "Besok projektet"-lanken under bandet oppnar alltid direkt. Videon
+   pausas nar bandet lamnar vyn. Tidigare startade videon av sig sjalv i
+   vyn och drog upp till ~2 MB pa en skrollning genom sidan.
+   Tangentbord (Enter, detail 0) och mus navigerar alltid direkt.
 
    Bara EN video spelar at gangen. Fem samtidiga avkodningar kostar for mycket
    pa en svag telefon, och det ar bara en man tittar pa.
@@ -958,6 +962,8 @@ document.querySelectorAll('.iridescent').forEach(card=>{
      lagena at - inte skarmbredden. En liten laptop ska ha hover, en stor
      surfplatta ska inte. */
   var hover=matchMedia('(hover: hover) and (pointer: fine)').matches;
+  /* Pa pekskarm startar observern aldrig nagot - den pausar bara en video
+     vars band lamnat vyn. */
   var io=(!hover && 'IntersectionObserver' in window) ? new IntersectionObserver(function(es){
     /* Har ar det flera band, sa varje post galler sitt eget mal. Inom ett och
        samma mal ar sista posten det aktuella laget - se samma anmarkning i
@@ -966,9 +972,9 @@ document.querySelectorAll('.iridescent').forEach(card=>{
     for(var i=0;i<es.length;i++) sist.set(es[i].target, es[i]);
     sist.forEach(function(e, band){
       var vid=band.querySelector('.case-video');
-      e.isIntersecting ? spela(vid) : pausa(vid);
+      if(!e.isIntersecting && aktiv===vid) pausa(vid);
     });
-  },{ threshold:0.5 }) : null;
+  },{ threshold:0 }) : null;
 
   for(var i=0;i<vids.length;i++){
     (function(vid){
@@ -985,8 +991,19 @@ document.querySelectorAll('.iridescent').forEach(card=>{
         band.addEventListener('pointerleave', function(){ pausa(vid); });
         band.addEventListener('focusin', function(){ spela(vid); });
         band.addEventListener('focusout', function(){ pausa(vid); });
-      } else if(io){
-        io.observe(band);
+      } else {
+        /* pointerType fran pointerdown skiljer tryck fran mus och penna pa en
+           hybridenhet. Bara ett tryck pa en video som inte redan spelar fangas. */
+        var tryck=false;
+        band.addEventListener('pointerdown', function(e){ tryck=(e.pointerType==='touch'); });
+        band.addEventListener('click', function(e){
+          if(!tryck || e.detail===0) return;
+          tryck=false;
+          if(aktiv===vid && !vid.paused) return;   /* spelar redan: lanken oppnas */
+          e.preventDefault();
+          spela(vid);
+        });
+        if(io) io.observe(band);
       }
     })(vids[i]);
   }
