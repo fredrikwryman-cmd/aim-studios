@@ -58,10 +58,12 @@ curl -sS "https://aimstudios.se/?cb=$RANDOM" | grep -o "styles.css?v=[0-9]*"
 ## Struktur
 
 Tio riktiga sidor, alla som `<mapp>/index.html` utom startsidan:
-`/`, `/webbdesign/`, `/webboptimering/`, `/seo/`, `/ai-losningar/`,
+`/`, `/webbdesign/`, `/webbesiktning/`, `/seo/`, `/ai-losningar/`,
 `/branding/`, `/skotsel/`, `/case/`, `/konsult/`, `/om-oss/`. Plus `integritetspolicy.html`,
-`404.html` (noindex, ej i sitemap) och `om-oss.html` (redirect-stubb till
-`/om-oss/`).
+`404.html` (noindex, ej i sitemap) och två redirect-stubbar: `om-oss.html`
+(till `/om-oss/`) och `webboptimering/index.html` (till `/webbesiktning/`,
+sedan 2026-10-05). GitHub Pages kan inte skicka äkta 301 per sökväg; stubbarna
+använder meta refresh 0 s, `location.replace`, canonical mot målet och noindex.
 
 Två delade filer laddas av varje sida med header: `styles.css` (~100 kB) och
 `scripts.js` (~41 kB). `integritetspolicy.html` och `404.html` laddar bara

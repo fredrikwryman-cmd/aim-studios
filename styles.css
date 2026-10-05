@@ -1079,7 +1079,7 @@
   body[data-bg="branding"] { --bgimg: url(/assets/bg-branding.webp); }
   body[data-bg="case"] { --bgimg: url(/assets/bg-case.webp); }
   body[data-bg="om-oss"] { --bgimg: url(/assets/bg-om-oss.webp); }
-  /* Skotsel ateranvander bg-seo (inga nya bildfiler), samma som webboptimering gor med bg-webbdesign */
+  /* Skotsel ateranvander bg-seo (inga nya bildfiler) */
   body[data-bg="skotsel"] { --bgimg: url(/assets/bg-seo.webp); }
   /* per-sida läsbarhet: busiga motiv dämpas, lugna får synas mer */
   body[data-bg="seo"]::before { opacity: .55; }
@@ -1093,27 +1093,8 @@
   body.subpage .ai-sec { border-top: 0; border-bottom: 0; }
 
   /* ===================================================================
-     FAS 3 – Webboptimering / ombyggnad / lopande SEO
+     FAS 3 – undersidornas tillagg (Om oss, lopande skotsel)
      =================================================================== */
-  /* Bakgrundsmotiv: ateranvander bg-webbdesign (inga nya bildfiler) */
-  body[data-bg="webboptimering"] { --bgimg: url(/assets/bg-webbdesign.webp); }
-
-  /* Prislista med punktledare (optimeringspaket, tillval, lopande SEO) */
-  .pricelist { list-style: none; margin: 0; padding: 0; }
-  .pricelist li { padding: 18px 0; border-bottom: 1px solid var(--line); }
-  .pricelist li:first-child { padding-top: 0; }
-  .pricelist li:last-child { padding-bottom: 0; border-bottom: none; }
-  .pl-row { display: flex; align-items: baseline; gap: 12px; }
-  .pl-name { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
-  .pl-dots { flex: 1 1 auto; min-width: 16px; align-self: flex-end; border-bottom: 1px dotted var(--line-strong); transform: translateY(-5px); }
-  .pl-price { font-family: 'Bebas Neue', 'Inter Tight', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .01em; white-space: nowrap; color: var(--text); }
-  .pl-note { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; line-height: 1.75; }
-  @media (max-width: 560px) {
-    .pl-row { flex-wrap: wrap; gap: 4px 12px; }
-    .pl-dots { display: none; }
-    .pl-price { font-size: 23px; }
-  }
-
   /* Om oss: fyra kort i stallet for tre */
   .values-grid h3 { font-size: 20px; margin-bottom: 10px; }
   .values-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
@@ -1218,6 +1199,8 @@
   /* Hur jag arbetar: lopande text med en avslutande rad i egen stil. */
   .text-block .txt-m { color: var(--muted); margin-bottom: 20px; }
   .slutrad { margin-top: 36px; padding-left: 18px; border-left: 2px solid var(--accent); font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 600; font-size: 20px; line-height: 1.45; color: var(--text); }
+  /* Prisraden pa /webbesiktning/: samma stil, men forst i texten. */
+  .slutrad.slutrad-forst { margin-top: 0; margin-bottom: 24px; }
   /* Omraden och Praktiskt: lugn lista i tva spalter. */
   .omraden { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; max-width: 860px; }
   .omraden li { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 17px; }

@@ -23,7 +23,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = [
     ('/',                      'index.html',                  '1.0'),
     ('/webbdesign/',           'webbdesign/index.html',       '0.8'),
-    ('/webboptimering/',       'webboptimering/index.html',   '0.8'),
+    ('/webbesiktning/',        'webbesiktning/index.html',    '0.8'),
     ('/seo/',                  'seo/index.html',              '0.8'),
     ('/ai-losningar/',         'ai-losningar/index.html',     '0.8'),
     ('/branding/',             'branding/index.html',         '0.8'),

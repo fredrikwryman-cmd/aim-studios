@@ -18,3 +18,12 @@ Flyttat från commit e3e4f8a.
 
 Påskägget låste upp beställningsformuläret med 20 % rabatt. Det formuläret
 finns bara i `index.html` här och är inte längre åtkomligt på sajten.
+
+## webboptimering-2026-10-05 (optimeringslinjen pensionerad)
+
+Flyttat från commit 46ed7f4. Ersatt av `/webbesiktning/`.
+
+| Fil | Vad |
+|---|---|
+| `index.html` | Hela `/webboptimering/` med Genomlysning, Uppfräschning, Omtag och Omtag Pro och alla priser, flyttad med `git mv`. På dess plats ligger en redirect-stubb till `/webbesiktning/`. |
+| `moduler.css` | Prislistan med punktledare (`.pricelist`, `.pl-*`) och sidans bakgrundsregel, som bara den sidan använde. |

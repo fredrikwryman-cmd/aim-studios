@@ -1,0 +1,21 @@
+/* Arkiverade regler ur styles.css, flyttade 2026-10-05: C:/Program Files/Git/webboptimering/ pensionerad.
+   Regler vars selektorer inte langre matchar nagot i sajtens HTML eller scripts.js.
+   Ordagrant fran commit 46ed7f4. Laddas inte av nagon sida. */
+
+/* Prislista med punktledare (optimeringspaket, tillval, lopande SEO) */
+.pricelist { list-style: none; margin: 0; padding: 0; }
+.pricelist li { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.pricelist li:first-child { padding-top: 0; }
+.pricelist li:last-child { padding-bottom: 0; border-bottom: none; }
+.pl-row { display: flex; align-items: baseline; gap: 12px; }
+.pl-name { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+.pl-dots { flex: 1 1 auto; min-width: 16px; align-self: flex-end; border-bottom: 1px dotted var(--line-strong); transform: translateY(-5px); }
+.pl-price { font-family: 'Bebas Neue', 'Inter Tight', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .01em; white-space: nowrap; color: var(--text); }
+.pl-note { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; line-height: 1.75; }
+@media (max-width: 560px) {
+.pl-row { flex-wrap: wrap; gap: 4px 12px; }
+.pl-dots { display: none; }
+.pl-price { font-size: 23px; }
+}
+
+  body[data-bg="webboptimering"] { --bgimg: url(/assets/bg-webbdesign.webp); }
