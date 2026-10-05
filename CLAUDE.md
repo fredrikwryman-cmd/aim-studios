@@ -28,7 +28,9 @@ som ändrades. Redovisa uppmätta värden, inte påståenden.
 - sitemap.xml genereras med `python tools/gen-sitemap.py`. Handredigera aldrig.
 - Skicka aldrig ett formulär i test. Båda formulären postar till en riktig
   inkorg via Formspree.
-- `unlock.js` är grindlogiken bakom påskägget. Rör den aldrig.
+- Påskägget och `unlock.js` togs bort ur sajten i steg 1 (2026-10-05) och
+  ligger i `arkiv/`. Arkivet publiceras inte och laddas inte av någon sida.
+  Radera inget i `arkiv/`.
 
 ## Kommandon
 
@@ -36,7 +38,8 @@ Det finns ingen package.json, inget byggsteg och inga tester. Allt nedan
 körs mot filerna som de ligger.
 
 ```sh
-# Cachebrytaren: höj v=N i ALLA elva HTML-filer som laddar tillgångar.
+# Cachebrytaren: höj v=N på den delade fil som ändrats, i ALLA HTML-filer som
+# refererar den (styles.css och fonts.css: tolv filer, scripts.js: tio).
 # om-oss.html är en redirect-stubb utan tillgångar och ska inte ha någon.
 grep -rl "v=<N>" --include=*.html .        # hitta dem
 grep -rn "v=<N>" --include=*.html .        # verifiera att inga blev kvar
@@ -54,17 +57,19 @@ curl -sS "https://aimstudios.se/?cb=$RANDOM" | grep -o "styles.css?v=[0-9]*"
 
 ## Struktur
 
-Åtta riktiga sidor, alla som `<mapp>/index.html` utom startsidan:
+Tio riktiga sidor, alla som `<mapp>/index.html` utom startsidan:
 `/`, `/webbdesign/`, `/webboptimering/`, `/seo/`, `/ai-losningar/`,
-`/branding/`, `/skotsel/`, `/case/`, `/om-oss/`. Plus `integritetspolicy.html`,
+`/branding/`, `/skotsel/`, `/case/`, `/konsult/`, `/om-oss/`. Plus `integritetspolicy.html`,
 `404.html` (noindex, ej i sitemap) och `om-oss.html` (redirect-stubb till
 `/om-oss/`).
 
-Tre delade filer laddas av varje sida: `styles.css` (~133 kB), `scripts.js`
-(~70 kB) och `unlock.js`. Det finns ingen komponentuppdelning — HTML upprepas
+Två delade filer laddas av varje sida med header: `styles.css` (~100 kB) och
+`scripts.js` (~41 kB). `integritetspolicy.html` och `404.html` laddar bara
+`styles.css`. Det finns ingen komponentuppdelning — HTML upprepas
 per sida. Ändrar du navigering, sidfot eller huvud måste du ändra i alla.
 
-`_config.yml` utesluter `CLAUDE.md`, `tools/`, `README.md` och `plans/` ur
+`_config.yml` utesluter `CLAUDE.md`, `tools/`, `README.md`, `plans/`, `docs/`
+och `arkiv/` ur
 den publicerade sajten. Jekyll bygger sajten, det finns ingen `.nojekyll`.
 
 ### scripts.js
@@ -77,18 +82,15 @@ på alla sidor. Lägg nya moduler i samma form.
 Genomgående mönster som återkommer och som du ska följa:
 
 - **`prefers-reduced-motion` först.** Modulen returnerar innan den skapar
-  canvas-kontext, lyssnare eller observers. Elva förekomster i `scripts.js`,
-  fjorton i `styles.css`.
+  canvas-kontext, lyssnare eller observers. Åtta förekomster i `scripts.js`,
+  tio i `styles.css` (räknat 2026-10-05).
 - **`IntersectionObserver` för att stoppa arbete utanför vyn.** Läs alltid
   `es[es.length-1]`, aldrig `es[0]` — köas flera poster ihop är den första
   den äldsta, och tillståndet fastnar. Det felet har funnits i två moduler
   och rättats i båda.
-- **Loopar ska sova.** Rutnätet i heron slutar begära bildrutor när sista
-  cellen tonat ut; shadern pausar utanför vyn och vid dold flik. En rAF-loop
-  som tickar över en yta där inget händer är ett fel, inte en detalj.
-- **Signaler mellan moduler** går via `window.aimKodregn` + händelsen
-  `aim:kodregn`, och `q9:ok` från `unlock.js`. Globalen finns för moduler som
-  initieras efter att signalen redan gått.
+- **Loopar ska sova.** En rAF-loop som tickar över en yta där inget händer
+  är ett fel, inte en detalj. (Heronätet och shadern som var förebilderna
+  ligger i `arkiv/startsida-2026-10-05/moduler.js`.)
 - **Dekorativa lager över innehåll måste ha `pointer-events: none`** och
   lyssna på en förälder i stället, annars äter de markering och klick.
 
@@ -177,4 +179,4 @@ ställen som saknar den, och `improve-animations` för att granska helheten.
 
 - `404.html` saknar `<link rel="icon">` och ger därför `GET /favicon.ico → 404`
   i konsolen. Enda sidan utan. Förbefintligt, inte åtgärdat.
-- Konsolen ska annars vara 0 fel / 0 varningar på samtliga elva sidor.
+- Konsolen ska annars vara 0 fel / 0 varningar på samtliga tolv sidor.
