@@ -1,0 +1,113 @@
+/* Arkiverade regler ur styles.css, flyttade 2026-10-05: den flytande AI-chatten borttagen.
+   Regler vars selektorer inte langre matchar nagot i sajtens HTML eller scripts.js.
+   Ordagrant fran commit e152207. Laddas inte av nagon sida. */
+
+.chat-body { padding: 18px; height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.msg.bot { align-self: flex-start; background: var(--glass); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.msg.user { align-self: flex-end; background: linear-gradient(180deg,var(--primary-soft),var(--primary)); color: #fff; border-bottom-right-radius: 4px; }
+.typing { display: flex; gap: 4px; padding: 14px 16px; }
+.typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
+.typing span:nth-child(2){ animation-delay:.2s }
+.typing span:nth-child(3){ animation-delay:.4s }
+.chat-chip { padding: 8px 13px; border-radius: 100px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted); font-size: 13px; cursor: pointer; transition: color .2s, background .2s, border-color .2s; white-space: nowrap; }
+.chat-chip:hover { color: var(--text); border-color: var(--primary); }
+.chat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 16px; }
+/* Stangd panel ska vara helt otillganglig: visibility: hidden tar bort hela
+   deltradet ur bade tabbordningen och tillganglighetstradet. Den vaxlar med
+   0 s fordrojning vid oppning och efter 0,3 s vid stangning, sa uttoningen
+   hinner spelas klart innan panelen doljs. */
+.fab-panel { position: fixed; bottom: 96px; right: 24px; z-index: 9990; width: 350px; max-width: calc(100vw - 32px); border: 1px solid var(--line-strong); border-radius: 20px; background: var(--bg-card); box-shadow: var(--shadow); overflow: hidden; transform: translateY(16px) scale(.96); opacity: 0; visibility: hidden; pointer-events: none;
+    /* Panelen vaxer ur orben som oppnade den, inte ur sin egen mitt.
+       Orben sitter i nedre hogra hornet, darav bottom right.
+       transition: all animerade aven box-shadow och border - nu bara de
+       tva egenskaper som faktiskt ror sig. */
+    transform-origin: bottom right;
+    transition: transform .3s var(--ease), opacity .3s var(--ease), visibility 0s linear .3s; }
+.fab-panel.open { transform: none; opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+.fab-panel .chat-body { height: 300px; }
+@media (max-width: 560px) {
+.fab-panel { bottom: 80px; right: 16px; }
+}
+.terminal-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid rgba(34,197,94,0.12); background: rgba(0,0,0,0.3); }
+.terminal-dots { display: flex; gap: 6px; flex: none; }
+.terminal-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dots span:nth-child(1) { background: var(--danger); }
+.terminal-dots span:nth-child(2) { background: #f59e0b; }
+.terminal-dots span:nth-child(3) { background: #22C55E; }
+.terminal-title { flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 12px; color: rgba(34,197,94,0.75); letter-spacing: 0.05em; }
+.terminal-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: #22C55E; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.terminal-input { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-top: 1px solid rgba(34,197,94,0.12); background: rgba(0,0,0,0.2); }
+.terminal-prompt { color: #22C55E; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; flex: none; }
+.terminal-input input { flex: 1; background: transparent; border: none; color: var(--text); font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; outline: none; min-width: 0; }
+.terminal-input input::placeholder { color: var(--muted-dim); }
+.terminal-send { width: 36px; height: 36px; border-radius: 10px; border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.1); display: grid; place-items: center; cursor: pointer; transition: color .3s ease, background .3s ease, border-color .3s ease; flex: none; }
+.terminal-send:hover { background: rgba(34,197,94,0.2); box-shadow: 0 0 20px -4px rgba(34,197,94,0.4); }
+.terminal-send svg { width: 16px; height: 16px; }
+/* avatar-preview i bot-bubblan (K1) */
+.ai-chat-panel .chat-body .msg.bot { margin-left: 34px; position: relative; }
+.ai-chat-panel .chat-body .msg.bot::before { content: 'A'; position: absolute; left: -34px; top: 0; width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #22C55E, #15803d); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; box-shadow: 0 0 12px -2px rgba(34,197,94,0.5); }
+/* ---------- AI Brain Orb (FAB) ---------- */
+.ai-orb-container { position: fixed; bottom: 24px; right: 24px; z-index: 9990; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+.ai-orb-container:focus-visible { outline: 2px solid #22C55E; outline-offset: 6px; border-radius: 12px; }
+.ai-orb { position: relative; width: 64px; height: 64px; display: grid; place-items: center; }
+.ai-orb-core { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #22ffa7, #22C55E, #15803d); box-shadow: 0 0 20px 4px rgba(34,197,94,0.4), 0 0 40px 8px rgba(34,197,94,0.2), inset 0 0 10px rgba(255,255,255,0.3); animation: orbPulse 3s ease-in-out infinite; position: relative; z-index: 2; }
+.ai-orb-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(34,197,94,0.3); pointer-events: none; }
+.ring-1 { width: 48px; height: 48px; animation: ringSpin 6s linear infinite; }
+.ring-2 { width: 56px; height: 56px; border-style: dashed; animation: ringSpin 8s linear infinite reverse; opacity: 0.5; }
+.ring-3 { width: 72px; height: 72px; border: 1px solid rgba(34,197,94,0.12); animation: ringSpin 12s linear infinite; }
+.ai-orb-particles { position: absolute; inset: -20px; pointer-events: none; }
+.ai-orb-particles::before, .ai-orb-particles::after { content: ''; position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #22C55E; left: 50%; animation: particleFloat 4s ease-in-out infinite; }
+.ai-orb-particles::before { top: 0; transform: translateX(-50%); animation-delay: 0s; }
+.ai-orb-particles::after { bottom: 0; transform: translateX(-50%); animation-delay: 2s; }
+.ai-orb-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #22C55E; text-shadow: 0 0 10px rgba(34,197,94,0.5); opacity: 0; transform: translateY(4px); transition: all .3s ease; pointer-events: none; }
+.ai-orb-container:hover .ai-orb-label, .ai-orb-container:focus-visible .ai-orb-label { opacity: 1; transform: translateY(0); }
+.ai-orb-container:hover .ai-orb-core { animation: orbPulseHover 1.5s ease-in-out infinite; }
+/* ---------- AI Chat Panel (grön) ---------- */
+.ai-chat-panel { background: linear-gradient(135deg, rgba(11,15,12,0.98), rgba(20,28,22,0.99)); border: 1px solid rgba(34,197,94,0.2); box-shadow: 0 24px 60px -20px rgba(0,0,0,0.9), 0 0 60px -30px rgba(34,197,94,0.2); }
+/* F16: chattpanelen ar morkgron i BADA teman - .ai-chat-panel har en fast
+     gradient (raden ovan). I ljust tema pekade
+     tokens dar pa mork text mot mork bakgrund: --text #0B0B0F pa #131915 = 1.06:1,
+     --muted #55556A = 2.39:1, --muted-dim = 3.58:1.
+     Samma form som .station-glass: tokens deklareras om lokalt pa ytan i stallet
+     for att fargas per element, sa foljer allt innehall med - aven det som laggs
+     till senare. Vardena ar morkt temas egna, inga nya toner infors.
+     `color` satts uttryckligen: .msg.bot har ingen egen fargdeklaration utan
+     arver body:s FARDIGBERAKNADE farg, och nas darfor inte av en omdeklarerad
+     variabel ensam. */
+:root[data-theme="light"] .ai-chat-panel {
+    --text: #FFFFFF;
+    --muted: #A4A4B5;
+    --muted-dim: #8A8A9C;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --glass: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+  }
+.ai-chat-close { margin-left: 4px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; font-size: 18px; line-height: 1; transition: color .2s, background .2s, border-color .2s; flex: none; }
+.ai-chat-close:hover { border-color: var(--danger); color: var(--danger); }
+@media (max-width: 560px) {
+.ai-orb { width: 54px; height: 54px; }
+.ai-orb-core { width: 20px; height: 20px; }
+.ring-3 { width: 64px; height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+.ai-orb-core, .ai-orb-ring, .ai-orb-particles::before, .ai-orb-particles::after { animation: none; }
+}
+:root[data-theme="light"] .ai-orb-container:focus-visible,
+  :root[data-theme="light"] .terminal-input input:focus-visible { outline-color: #14532D; }
+/* ===== A11y: fokusring for annars outline:none-falt ===== */
+.terminal-input input:focus-visible { outline: 2px solid #22C55E; outline-offset: 2px; }
+.terminal-send:active { scale: 0.95; }
+
+@keyframes blink { 0%,60%,100%{opacity:.3} 30%{opacity:1} }
+@keyframes orbPulse { 0%,100% { transform: scale(1); box-shadow: 0 0 20px 4px rgba(34,197,94,0.4), 0 0 40px 8px rgba(34,197,94,0.2); } 50% { transform: scale(1.1); box-shadow: 0 0 30px 8px rgba(34,197,94,0.6), 0 0 60px 16px rgba(34,197,94,0.3); } }
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+@keyframes particleFloat { 0%,100% { opacity: 0; transform: translateX(-50%) scale(0); } 50% { opacity: 1; transform: translateX(-50%) scale(1); } }
+@keyframes orbPulseHover { 0%,100% { transform: scale(1.15); } 50% { transform: scale(1.3); } }
+
+/* Handflyttade: selektorskriptet tog dem for levande eftersom orden msg och pulse
+   ocksa ar variabel- och funktionsnamn i scripts.js. Ingen HTML anvander klasserna. */
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5);} 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0);} 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0);} }
+.msg { max-width: 80%; padding: 11px 15px; border-radius: 14px; font-size: 14.5px; line-height: 1.5; animation: msgIn .4s var(--ease); }
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } }

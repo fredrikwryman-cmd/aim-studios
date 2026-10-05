@@ -39,3 +39,14 @@ anropades, vilket motsade sidans eget argument.
 | `index.html` | Hela den gamla `/ai-losningar/` med demot, flyttad med `git mv`. |
 | `demo.js` | De tre raderna ur `scripts.js` som kopplade demots element (`#demoBody`, `#demoChips`, `#demoInput`, `#demoSend`) till svarsmotorn. `botReply()`, `chatEngine()` och `wireChatInput()` ligger kvar - den flytande chatten på övriga sidor använder dem. |
 | `demo.css` | Demots stilar: `.ai-sec`, `.chat-demo`, `.ai-terminal*`, `.ai-grid-lines`, `.ai-scan-line`, `.ai-badge-demo`, keyframes `scanMove`, och demots selektorer ur regler som delades med chattpanelen. |
+
+## chatt-2026-10-05 (den flytande AI-chatten borttagen från hela sajten)
+
+Flyttat från commit e152207. Chatten svarade med den gamla paketaffären
+(9 995 kr, 10 dagar) och motsade den nya positioneringen. Den ska byggas om.
+
+| Fil | Vad |
+|---|---|
+| `chatt.html` | Orben, panelen och snabbvalen, ordagrant. Blocket var identiskt på alla sju sidor som hade det. |
+| `chatt.js` | Svarsmotorn (`botReply`, `chatEngine`, `wireChatInput`) och orb/panel-logiken ur `scripts.js`. `FOKUSERBARA` och `fokusfalla()` stod mitt i blocket och ligger kvar i `scripts.js` som egen modul - paketmodalen och mobilmenyn använder dem. Kopiera tillbaka dem om chatten byggs om härifrån. |
+| `chatt.css` | Orbens, panelens och terminalens stilar, keyframes `orbPulse`, `ringSpin`, `particleFloat`, `orbPulseHover`, `blink`, `pulse` och `msgIn`. |

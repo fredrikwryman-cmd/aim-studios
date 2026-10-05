@@ -1,0 +1,32 @@
+<!-- Arkiverat 2026-10-05: den flytande AI-chatten (orb + panel + snabbval), ordagrant som den stod pa sju sidor (identisk pa alla) fran commit e152207. -->
+<!-- AI Brain Orb (launcher) -->
+<div class="ai-orb-container" id="aiOrbContainer" role="button" tabindex="0" aria-expanded="false" aria-controls="fabPanel" aria-label="AI · Demo – öppna AI-chatten">
+  <div class="ai-orb" id="aiOrb">
+    <div class="ai-orb-core"></div>
+    <div class="ai-orb-ring ring-1"></div>
+    <div class="ai-orb-ring ring-2"></div>
+    <div class="ai-orb-ring ring-3"></div>
+    <div class="ai-orb-particles"></div>
+  </div>
+  <div class="ai-orb-label">AI · Demo</div>
+</div>
+<div class="fab-panel ai-chat-panel" id="fabPanel" role="dialog" aria-modal="true" aria-labelledby="fabTitle">
+  <div class="terminal-header">
+    <div class="terminal-dots"><span></span><span></span><span></span></div>
+    <div class="terminal-title" id="fabTitle">AiM Assistant</div>
+    <div class="terminal-status"><span class="pulse"></span> DEMO</div>
+    <button class="ai-chat-close" id="fabClose" aria-label="Stäng">&times;</button>
+  </div>
+  <div class="chat-body" id="fabBody"><div class="msg bot">Hej! 👋 Hur kan jag hjälpa dig med din hemsida?</div></div>
+  <div class="chat-chips" id="fabChips">
+    <button class="chat-chip" data-q="Vad kostar en hemsida?">Priser</button>
+    <button class="chat-chip" data-q="Hur snabbt kan ni leverera?">Leveranstid</button>
+    <button class="chat-chip" data-q="Jag vill boka ett möte">Boka möte</button>
+  </div>
+  <div class="terminal-input">
+    <span class="terminal-prompt">&gt;</span>
+    <label class="sr-only" for="fabInput">Skriv ett meddelande till AI-assistenten</label><input type="text" placeholder="Skriv något..." id="fabInput">
+    <button class="terminal-send" id="fabSend" aria-label="Skicka"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+  </div>
+</div>
+
