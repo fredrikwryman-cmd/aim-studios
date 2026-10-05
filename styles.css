@@ -1215,8 +1215,6 @@
   /* Projektkortens typrad: uppdragstyp och status. */
   .case-typ { margin: 2px 0 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
   .case-alla { margin-top: 48px; }
-  /* Platshallare tills skarmbilden finns (BS-26). Samma 16:9 som bilderna. */
-  .sc-saknas { display: grid; place-items: center; aspect-ratio: 16 / 9; padding: 24px; text-align: center; color: var(--muted); font-size: 15px; }
   /* Hur jag arbetar: lopande text med en avslutande rad i egen stil. */
   .text-block .txt-m { color: var(--muted); margin-bottom: 20px; }
   .slutrad { margin-top: 36px; padding-left: 18px; border-left: 2px solid var(--accent); font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 600; font-size: 20px; line-height: 1.45; color: var(--text); }
