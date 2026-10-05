@@ -192,4 +192,12 @@ ställen som saknar den, och `improve-animations` för att granska helheten.
   sidan gör mindre arbete – så gick steg 1 (TBT upp, all huvudtrådstid ned).
   Fanns live före steg 1. Åtgärdas i ett eget pass: ta reda på vilka moduler
   som bygger upp uppgiften och dela upp den.
+- BS-05 bryts på `/webboptimering` utan avslutande snedstreck: GitHub Pages
+  svarar 301 till `/webboptimering/`, som är en redirect-stubb (meta refresh
+  0 s + `location.replace`) till `/webbesiktning/`. Det blir en kedja, och
+  stubben svarar 200, inte 301. Orsak: GitHub Pages kan inte skicka egna
+  statuskoder per sökväg. Åtgärd: Cloudflare-proxy framför domänen med en
+  Redirect Rule (301 från båda varianterna direkt till `/webbesiktning/`).
+  **Medvetet beslut 2026-10-05, inte ett förbiseende:** DNS-ändringen görs inte
+  i samma pass, och sidan hade lågt upparbetat värde.
 - Konsolen ska annars vara 0 fel / 0 varningar på samtliga tolv sidor.
