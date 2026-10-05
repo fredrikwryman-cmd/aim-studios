@@ -155,6 +155,10 @@ Notera alltid i rapporten att det är lokal Lighthouse och inte PSI — siffrorn
 ligger 20-40 poäng under PSI:s och får inte blandas ihop med värdena i
 `plans/README.md`.
 
+**Gates mäts som interfolierad A/B mot `main`, inte mot
+`docs/baseline-2026-10-05.md`.** Baslinjen är mätt mot produktion och går inte
+att jämföra med lokala körningar på en gren.
+
 **Tre körningar per läge, före och efter. En enskild körning är inte bevis.**
 Speed Index är bimodalt på den här sajten och har svängt fyra gånger mellan
 körningar av identisk kod — orsaken är 23 oändliga animationer som aldrig
@@ -179,4 +183,11 @@ ställen som saknar den, och `improve-animations` för att granska helheten.
 
 - `404.html` saknar `<link rel="icon">` och ger därför `GET /favicon.ico → 404`
   i konsolen. Enda sidan utan. Förbefintligt, inte åtgärdat.
+- `scripts.js` ger en lång uppgift på cirka 1 s (Lighthouse mobil, simulerad
+  4x CPU) kort efter FCP, uppmätt på `/webbdesign/` 2026-10-05: 963–1 079 ms
+  både på `main` (e3e4f8a) och på steg 1-grenen. Den dominerar TBT. När FCP
+  kommer tidigare hamnar mer av den i TBT-fönstret, så TBT kan stiga fast
+  sidan gör mindre arbete – så gick steg 1 (TBT upp, all huvudtrådstid ned).
+  Fanns live före steg 1. Åtgärdas i ett eget pass: ta reda på vilka moduler
+  som bygger upp uppgiften och dela upp den.
 - Konsolen ska annars vara 0 fel / 0 varningar på samtliga tolv sidor.
