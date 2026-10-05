@@ -200,16 +200,6 @@
   .theme-toggle:hover { border-color: rgba(120,120,160,0.5); transform: rotate(18deg); opacity: 1; }
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
-  /* Kodregnsknappen. Samma matt, radie, ram och yta som .theme-toggle sa att de
-     tva laser som ett par - men fargen sitter pa color vid full opacitet i
-     stallet for opacity: .5. Skalet: opacity flyttar den EFFEKTIVA ikonfargen
-     bort fran den deklarerade, och da blir 3:1-kravet for grafiska objekt inte
-     matbart ur DOM:en. var(--muted-dim) landar dessutom pa samma upplevda
-     tyngd som temaknappens 50 %-vita ikon. Se punkt 6 i plans/README.md. */
-  .matrix-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted-dim); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; padding: 0; transition: color .2s, border-color .2s, background .2s, scale .16s var(--ease); }
-  .matrix-toggle svg { width: 18px; height: 18px; display: block; }
-  .matrix-toggle:hover { color: var(--accent); border-color: rgba(99,102,241,0.45); }
-  .matrix-toggle[aria-pressed="true"] { color: var(--accent); border-color: rgba(99,102,241,0.55); background: rgba(99,102,241,0.10); }
 
   .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, var(--primary), #4338CA); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
   .nav-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 14px 34px -10px rgba(79,70,229,0.85), 0 0 20px -4px rgba(99,102,241,0.5), 0 0 0 1px rgba(129,140,248,0.5); }
@@ -284,7 +274,7 @@
     .logo-text { animation: none; background-position: 0 50%; }
     .status-dot { animation: none !important; }
     .mobile-nav a, .mobile-overlay.open .mobile-nav a { animation: none !important; opacity: 1; transform: none; }
-    .nav, .nav-cta, .theme-toggle, .matrix-toggle, .navlink, .nav-ind, .logo-status, .mobile-overlay { transition: none !important; }
+    .nav, .nav-cta, .theme-toggle, .navlink, .nav-ind, .logo-status, .mobile-overlay { transition: none !important; }
   }
 
   /* ===== Aktivt navlänk-tillstånd (nuvarande sida) ===== */
@@ -308,6 +298,18 @@
   .section-head h1 { font-size: clamp(34px, 5vw, 56px); margin: 18px 0 16px; }
   .section-head h2 { margin: 18px 0 16px; }
   .section-head p { font-size: 18px; color: var(--muted); }
+  /* Brodsmulor (BS-30). Speglar BreadcrumbList i sidans JSON-LD ord for ord.
+     Ligger utanfor .reveal sa de syns utan skript och utan animation.
+     min-height/min-width ger 44 x 44 px traffyta (GV-04) utan att texten vaxer.
+     Snedstrecket ar dekor: alt-texten "" haller det borta fran skarmlasare. */
+  .brodsmulor { margin: -12px 0 6px; font-size: 14px; line-height: 1.4; }
+  .brodsmulor ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+  .brodsmulor:has(+ .section-head.center) ol { justify-content: center; }
+  .brodsmulor li { display: flex; align-items: center; }
+  .brodsmulor li + li::before { content: "/"; content: "/" / ""; margin: 0 10px 0 2px; color: var(--muted-dim); }
+  .brodsmulor a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; color: var(--muted); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
+  .brodsmulor a:hover { color: var(--text); text-decoration-color: currentColor; }
+  .brodsmulor a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
   /* HERO (always dark zone) */
   .hero { position: relative; margin-top: -72px; padding: 152px 0 96px; overflow: hidden; background: #0B0B0F; color: #fff; }
@@ -676,8 +678,6 @@
   .foot-bottom { margin-top: 40px; padding: 24px 0 64px; border-top: 1px solid var(--line); text-align: center; color: var(--muted-dim); font-size: 13px; line-height: 1.7; }
   .foot-bottom a { color: var(--muted-dim); transition: color 0.2s; }
   .foot-bottom a:hover { color: var(--text); }
-  .matrix-rain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
-  .matrix-rain.active { opacity: 0.16; }
   /* Mobil: staplat i DOM-ordning - intro+mejl, TJANSTER, KONTAKT, bottenrad. */
   @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr; gap: 28px; padding: 60px 0 0; } .foot-intro { max-width: none; } .foot-lead { font-size: 22px; } .foot-mail { font-size: 16px; margin-top: 14px; } .foot-bottom { margin-top: 32px; padding: 22px 0 60px; } }
 
@@ -730,6 +730,7 @@
   @media (prefers-reduced-motion: reduce) { .neural-canvas, .neural-spotlight { display: none !important; } }
   @media (max-width: 767px) { .neural-canvas, .neural-spotlight { display: none !important; } }
 
+  /* ===== A11y: fokusring for annars outline:none-falt ===== */
   input[type=range].slider:focus-visible { outline: 2px solid #6366F1; outline-offset: 3px; }
 
   /* =================================================================
@@ -1037,7 +1038,6 @@
 .form-submit:active { scale: 0.97; }
 
   .theme-toggle:active,
-  .matrix-toggle:active,
   .pkg-close:active { scale: 0.95; }
 
   /* ---------- Pekskarm: ingen hover-rorelse ---------- */

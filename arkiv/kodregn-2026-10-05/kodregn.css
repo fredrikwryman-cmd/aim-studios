@@ -1,0 +1,27 @@
+/* Ur styles.css (commit 3e682b3), ordagrant. Varje block ar markt med var det satt. */
+
+/* --- Kodregnsknappen, efter .theme-toggle-reglerna --- */
+  /* Kodregnsknappen. Samma matt, radie, ram och yta som .theme-toggle sa att de
+     tva laser som ett par - men fargen sitter pa color vid full opacitet i
+     stallet for opacity: .5. Skalet: opacity flyttar den EFFEKTIVA ikonfargen
+     bort fran den deklarerade, och da blir 3:1-kravet for grafiska objekt inte
+     matbart ur DOM:en. var(--muted-dim) landar dessutom pa samma upplevda
+     tyngd som temaknappens 50 %-vita ikon. Se punkt 6 i plans/README.md. */
+  .matrix-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--muted-dim); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; padding: 0; transition: color .2s, border-color .2s, background .2s, scale .16s var(--ease); }
+  .matrix-toggle svg { width: 18px; height: 18px; display: block; }
+  .matrix-toggle:hover { color: var(--accent); border-color: rgba(99,102,241,0.45); }
+  .matrix-toggle[aria-pressed="true"] { color: var(--accent); border-color: rgba(99,102,241,0.55); background: rgba(99,102,241,0.10); }
+
+/* --- Selektor ur prefers-reduced-motion-blocket for navigeringen. Dar stod den i
+       en lista med .nav, .nav-cta, .theme-toggle m.fl.; har utskriven som egen regel. --- */
+  @media (prefers-reduced-motion: reduce) {
+    .matrix-toggle { transition: none !important; }
+  }
+
+/* --- Canvasen, efter .foot-bottom-reglerna --- */
+  .matrix-rain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+  .matrix-rain.active { opacity: 0.16; }
+
+/* --- Selektor ur tryckaterkopplingen, delad med .theme-toggle och .pkg-close;
+       har utskriven som egen regel. --- */
+  .matrix-toggle:active { scale: 0.95; }

@@ -50,3 +50,17 @@ Flyttat från commit e152207. Chatten svarade med den gamla paketaffären
 | `chatt.html` | Orben, panelen och snabbvalen, ordagrant. Blocket var identiskt på alla sju sidor som hade det. |
 | `chatt.js` | Svarsmotorn (`botReply`, `chatEngine`, `wireChatInput`) och orb/panel-logiken ur `scripts.js`. `FOKUSERBARA` och `fokusfalla()` stod mitt i blocket och ligger kvar i `scripts.js` som egen modul - paketmodalen och mobilmenyn använder dem. Kopiera tillbaka dem om chatten byggs om härifrån. |
 | `chatt.css` | Orbens, panelens och terminalens stilar, keyframes `orbPulse`, `ringSpin`, `particleFloat`, `orbPulseHover`, `blink`, `pulse` och `msgIn`. |
+
+## kodregn-2026-10-05 (kodregnsreglaget borttaget ur sidhuvudet)
+
+Flyttat från commit 3e682b3. Reglaget satt i `.nav-right` på tio sidor,
+bredvid temaväxlaren, som är kvar.
+
+| Fil | Vad |
+|---|---|
+| `kodregn.html` | Knappen `#matrixBtn` ur sidhuvudet och canvasen `#matrixRain` ur sidfoten, ordagrant. Blocken var identiska på alla tio sidor. |
+| `kodregn.js` | Modulen "Kodregn" ur `scripts.js`. Ingen annan modul anropade den eller läste `aim-matrix`. |
+| `kodregn.css` | `.matrix-toggle` och `.matrix-rain` ur `styles.css`. Två selektorer satt i delade listor (reducerad rörelse och tryckåterkoppling) och står här som egna regler. |
+
+Integritetspolicyns punkt om `aim-matrix` i `localStorage` togs bort samtidigt.
+Besökare som slagit på regnet har nyckeln kvar i sin webbläsare. Ingen kod läser den längre.
