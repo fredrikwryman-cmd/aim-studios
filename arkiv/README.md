@@ -27,3 +27,15 @@ Flyttat från commit 46ed7f4. Ersatt av `/webbesiktning/`.
 |---|---|
 | `index.html` | Hela `/webboptimering/` med Genomlysning, Uppfräschning, Omtag och Omtag Pro och alla priser, flyttad med `git mv`. På dess plats ligger en redirect-stubb till `/webbesiktning/`. |
 | `moduler.css` | Prislistan med punktledare (`.pricelist`, `.pl-*`) och sidans bakgrundsregel, som bara den sidan använde. |
+
+## ai-losningar-2026-10-05 (simulerat AI-demo borttaget)
+
+Flyttat från commit fedb500. Sidan skrevs om med ny text, och det simulerade
+demot togs bort: svaren valdes med reguljära uttryck och ingen modell
+anropades, vilket motsade sidans eget argument.
+
+| Fil | Vad |
+|---|---|
+| `index.html` | Hela den gamla `/ai-losningar/` med demot, flyttad med `git mv`. |
+| `demo.js` | De tre raderna ur `scripts.js` som kopplade demots element (`#demoBody`, `#demoChips`, `#demoInput`, `#demoSend`) till svarsmotorn. `botReply()`, `chatEngine()` och `wireChatInput()` ligger kvar - den flytande chatten på övriga sidor använder dem. |
+| `demo.css` | Demots stilar: `.ai-sec`, `.chat-demo`, `.ai-terminal*`, `.ai-grid-lines`, `.ai-scan-line`, `.ai-badge-demo`, keyframes `scanMove`, och demots selektorer ur regler som delades med chattpanelen. |
