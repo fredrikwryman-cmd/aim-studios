@@ -32,8 +32,29 @@
     --shadow-glow: 0 0 60px -10px rgba(79, 70, 229, 0.18);
     --radius: 12px;
     --radius-lg: 16px;
+    --radius-pill: 100px;
+    /* Fasta farger som INTE byter med temat: hjalten och texturlagret ar morka i
+       bada teman. Samma varden som tidigare stod som literaler i reglerna. */
+    --ink: #0B0B0F;
+    --primary-hover: #4338CA;
+    --indigo-pale: #A5B4FC;
+    /* Typografi (fas 5, 2026-10-06): ett typsnitt for alla rubriker. Bebas Neue
+       ar borttaget; det saknade gemener och tvingade fram versaler. */
+    --font-display: 'Inter Tight', 'Inter Tight Fallback', sans-serif;
+    --fs-hero: clamp(40px, 4.45vw, 64px);
+    --fs-h1: clamp(40px, 4.45vw, 64px);
+    --fs-h2: clamp(30px, 3.2vw, 46px);
+    --fs-body: 18px;
+    --lh-body: 1.6;
+    --fs-nav: 14px;
+    /* Grundavstand */
+    --gutter: 24px;
+    --space-section: 96px;
+    --space-head: 56px;
     --max: 1180px;
-    --text-max: 780px;
+    /* Langre stycken: 550 px ger 55-66 tecken per rad i 18 px Inter (uppmatt
+       2026-10-06). 780 px gav 82-92 och 640 px 64-78. */
+    --text-max: 550px;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
   :root[data-theme="light"] {
@@ -65,19 +86,17 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.6;
+    background: var(--bg); color: var(--text); font-size: var(--fs-body); line-height: var(--lh-body);
     -webkit-font-smoothing: antialiased; overflow-x: clip;
     transition: background .5s var(--ease), color .5s var(--ease);
   }
-  h1, h2, h3, h4 { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; line-height: 1.08; letter-spacing: -0.02em; font-weight: 700; }
-  /* Bebas Neue på stora titlar */
-  /* Bebas Neue satter prickarna pa A och O tatt over versalhojden. Med
-     line-height 0.98 - mindre an teckengraden - fick de ingen luft alls.
-     1.06 ger prickarna utrymme utan att radavstandet i flerradiga rubriker
-     spricker: H1 vaxer 59 -> 64 px per rad, H2 47 -> 51 px. */
-  h1, h2 { font-family: 'Bebas Neue', 'Inter Tight', sans-serif; font-weight: 400; letter-spacing: 0.02em; line-height: 1.06; }
+  h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.08; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
+  /* Stora rubriker: Inter Tight 700 ur grundregeln ovan. Egen spatiering och
+     radavstand. -0.025em fick bokstaverna att ga ihop vid 64 px (granskat
+     2026-10-06), -0.015em haller dem isar. */
+  h1, h2 { letter-spacing: -0.015em; line-height: 1.08; }
   /* En enda H2-skala for hela sajten - aven slut-CTA-rubrikerna, som forr hade egna inline-storlekar */
-  h2 { font-size: clamp(30px, 4.6vw, 48px); }
+  h2 { font-size: var(--fs-h2); }
   /* Steg 1 (2026-10-05): h2 ar solid. Glansgradienten och dess oandliga
      titleSheen-animation togs bort i mognadspassagen - farre gradienter, mindre
      dekorativ rorelse. Farg ur --text, samma som gradientens bas i bada teman. */
@@ -97,12 +116,12 @@
      samma utfall i varje lage som finns pa sajten - regeln ar omskriven, inte
      andrad - men den beskriver nu den faktiska orsaken: det ar den morka hjalten
      bakom en genomskinlig nav som kraver ljus text, inte vilken sidtyp det ar. */
-  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .logo-text { background-image: linear-gradient(90deg,#fff,#a5b4fc,#fff,#a5b4fc); }
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .logo-text { background-image: linear-gradient(90deg,#fff,var(--indigo-pale),#fff,var(--indigo-pale)); }
   a { color: inherit; text-decoration: none; }
-  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
   ::selection { background: rgba(79,70,229,0.4); color: #fff; }
 
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); padding: 6px 14px; border: 1px solid var(--line-strong); border-radius: 100px; background: var(--glass); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); padding: 6px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-pill); background: var(--glass); }
   .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
   /* grain overlay */
@@ -125,11 +144,11 @@
   body.has-magnet .magnetic { transition: box-shadow .25s var(--ease), background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), scale .16s var(--ease) !important; will-change: transform; }
 
   /* buttons */
-  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-family: 'Inter Tight'; font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s, scale .16s var(--ease); white-space: nowrap; }
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-family: var(--font-display); font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: var(--radius); cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .2s, scale .16s var(--ease); white-space: nowrap; }
   /* F5: ljusaste stoppet var --primary-soft #6366F1, vit text pa det = 4.47:1.
      Gradienten morkas ett steg sa vit text klarar 4.5:1 over HELA forloppet. */
   .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 18px -10px rgba(0,0,0,0.5); }
-  .btn-primary:hover { background: #4338CA; }
+  .btn-primary:hover { background: var(--primary-hover); }
   .btn-secondary { background: var(--glass); color: var(--text); border-color: var(--line-strong); }
   .btn-secondary:hover { border-color: rgba(120,120,160,0.5); }
   /* Hjaltesektionen har hardkodad mork bakgrund (.hero) och byter INTE i ljust tema.
@@ -177,17 +196,17 @@
      <a> och blev en del av lankens namn. Gap och marginal ar flyttade hit sa att
      den visuella placeringen ar oforandrad. */
   .logo-wrap { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; margin-right: 8px; }
-  .logo { display: flex; align-items: center; gap: 14px; font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; position: relative; cursor: pointer; flex: 0 0 auto; }
+  .logo { display: flex; align-items: center; gap: 14px; font-family: var(--font-display); font-weight: 800; font-size: 20px; letter-spacing: -0.03em; position: relative; cursor: pointer; flex: 0 0 auto; }
   .logo-mark { width: 32px; height: 32px; display: grid; place-items: center; }
-  .logo-text { background: linear-gradient(90deg,#fff,#a5b4fc,#fff,#a5b4fc); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: logoGradient 5s ease infinite; }
+  .logo-text { background: linear-gradient(90deg,#fff,var(--indigo-pale),#fff,var(--indigo-pale)); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: logoGradient 5s ease infinite; }
   @keyframes logoGradient { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-  .logo-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--light-indigo); text-transform: uppercase; /* p5 kontrast: 4.09:1 -> 6.12:1 */ letter-spacing: 0.06em; margin-left: 8px; padding: 5px 10px; border-radius: 100px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); white-space: nowrap; overflow: hidden; max-width: 200px; }
+  .logo-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--light-indigo); text-transform: uppercase; /* p5 kontrast: 4.09:1 -> 6.12:1 */ letter-spacing: 0.06em; margin-left: 8px; padding: 5px 10px; border-radius: var(--radius-pill); background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); white-space: nowrap; overflow: hidden; max-width: 200px; }
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: statusPulse 2s ease-in-out infinite; flex: 0 0 auto; }
   @keyframes statusPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
 
-  .nav-center { position: relative; display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 100px; background: var(--glass); border: 1px solid var(--line); }
-  .nav-ind { position: absolute; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: 100px; background: var(--glass); border: 1px solid var(--line-strong); opacity: 0; z-index: 0; transition: transform .4s var(--ease), width .4s var(--ease), opacity .3s; pointer-events: none; }
-  .navlink { --navlink-pad: 10px; position: relative; z-index: 1; padding: 6px var(--navlink-pad); border-radius: 100px; font-size: 12.5px; font-weight: 500; letter-spacing: 0.01em; color: var(--muted); white-space: nowrap; transition: color .25s; }
+  .nav-center { position: relative; display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: var(--radius-pill); background: var(--glass); border: 1px solid var(--line); }
+  .nav-ind { position: absolute; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: var(--radius-pill); background: var(--glass); border: 1px solid var(--line-strong); opacity: 0; z-index: 0; transition: transform .4s var(--ease), width .4s var(--ease), opacity .3s; pointer-events: none; }
+  .navlink { --navlink-pad: 10px; position: relative; z-index: 1; padding: 6px var(--navlink-pad); border-radius: var(--radius-pill); font-size: var(--fs-nav); font-weight: 500; letter-spacing: 0.01em; color: var(--muted); white-space: nowrap; transition: color .25s; }
   .navlink::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 0; height: 2px; border-radius: 2px; background: var(--primary-soft); transition: width 0.3s var(--ease), left 0.3s var(--ease); }
   /* Matten foljer --navlink-pad sa strecket tacker exakt textens bredd aven om
      paddingen andras. Var tidigare fasta 28px/14px, alltsa last vid padding 16. */
@@ -201,7 +220,7 @@
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
 
-  .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: 100px; font-family: 'Inter Tight'; font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, var(--primary), #4338CA); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
+  .nav-cta { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: var(--nav-pill-h); padding: 0 20px; border-radius: var(--radius-pill); font-family: var(--font-display); font-weight: 600; font-size: 14.5px; line-height: 1; white-space: nowrap; color: #fff; flex: 0 0 auto; background: linear-gradient(180deg, var(--primary), #4338CA); box-shadow: 0 8px 24px -8px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3); transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .3s var(--ease), scale .16s var(--ease); }
   .nav-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 14px 34px -10px rgba(79,70,229,0.85), 0 0 20px -4px rgba(99,102,241,0.5), 0 0 0 1px rgba(129,140,248,0.5); }
   .btn-arrow { display: inline-block; transition: transform .25s var(--ease); }
   .nav-cta:hover .btn-arrow { transform: translateX(4px); }
@@ -238,10 +257,10 @@
   /* ===== Mobil fullskärms-overlay ===== */
   .mobile-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 84px 32px 32px; overflow-y: auto; background: var(--bg); background: color-mix(in srgb, var(--bg) 96%, transparent); -webkit-backdrop-filter: blur(26px); backdrop-filter: blur(26px); opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility 0s linear .35s; }
   .mobile-overlay.open { opacity: 1; visibility: visible; transition-delay: 0s; }
-  .mobile-close { position: absolute; top: 22px; right: 22px; width: 46px; height: 46px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; }
+  .mobile-close { position: absolute; top: 22px; right: 22px; width: 46px; height: 46px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; }
   .mobile-close svg { width: 24px; height: 24px; }
   .mobile-nav { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .mobile-nav a { font-family: 'Inter Tight'; font-weight: 700; font-size: 30px; letter-spacing: -0.02em; color: var(--text); padding: 10px 16px; opacity: 0; transform: translateY(14px); }
+  .mobile-nav a { font-family: var(--font-display); font-weight: 700; font-size: 30px; letter-spacing: -0.02em; color: var(--text); padding: 10px 16px; opacity: 0; transform: translateY(14px); }
   .mobile-overlay.open .mobile-nav a { animation: mobileItemIn .5s var(--ease) forwards; }
   .mobile-overlay.open .mobile-nav a:nth-child(1){ animation-delay: .06s; }
   .mobile-overlay.open .mobile-nav a:nth-child(2){ animation-delay: .12s; }
@@ -253,7 +272,7 @@
   .mobile-overlay.open .mobile-nav a:nth-child(8){ animation-delay: .48s; }
   @keyframes mobileItemIn { to { opacity: 1; transform: none; } }
   .mobile-nav a:hover { color: var(--primary-soft); }
-  .mobile-cta { margin-top: 20px; width: 100%; max-width: 320px; height: 54px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; font-family: 'Inter Tight'; font-weight: 700; font-size: 18px; color: #fff; background: linear-gradient(180deg, var(--primary-soft), var(--primary)); box-shadow: 0 12px 32px -8px rgba(79,70,229,0.6); }
+  .mobile-cta { margin-top: 20px; width: 100%; max-width: 320px; height: 54px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #fff; background: linear-gradient(180deg, var(--primary-soft), var(--primary)); box-shadow: 0 12px 32px -8px rgba(79,70,229,0.6); }
   .mobile-theme { margin-top: 4px; background: none; border: 0; color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; padding: 10px; }
   /* Stangknappen sitter absolut och slutar vid 68 px. Overlayn har darfor 84 px
      takhojd sa forsta menyposten aldrig hamnar bakom den. Under 820 px hojd
@@ -283,21 +302,22 @@
   .mobile-nav a.active { color: var(--primary-soft); }
 
   /* ===== Tjänstesektion: "Läs mer"-länk ===== */
-  .svc-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-family: 'Inter Tight'; font-weight: 600; font-size: 15px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
-  .svc-more:hover { color: #A5B4FC; gap: 10px; }
+  .svc-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
+  .svc-more:hover { color: var(--indigo-pale); gap: 10px; }
 
   /* ===== Subsida: enkel innehålls-rubrik ===== */
 
   /* 110px pa bada sidor gav 220 px mellan angransande avsnitt - narmast helsvarta
      skarmar vid overgangarna. 64px ar samma varde som mobilregeln redan anvander. */
-  .section-pad { padding: 96px 0; }
-  .section-head { max-width: 680px; margin-bottom: 56px; }
+  .section-pad { padding: var(--space-section) 0; }
+  .section-head { max-width: 760px; margin-bottom: var(--space-head); }
   .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
   /* R1: undersidornas H1 saknade regel och foll pa webblasarens 2em = 32px,
      alltsa mindre an H2 pa samma sida. 56px satter den mellan hero (64) och H2 (48). */
-  .section-head h1 { font-size: clamp(34px, 5vw, 56px); margin: 18px 0 16px; }
+  .section-head h1 { font-size: var(--fs-h1); margin: 18px 0 16px; }
   .section-head h2 { margin: 18px 0 16px; }
-  .section-head p { font-size: 18px; color: var(--muted); }
+  .section-head p { font-size: var(--fs-body); color: var(--muted); max-width: var(--text-max); }
+  .section-head.center p { margin-left: auto; margin-right: auto; }
   /* Brodsmulor (BS-30). Speglar BreadcrumbList i sidans JSON-LD ord for ord.
      Ligger utanfor .reveal sa de syns utan skript och utan animation.
      min-height/min-width ger 44 x 44 px traffyta (GV-04) utan att texten vaxer.
@@ -312,14 +332,16 @@
   .brodsmulor a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
   /* HERO (always dark zone) */
-  .hero { position: relative; margin-top: -72px; padding: 152px 0 96px; overflow: hidden; background: #0B0B0F; color: #fff; }
+  .hero { position: relative; margin-top: -72px; padding: 152px 0 var(--space-section); overflow: hidden; background: var(--ink); color: #fff; }
 
   .hero-fallback { position: absolute; inset: 0; z-index: 0; background: radial-gradient(600px 420px at 78% 6%, rgba(79,70,229,0.12), transparent 70%), radial-gradient(520px 380px at 10% 36%, rgba(99,102,241,0.05), transparent 70%); }
   .hero-vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(820px 300px at 50% -50px, rgba(99,102,241,0.08), transparent 70%), radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(11,11,15,0.85)); }
 
-  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+  /* 1.12/0.88 (fas 5): med Inter Tight 64 px blev "digitala" ensam pa en rad
+     vid 1.05/0.95. Textkolumnen fick 30 px till, bilden lika mycket mindre. */
+  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 56px; align-items: center; }
 
-  .hero h1 { font-size: clamp(38px, 5.8vw, 64px); font-weight: 400; margin: 22px 0 20px; color: #fff; }
+  .hero h1 { font-size: var(--fs-hero); margin: 22px 0 20px; color: #fff; }
 
   .hero-sub { font-size: 19px; color: #b6b6c8; max-width: 520px; margin-bottom: 26px; }
 
@@ -334,7 +356,7 @@
   .browser { border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(180deg, #16161f, #0e0e15); box-shadow: var(--shadow); overflow: hidden; }
   .browser-bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
   .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2c2c38; display: block; }
-  .browser-url { margin-left: 12px; font-size: 12px; color: #8A8A9C; background: #0B0B0F; padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .browser-url { margin-left: 12px; font-size: 12px; color: #8A8A9C; background: var(--ink); padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
   .browser-body { position: relative; aspect-ratio: 16/10; background: #0e0e15; }
   /* <picture> ar inline som standard och skulle lamna en baslinjeglipa under
      bilden. */
@@ -343,7 +365,7 @@
 
   @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 70px; } }
 
-  .case-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .case-name { font-family: var(--font-display); font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   .case-row { font-size: 14px; color: var(--muted); margin: 9px 0; }
   .case-row b { color: var(--text); font-weight: 600; }
 
@@ -356,9 +378,9 @@
      så sidbakgrunden lyste igenom kortets topp och tvättade ur rubrik och pris på det
      rekommenderade kortet. #EAE9FC är exakt samma ton komponerad över kortytan. Mörkt tema orört. */
   :root[data-theme="light"] .price-card.featured { background: linear-gradient(180deg, #EAE9FC, var(--bg-card)); }
-  .pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg,var(--primary-soft),var(--primary)); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; white-space: nowrap; }
-  .price-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
-  .price-amount { font-family: 'Bebas Neue','Inter Tight',sans-serif; font-weight: 400; font-size: 44px; letter-spacing: .01em; }
+  .pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg,var(--primary-soft),var(--primary)); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 16px; border-radius: var(--radius-pill); white-space: nowrap; }
+  .price-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .price-amount { font-family: var(--font-display); font-weight: 700; font-size: 40px; letter-spacing: -0.02em; }
   .price-amount .kr { font-size: 18px; color: var(--muted); font-weight: 400; }
   .price-desc { font-size: 15px; color: var(--muted); margin: 10px 0 22px; min-height: 44px; }
   .price-feats { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px; flex: 1; }
@@ -423,28 +445,22 @@
   .reveal.in { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
-    .section-pad { padding: 60px 0; }
-
-    .section-head { margin-bottom: 38px; }
+    :root { --space-section: 64px; --space-head: 40px; }
     .hero { padding: 112px 0 64px; margin-top: -64px; }
     .final { padding: 44px 0; }
   }
   @media (max-width: 560px) {
-    .wrap { padding: 0 18px; }
-    .hero h1 { font-size: clamp(30px, 8.5vw, 42px); }
+    :root { --gutter: 18px; --fs-hero: clamp(36px, 9.8vw, 44px); --fs-h1: clamp(36px, 9.8vw, 44px); --fs-h2: clamp(28px, 7.8vw, 34px); --fs-body: 17px; }
     .hero-sub { font-size: 17px; }
     .hero-cta { flex-direction: column; align-items: stretch; }
     .hero-cta .btn { width: 100%; }
-    h2 { font-size: clamp(26px, 7.5vw, 34px); }
-    .section-head h1 { font-size: clamp(30px, 8.5vw, 40px); }
-    .section-head p { font-size: 16px; }
-    .final-card h2 { font-size: clamp(26px, 7vw, 36px); }
-    .price-amount { font-size: 34px; }
+    .final-card h2 { font-size: var(--fs-h2); }
+    .price-amount { font-size: 32px; }
 
     .btn { padding: 14px 22px; }
   }
   @media (max-width: 380px) {
-    .hero h1 { font-size: 29px; }
+    :root { --fs-hero: 34px; --fs-h1: 34px; }
     .logo { font-size: 17px; }
   }
 
@@ -506,10 +522,10 @@
      350 px trots gap: 52px - tomrummet hamnade i sparet, inte i gapet. */
   .foot-grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr) minmax(0, 1fr); gap: 52px; padding: 68px 0 0; align-items: start; }
   .foot-intro { max-width: 420px; }
-  .foot-lead { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-size: 24px; font-weight: 600; line-height: 1.6; color: var(--text); }
+  .foot-lead { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.6; color: var(--text); }
   .foot-mail { display: inline-block; margin-top: 18px; color: var(--muted); font-size: 17px; font-weight: 500; line-height: 1.7; transition: color 0.2s; }
   .foot-mail:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-  .foot-col h3 { font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 18px; }
+  .foot-col h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 18px; }
   .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 10px; transition: color 0.2s, transform 0.2s; }
   .foot-col a:hover { color: var(--text); transform: translateX(4px); }
   /* .foot-col .foot-note slar .foot-col span pa specificitet (0,2,0 mot 0,1,1) */
@@ -542,7 +558,7 @@
 
   /* Hjaltesektionen behaller mork botten aven i ljust lage, sa den morknade
      ringen skulle falla dar (1,98:1 mot rgb(11,11,15)). Ljus ring i stallet. */
-  :root[data-theme="light"] .hero :focus-visible { outline-color: #A5B4FC; }
+  :root[data-theme="light"] .hero :focus-visible { outline-color: var(--indigo-pale); }
 
   /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
   .svc-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
@@ -578,12 +594,12 @@
   .case-feature + .case-feature { margin-top: 150px; }
 
   .case-head { display: flex; align-items: center; gap: 20px; }
-  .case-num { font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; color: var(--light-indigo); flex: none; font-variant-numeric: tabular-nums; }
+  .case-num { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.16em; color: var(--light-indigo); flex: none; font-variant-numeric: tabular-nums; }
   .case-rule { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
   .case-head .badge-live, .case-head .badge-wip, .case-head .badge-build { flex: none; }
 
-  .case-title { font-size: clamp(34px, 5.2vw, 58px); line-height: 1.02; letter-spacing: -0.025em; margin: 26px 0 0; }
-  .case-lead { font-family: 'Inter Tight', sans-serif; font-size: clamp(19px, 2.1vw, 27px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--muted); max-width: 620px; margin: 18px 0 0; }
+  .case-title { font-size: clamp(32px, 3.6vw, 52px); line-height: 1.06; letter-spacing: -0.025em; margin: 26px 0 0; }
+  .case-lead { font-family: var(--font-display); font-size: clamp(19px, 2.1vw, 27px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--muted); max-width: 620px; margin: 18px 0 0; }
 
   /* Skarmbilden. aspect-ratio 16/9 matchar kallbilderna 820x458 exakt, sa
      ingenting beskars - och utrymmet reserveras fore inladdning, CLS 0. */
@@ -635,12 +651,12 @@
   .case-data { grid-column: 1; display: flex; flex-wrap: wrap; gap: 22px 46px; margin: 0; }
   .case-data > div { display: flex; flex-direction: column-reverse; gap: 5px; }
   .case-data dt { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-dim); }
-  .case-data dd { margin: 0; font-family: 'Inter Tight', sans-serif; font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: -0.01em; color: var(--text); font-variant-numeric: tabular-nums; }
+  .case-data dd { margin: 0; font-family: var(--font-display); font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: -0.01em; color: var(--text); font-variant-numeric: tabular-nums; }
   .case-data dd.ej { font-size: 15px; font-weight: 500; font-style: italic; letter-spacing: 0; color: var(--muted-dim); }
 
   .case-act { grid-column: 2; justify-self: end; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
   .case-act .case-note { margin: 0; }
-  .case-cta { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter Tight', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); white-space: nowrap; transition: color .25s var(--ease); }
+  .case-cta { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); white-space: nowrap; transition: color .25s var(--ease); }
   .case-arrow { display: inline-block; transition: transform .35s var(--ease); }
   .case-cta:hover { color: var(--light-indigo); }
   .case-cta:hover .case-arrow, .case-shot:hover ~ .case-meta .case-arrow { transform: translateX(6px); }
@@ -677,7 +693,7 @@
      overstyrning (#1c1206 pa #f5b544: 10,17:1). */
   .badge-build { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid #f5b544; color: #1c1206; background: #f5b544; text-transform: uppercase; white-space: nowrap; }
 
-  .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
+  .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
 
   .case-note { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; font-style: italic; }
 
@@ -777,7 +793,7 @@
      Endast body.subpage (subsidor). Startsidan oberörd. Grön införs ej –
      ev. grön ton kommer enbart från motivet i bg-ai-losningar (AI-undantag).
      =================================================================== */
-  body.subpage::before { content: ""; position: fixed; inset: 0; z-index: -2; background: #0B0B0F var(--bgimg) repeat; background-size: 520px; opacity: .48; }
+  body.subpage::before { content: ""; position: fixed; inset: 0; z-index: -2; background: var(--ink) var(--bgimg) repeat; background-size: 520px; opacity: .48; }
   /* Texturlagret ar #0B0B0F och saknade ljus-hantering: hela ljusa temat blev
      grabrunt (uppmatt effektiv bakgrund #757579) och en mork rubrik matte
      1.37:1 dar. I ljust lage tonas lagret ned till en antydan. */
@@ -831,14 +847,14 @@
      R4/R5: tva brodtextstorlekar och en bredd for textblock, i stallet
      for 22 inline font-size och 13 inline max-width.
      =================================================================== */
-  .txt-s { font-size: 15px; line-height: 1.7; }
-  .txt-m { font-size: 17px; line-height: 1.85; }
+  .txt-s { font-size: 16px; line-height: var(--lh-body); }
+  .txt-m { font-size: var(--fs-body); line-height: var(--lh-body); max-width: var(--text-max); }
   .text-block { max-width: var(--text-max); }
 
   /* ---- Löpande skötsel (prisväljare + kumulativa kort) ---- */
   .care-switch-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0 0 34px; }
-  .care-switch { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 100px; background: var(--bg-card); }
-  .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: 100px; cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease), scale .16s var(--ease); }
+  .care-switch { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--bg-card); }
+  .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: var(--radius-pill); cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease), scale .16s var(--ease); }
   .care-opt:hover { color: var(--text); }
   .care-opt.is-on { color: #fff; background: linear-gradient(180deg,var(--primary-soft),var(--primary)); }
   .care-opt:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
@@ -861,7 +877,7 @@
   .care-grid .price-feats li { align-items: flex-start; line-height: 1.6; }
   .care-grid .price-feats .check { flex: 0 0 20px; margin-top: 2px; }
   .care-fine { margin-top: 30px; }
-  .care-fine-h { font-family: 'Inter Tight','Inter Tight Fallback',sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+  .care-fine-h { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
   .care-fine ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .care-fine li { position: relative; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.75; }
   .care-fine li::before { content: ''; position: absolute; left: 2px; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--line-strong); }
@@ -911,7 +927,7 @@
   .case-alla { margin-top: 48px; }
   /* Hur jag arbetar: lopande text med en avslutande rad i egen stil. */
   .text-block .txt-m { color: var(--muted); margin-bottom: 20px; }
-  .slutrad { margin-top: 36px; padding-left: 18px; border-left: 2px solid var(--accent); font-family: 'Inter Tight', 'Inter Tight Fallback', sans-serif; font-weight: 600; font-size: 20px; line-height: 1.45; color: var(--text); }
+  .slutrad { margin-top: 36px; padding-left: 18px; border-left: 2px solid var(--accent); font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.45; color: var(--text); }
   /* Prisraden pa /webbesiktning/: samma stil, men forst i texten. */
   .slutrad.slutrad-forst { margin-top: 0; margin-bottom: 24px; }
   /* Omraden och Praktiskt: lugn lista i tva spalter. */
