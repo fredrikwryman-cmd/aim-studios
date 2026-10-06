@@ -924,6 +924,7 @@
   .principer li:first-child::before { top: 13px; }
   .form-efter { margin-top: 18px; font-size: 14px; color: var(--muted); }
   .form-efter a,
+  .principer a,
   .text-block .txt-m a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
   .teknikrad { margin-top: 28px; font-size: 14px; letter-spacing: 0.02em; color: var(--muted); }
   /* Arendetyp i kontaktformularet: samma utseende som ovriga falt. */

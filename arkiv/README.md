@@ -75,3 +75,12 @@ ny text. Menypunkten heter nu Projektleverans på alla sidor.
 | `index.html` | Hela den gamla `/webbdesign/` med kalkylatorn, paketkorten Starter, Business och Premium, paketmodalen, före/efter-reglaget, process-pipelinen och löftet om tio dagar, flyttad med `git mv`. |
 | `moduler.js` | Fyra moduler ur `scripts.js` som bara hade element på den sidan: Before/After, Pricing calculator, Paket-modal (med paketdatan `PKG`, `ADDONS` och knappen "Boka det här paketet") och Process pipeline. `FOKUSERBARA` och `fokusfalla()` ligger kvar i `scripts.js`; mobilmenyn är nu enda anroparen. |
 | `moduler.css` | Regler ur `styles.css` vars selektorer bara träffade de fyra komponenterna, plus keyframes `pkgSweep`, `orbRingPulse` och `particleFloatUp`. Utvalt med skript. `.price-card`, `.price-grid` och `.pop` ligger kvar: `/skotsel/` använder dem. |
+
+## om-oss-2026-10-06 (texten på /om-oss/ omskriven)
+
+Kopierat från commit 3facb80. Sidan ligger kvar på `/om-oss/` med samma struktur
+och porträtt, men med ny låst text.
+
+| Fil | Vad |
+|---|---|
+| `index.html` | Hela sidan som den såg ut före omskrivningen: brödtexten, etiketten "Utan mellanhand", korten "Fast pris", "Du äger sajten" och "Byggd för att ge kunder", den gamla tjänstelistan med "Se alla tjänster" och knappen "Boka gratis möte". |
