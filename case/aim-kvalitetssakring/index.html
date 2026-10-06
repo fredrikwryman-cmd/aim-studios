@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="sv" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AiM Kvalitetssäkring: krav kopplade till namngivna källor | AiM Studios</title>
+<meta name="description" content="Ett system som läser kravtexter i byggprojekt och kopplar varje krav till en namngiven källa. Verifierad status sätts av deterministisk källmatchning, inte av språkmodellen." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="AiM Kvalitetssäkring: krav kopplade till namngivna källor | AiM Studios" />
+<meta property="og:description" content="Ett system som läser kravtexter i byggprojekt och kopplar varje krav till en namngiven källa. Verifierad status sätts av deterministisk källmatchning, inte av språkmodellen." />
+<meta property="og:image" content="https://aimstudios.se/assets/og-image.jpg" />
+<meta property="og:url" content="https://aimstudios.se/case/aim-kvalitetssakring/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%236366F1%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%234F46E5%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2222%22%20fill%3D%22%230B0B0F%22/%3E%3Cg%20stroke%3D%22url%28%23g%29%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M28%2080%20L50%2024%20L72%2080%22/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=169" />
+<link rel="stylesheet" href="/styles.css?v=180" />
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+<meta name="author" content="AiM Studios" />
+<meta name="robots" content="index, follow" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<link rel="canonical" href="https://aimstudios.se/case/aim-kvalitetssakring/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AiM Kvalitetssäkring",
+  "description": "Ett system som läser kravtexter i byggprojekt och kopplar varje krav till en namngiven källa. Syftet är att kapa tiden som går åt till kvalitetsdokumentation.",
+  "inLanguage": "sv",
+  "dateModified": "2026-10-07",
+  "url": "https://aimstudios.se/case/aim-kvalitetssakring/",
+  "mainEntityOfPage": "https://aimstudios.se/case/aim-kvalitetssakring/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Hem",
+      "item": "https://aimstudios.se/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Projekt",
+      "item": "https://aimstudios.se/case/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "AiM Kvalitetssäkring",
+      "item": "https://aimstudios.se/case/aim-kvalitetssakring/"
+    }
+  ]
+}
+</script>
+<style>
+  /* Sidspecifikt for caset. Ingen ny komponent: statusraden, h3 i textblocket,
+     flodet och resultatraderna anvander sajtens tokens och typsnitt. */
+  .section-head .case-status { margin: 0 0 16px; font-size: 14px; letter-spacing: 0.02em; color: var(--muted); }
+  .text-block h3 { font-size: 21px; line-height: 1.3; margin: 48px 0 16px; }
+  .text-block h3:first-child { margin-top: 0; }
+  .flode, .resultat { margin: 0 0 16px; padding: 0; list-style: none; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; line-height: 1.6; color: var(--text); overflow-wrap: anywhere; }
+  .flode li { padding: 4px 0; }
+  .resultat > div { display: flex; flex-wrap: wrap; gap: 0 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .resultat dt { color: var(--muted); }
+  .resultat dd { margin: 0; font-weight: 600; }
+</style>
+</head>
+<body class="subpage" data-bg="case">
+<a href="#main" class="skip-link">Hoppa till innehåll</a>
+<div class="progress" id="progress"></div>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="nav" id="navBar">
+    <div class="logo-wrap">
+      <a href="/#top" class="logo" id="logoLink" aria-label="AiM Studios – till startsidan">
+      <span class="logo-mark">
+        <svg viewBox="0 0 100 100" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4F46E5"/></linearGradient>
+            <filter id="lgf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <g filter="url(#lgf)" stroke="url(#lg)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M26 86 L50 16 L74 86"/></g>
+        </svg>
+      </span>
+      <span class="logo-text">AiM Studios</span>
+      </a>
+      <span class="logo-status"><span class="status-dot" aria-hidden="true"></span>Öppen för projekt</span>
+    </div>
+    <nav class="nav-center" id="navCenter" aria-label="Primär navigation">
+      <span class="nav-ind" id="navInd" aria-hidden="true"></span>
+      <a class="navlink" href="/webbdesign/">Projektleverans</a>
+      <a class="navlink active" href="/case/">Projekt</a>
+      <a class="navlink" href="/webbesiktning/">Webbesiktning</a>
+      <a class="navlink" href="/konsult/">Konsult</a>
+      <a class="navlink" href="/om-oss/">Om</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeBtn" aria-label="Byt tema">
+        <svg aria-hidden="true" id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="nav-cta" href="/#kontakt"><span class="cta-text">Kontakt</span><span class="btn-arrow">→</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Öppna meny" aria-expanded="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+  <div class="mobile-overlay" id="mobileMenu">
+    <button class="mobile-close" id="menuClose" aria-label="Stäng meny"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <nav class="mobile-nav" aria-label="Mobilnavigation">
+      <a href="/webbdesign/">Projektleverans</a>
+      <a class="active" href="/case/">Projekt</a>
+      <a href="/webbesiktning/">Webbesiktning</a>
+      <a href="/konsult/">Konsult</a>
+      <a href="/om-oss/">Om</a>
+    </nav>
+    <a class="mobile-cta" href="/#kontakt">Kontakt →</a>
+    <button class="mobile-theme" id="themeBtnM">Byt tema</button>
+  </div>
+</header>
+<main id="main">
+<section class="section-pad subpage-hero">
+  <div class="wrap">
+    <nav class="brodsmulor" aria-label="Brödsmulor">
+      <ol>
+        <li><a href="/">Hem</a></li>
+        <li><a href="/case/">Projekt</a></li>
+        <li><a href="/case/aim-kvalitetssakring/" aria-current="page">AiM Kvalitetssäkring</a></li>
+      </ol>
+    </nav>
+    <div class="section-head reveal">
+      <h1>AiM Kvalitetssäkring</h1>
+      <p class="case-status">Pilot i löpande användning hos en användare. Deployad beta sedan juni 2026.</p>
+      <p>Ett system som läser kravtexter i byggprojekt och kopplar varje krav till en namngiven källa. Syftet är att kapa tiden som går åt till kvalitetsdokumentation.</p>
+    </div>
+  </div>
+</section>
+<!-- Plats for framtida produktskarmdump, efter ingress och status: en figure
+     med .case-shot mellan hjalten och #problemet. Inget element har forran
+     bilden finns. -->
+
+<section class="section-pad" id="problemet">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Problemet</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Kraven i ett byggprojekt ligger utspridda i AMA, BBR, AFS, TDOK, svenska standarder och plan- och bygglagen. Att leta reda på vilken regel som gäller, och sedan dokumentera att den följts, är administration som tar tid från själva arbetet.</p>
+      <p class="txt-m">Där finns också fällan. Ett system som läser kraven åt dig sparar ingen tid om du ändå måste kontrollera varje svar. Då har arbetet bara flyttats.</p>
+      <p class="txt-m">Det kravet styrde hela arkitekturen: om systemet säger att något är verifierat ska det gå att visa vilken källträff statusen bygger på.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad sektion-ton" id="roll">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Min roll</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Jag ansvarade för hela produkten: idé, produktbeslut, arkitektur, implementation, insamling av källor, tester och drift.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="losningen">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Lösningen</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Användaren klistrar in en kravtext, laddar upp en PDF eller fotograferar ett dokument. En språkmodell extraherar krav och referenser ur underlaget.</p>
+      <p class="txt-m">Varje kravreferens går sedan genom en separat källgrind som slår upp den mot en källbas.</p>
+      <p class="txt-m">Modellens egen status används inte som verifiering. Verifierad status sätts av den separata, deterministiska källmatchningen.</p>
+      <p class="txt-m">Fyra flöden är byggda: arbetsberedning, egenkontroll, kontrollplan och kvalitetsredovisning.</p>
+      <p class="txt-m">Systemet kan exportera dokumenten som PDF med källstatus och härledning per krav.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad sektion-ton" id="arkitektur">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Arkitektur</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Klienten är byggd i React med Vite och Tailwind och fungerar som en installerbar webbapp.</p>
+      <p class="txt-m">Modellanropet går via en serverlös funktion så att API-nyckeln inte ligger i webbläsaren.</p>
+      <p class="txt-m">Källbasen ligger i Firestore och fylls av egna insamlingsskript mot offentliga myndighetskällor, bland annat Boverket, Arbetsmiljöverket och Riksdagen, tillsammans med TDOK-underlag och ett standardregister.</p>
+      <p class="txt-m">PDF-text läses ut lokalt i webbläsaren. Dokumentexporten genereras också där.</p>
+      <!-- Plats for framtida arkitekturskiss: en figure har, mellan texten och
+           flodet. Inget element har forran skissen finns. -->
+      <p class="txt-m">Flödet:</p>
+      <ol class="flode">
+        <li>underlag</li>
+        <li><span class="steg-nr" aria-hidden="true">→</span> modellens extraktion</li>
+        <li><span class="steg-nr" aria-hidden="true">→</span> källgrind</li>
+        <li><span class="steg-nr" aria-hidden="true">→</span> deterministisk källmatchning</li>
+        <li><span class="steg-nr" aria-hidden="true">→</span> status</li>
+        <li><span class="steg-nr" aria-hidden="true">→</span> sparat dokument</li>
+        <li><span class="steg-nr" aria-hidden="true">→</span> PDF-export</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="beslut">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Tre beslut</h2>
+    </div>
+    <div class="text-block reveal">
+      <h3><span class="steg-nr">1.</span> Modellens egen bedömning är inte verifiering.</h3>
+      <p class="txt-m">Modellen föreslår. En deterministisk uppslagning avgör källstatusen.</p>
+      <p class="txt-m">Modellens egen statusangivelse skrivs över av grindens resultat. Modellens egen konfidens används bara när resultatet fortfarande är en tolkning, och begränsas då.</p>
+      <p class="txt-m">Det enklare alternativet hade varit att behandla modellens egen säkerhet som ett mått på verifiering.</p>
+      <p class="txt-m">Det valdes bort.</p>
+      <p class="txt-m">En konfidenssiffra är inte en källhänvisning.</p>
+      <p class="txt-m">Samma princip styr hur status sprids genom systemet: ett fält får sin styrka från sin svagaste kod, aldrig från sin bästa träff.</p>
+      <p class="txt-m">Är tre av fyra referenser verifierade och den fjärde fortfarande en tolkning får den starkaste träffen inte maskera den svagaste.</p>
+
+      <h3><span class="steg-nr">2.</span> Exakt och ankrad matchning, ingen fuzzy och ingen semantik.</h3>
+      <p class="txt-m">Uppslagningen är deterministisk hela vägen.</p>
+      <p class="txt-m">Inga embeddings, ingen fuzzy-matchning och inget modellanrop används i själva matchningsledet.</p>
+      <p class="txt-m">Samma indata mot samma källbas ger samma resultat, och träffen går att härleda till regeln som satte statusen.</p>
+      <p class="txt-m">Semantisk sökning hade kunnat hitta fler närliggande träffar, men hade samtidigt introducerat ytterligare en bedömningsnivå i det led som ska avgöra om en referens faktiskt kan beläggas.</p>
+      <p class="txt-m">Här är målet inte att hitta något som liknar rätt källa.</p>
+      <p class="txt-m">Målet är att kunna visa varför en viss status sattes.</p>
+
+      <h3><span class="steg-nr">3.</span> En människas intyg läggs ovanpå statusen, aldrig i stället för den.</h3>
+      <p class="txt-m">En användare kan attestera ett krav manuellt.</p>
+      <p class="txt-m">Det skriver inte över källstatusen utan läggs som ett separat lager. Läsaren kan därmed skilja mellan vad systemets källgrind har kunnat belägga och vad en människa har gått i god för.</p>
+      <p class="txt-m">Källbasen versionsidentifieras. När ett sparat dokument öppnas kan dess källstatus bedömas om mot den aktuella basen.</p>
+      <p class="txt-m">Det betyder att en tidigare status inte behöver behandlas som permanent bara för att dokumentet en gång sparades.</p>
+      <p class="txt-m">Alternativet hade varit att frysa statusen vid skapandet och låta dokumentet behålla samma bedömning även när källunderlaget förändras.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad sektion-ton" id="verifiering">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Verifiering</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Spärren mot modellens egen verifieringsstatus är inte bara en arkitekturprincip. Den är testad.</p>
+      <p class="txt-m">I en syntetisk testfixtur finns den påhittade referensen TDOK 9999:9999. Det simulerade modellresultatet anger referensen som verifierad med konfidens 99.</p>
+      <p class="txt-m">Källgrinden hittar ingen giltig träff.</p>
+      <p class="txt-m">Systemet accepterar därför inte modellens status.</p>
+      <p class="txt-m">Resultatet blir:</p>
+      <dl class="resultat">
+        <div><dt>Modellens angivna konfidens:</dt> <dd>99</dd></div>
+        <div><dt>Status efter källgrind:</dt> <dd>AI-tolkad</dd></div>
+        <div><dt>Konfidens efter grind:</dt> <dd>88</dd></div>
+        <div><dt>Markering:</dt> <dd>nedgraderad</dd></div>
+      </dl>
+      <p class="txt-m">Testsviten innehåller 38 tester. Samtliga 38 går igenom.</p>
+      <p class="txt-m">Den verifierar bland annat ankrade källformat, standardmatchning, skydd mot vissa falska träffar, svagaste-länken-logiken och deterministisk hantering av källbasens version.</p>
+      <p class="txt-m">Testsviten täcker inte hela systemet.</p>
+      <p class="txt-m">Bland annat ligger gränssnittet, PDF-renderingen, det faktiska AI-anropet och fritextvägen utanför den automatiska täckningen i den här sviten.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="gront">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Vad grönt inte betyder</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Grön status betyder att källgrindens deterministiska regler har hittat en träff som uppfyller villkoren för verifierad status i en namngiven källa.</p>
+      <p class="txt-m">Det betyder inte att systemet juridiskt intygar att kravet är korrekt tillämpat i det aktuella projektet.</p>
+      <p class="txt-m">Den bedömningen ligger hos människan.</p>
+      <p class="txt-m">Modellen påverkar vilka krav och referenser som extraheras ur underlaget. Kvaliteten på extraktionen sätter därför ett tak för vad nästa steg i kedjan kan verifiera.</p>
+      <p class="txt-m">AI-genererade tolkningar av AMA-koder har en egen status och behandlas inte som officiell AMA-text.</p>
+      <p class="slutrad">Vi upplyser, vi intygar aldrig.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad sektion-ton" id="oppet">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Vad som är öppet</h2>
+    </div>
+    <div class="text-block reveal">
+      <p class="txt-m">Kopplingen mellan commit och driftsatt version går i dag inte att bevisa fullt ut från deploymentens metadata.</p>
+      <p class="txt-m">Vid auditen gick kod och driftsatt beteende att jämföra, men den exakta kedjan från commit till deploy är inte komplett spårbar.</p>
+      <p class="txt-m">Det är nästa sak jag vill ha på plats.</p>
+      <p class="txt-m">Ett system som bygger på spårbarhet bör vara spårbart även i sin egen leveranskedja.</p>
+      <p class="teknikrad">Tekniskt granskat mot kod och testsvit 2026-10-07.</p>
+    </div>
+  </div>
+</section>
+
+  <section class="section-pad" style="text-align:center;">
+    <div class="wrap">
+      <h2 style="margin-bottom:16px;">Vill du se din idé bli verklighet?</h2>
+      <div class="hero-cta reveal" style="justify-content:center;">
+        <a href="/#kontakt" class="btn btn-primary magnetic">Boka ett kostnadsfritt strategimöte →</a>
+        <a href="/case/" class="btn btn-secondary">Se alla projekt →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER – Terminal Boot (indigo) -->
+<footer class="footer-terminal" id="footer">
+  <div class="footer-content" id="footerContent">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-intro">
+          <p class="foot-lead">Har du en sajt som inte gör sitt jobb? Hör av dig, så tittar jag på den.</p>
+          <a class="foot-mail" href="mailto:info@aimstudios.se">info@aimstudios.se</a>
+        </div>
+        <div class="foot-col">
+          <h3>Tjänster</h3>
+          <a href="/webbdesign/">Projektleverans</a>
+          <a href="/seo/">SEO</a>
+          <a href="/ai-losningar/">AI-lösningar</a>
+          <a href="/branding/">Branding</a>
+          <a href="/skotsel/">Löpande skötsel</a>
+          <a href="/webbesiktning/">Webbesiktning</a>
+        </div>
+        <div class="foot-col">
+          <h3>Kontakt</h3>
+          <a href="tel:+46705614845">070-561 48 45</a>
+          <span class="foot-note">Jag svarar inom 24 timmar.</span>
+        </div>
+      </div>
+      <div class="foot-bottom">© 2026 AiM Studios · Godkänd för F-skatt · <a href="/integritetspolicy.html">Integritetspolicy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js?v=174" defer></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ba7bca1bc05f48b0a399747d1ead2bc8"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

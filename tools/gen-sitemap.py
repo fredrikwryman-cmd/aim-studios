@@ -29,6 +29,7 @@ PAGES = [
     ('/branding/',             'branding/index.html',         '0.8'),
     ('/skotsel/',              'skotsel/index.html',          '0.8'),
     ('/case/',                 'case/index.html',             '0.6'),
+    ('/case/aim-kvalitetssakring/', 'case/aim-kvalitetssakring/index.html', '0.6'),
     ('/konsult/',              'konsult/index.html',          '0.8'),
     ('/om-oss/',               'om-oss/index.html',           '0.6'),
     ('/integritetspolicy.html','integritetspolicy.html',      '0.3'),
