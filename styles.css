@@ -8,9 +8,11 @@
    =================================================================== */
 
 :root {
-    --bg: #0B0B0F;
-    --bg-soft: #0F0F16;
-    --bg-card: #14141C;
+    /* Fas 5 pass 2 (2026-10-06): neutral grafit i stallet for blavioletta
+       toner. Fore: #0B0B0F / #0F0F16 / #14141C. */
+    --bg: #101114;
+    --bg-soft: #14161A;
+    --bg-card: #191B21;
     --primary: #4F46E5;
     --primary-soft: #6366F1;
     --accent: #6366F1;
@@ -22,19 +24,26 @@
     --danger: #EF4444;
     --danger-soft: #F87171;
     --danger-strong: #B91C1C;
-    --text: #FFFFFF;
-    --muted: #A4A4B5;
-    --muted-dim: #8A8A9C;
+    --text: #F3F2EE;
+    --muted: #B5B8C3;
+    --muted-dim: #8E919C;
     --line: rgba(255, 255, 255, 0.08);
     --line-strong: rgba(255, 255, 255, 0.14);
+    /* Kant pa UI-komponenter (falt, sekundara knappar, temaknapp, meny):
+       GV-03 kraver 3:1. --line-strong gav 1,27-1,48:1. #696C76 ger 3,28:1
+       mot korten och 3,60:1 mot sidbakgrunden. */
+    --line-ui: #696C76;
     --glass: rgba(255, 255, 255, 0.03);
     --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
     --radius: 12px;
     --radius-lg: 16px;
     --radius-pill: 100px;
     /* Fasta farger som INTE byter med temat: hjalten ar mork i bada teman.
-       Samma varden som tidigare stod som literaler i reglerna. */
-    --ink: #0B0B0F;
+       Samma varden som morka temats --bg, --text och --muted. */
+    --ink: #101114;
+    --ink-text: #F3F2EE;
+    --ink-muted: #B5B8C3;
+    --ink-line-ui: #696C76;
     --primary-hover: #4338CA;
     --indigo-pale: #A5B4FC;
     /* Typografi (fas 5, 2026-10-06): ett typsnitt for alla rubriker. Bebas Neue
@@ -57,17 +66,20 @@
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
   :root[data-theme="light"] {
-    --bg: #F6F6FB;
+    /* Fas 5 pass 2: neutraliserat pa samma satt som morkt tema. Fore: bg
+       #F6F6FB, text #0B0B0F, muted #55556A, muted-dim #6B6B80. */
+    --bg: #F5F4F0;
     --bg-soft: #FFFFFF;
     --bg-card: #FFFFFF;
-    --text: #0B0B0F;
-    --muted: #55556A;
-    --muted-dim: #6B6B80;   /* F3: #9494A6 gav 2.77-2.98:1. 19 anvandningar, alla pa ljust underlag. */
+    --text: #17191F;
+    --muted: #545761;
+    --muted-dim: #62656F;   /* F3: #9494A6 gav 2.77-2.98:1. 19 anvandningar, alla pa ljust underlag. */
     --light-indigo: #4338CA; /* F4: #818CF8 gav 2.74-2.98:1 pa ljust underlag. */
-    --line: rgba(11, 11, 15, 0.08);
-    --line-strong: rgba(11, 11, 15, 0.12);
-    --glass: rgba(11, 11, 15, 0.02);
-    --shadow: 0 24px 60px -24px rgba(60, 60, 90, 0.28);
+    --line: rgba(23, 25, 31, 0.08);
+    --line-strong: rgba(23, 25, 31, 0.12);
+    --line-ui: #82858E;   /* 3,69:1 mot vitt, 3,35:1 mot --bg, 3,18:1 mot den ljusa sektionen */
+    --glass: rgba(23, 25, 31, 0.02);
+    --shadow: 0 24px 60px -24px rgba(23, 25, 31, 0.24);
   }
 
 
@@ -115,6 +127,15 @@
      andrad - men den beskriver nu den faktiska orsaken: det ar den morka hjalten
      bakom en genomskinlig nav som kraver ljus text, inte vilken sidtyp det ar. */
   :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .logo-text { background-image: linear-gradient(90deg,#fff,var(--indigo-pale),#fff,var(--indigo-pale)); }
+  /* Fas 5 pass 2: resten av naven i samma lage. Ljust temas varden gav
+     morkgra lankar och en nastan osynlig temaknapp mot hjaltens morka
+     botten. Har far naven morka temats varden, som ar matta mot just den. */
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .nav-center { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.10); }
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .nav-ind { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.14); }
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) .navlink { color: var(--ink-muted); }
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) :is(.navlink:hover, .navlink.active) { color: var(--ink-text); }
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) :is(.theme-toggle, .menu-btn) { color: var(--ink-text); background: rgba(255,255,255,0.03); border-color: var(--ink-line-ui); }
+  :root[data-theme="light"] body:has(.hero) header:not(.is-solid) :focus-visible { outline-color: var(--indigo-pale); }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
   ::selection { background: rgba(79,70,229,0.4); color: #fff; }
@@ -144,16 +165,16 @@
      Gradienten morkas ett steg sa vit text klarar 4.5:1 over HELA forloppet. */
   .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 18px -10px rgba(0,0,0,0.5); }
   .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--glass); color: var(--text); border-color: var(--line-strong); }
-  .btn-secondary:hover { border-color: rgba(120,120,160,0.5); }
+  .btn-secondary { background: var(--glass); color: var(--text); border-color: var(--line-ui); }
+  .btn-secondary:hover { border-color: var(--muted); }
   /* Hjaltesektionen har hardkodad mork bakgrund (.hero) och byter INTE i ljust tema.
      .btn-secondary hamtar sin farg ur --text, som i ljust tema ar #0B0B0F - alltsa
      svart text pa svart botten, 1.00:1. Las knappen till ljus text just har. */
-  :root[data-theme="light"] .hero .btn-secondary { color: #FFFFFF; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.22); }
+  :root[data-theme="light"] .hero .btn-secondary { color: var(--ink-text); background: rgba(255,255,255,0.06); border-color: var(--ink-line-ui); }
   /* Hjaltens etikett: samma skal som knappen ovan. Heron ar #0B0B0F i bada
      teman, sa ljust temas --muted (#55556A) gav 2.6:1 dar. */
-  :root[data-theme="light"] .hero .eyebrow { color: #A4A4B5; background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.14); }
-  :root[data-theme="light"] .hero .btn-secondary:hover { border-color: rgba(255,255,255,0.45); }
+  :root[data-theme="light"] .hero .eyebrow { color: var(--ink-muted); background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.14); }
+  :root[data-theme="light"] .hero .btn-secondary:hover { border-color: var(--ink-muted); }
   .btn-arrow { transition: transform .25s var(--ease); }
   .btn:hover .btn-arrow { transform: translateX(4px); }
 
@@ -210,8 +231,11 @@
   .navlink.active { color: var(--text); }
 
   .nav-right { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
-  .theme-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; opacity: 0.5; transition: opacity .25s var(--ease), border-color .2s, transform .35s var(--ease), scale .16s var(--ease); }
-  .theme-toggle:hover { border-color: rgba(120,120,160,0.5); transform: rotate(18deg); opacity: 1; }
+  /* Fas 5 pass 2: opacity 0.5 halverade aven kanten, som da matte 1,69-1,75:1
+     (GV-03 kraver 3:1). Knappen ar nu hel och dampas i stallet med --muted pa
+     ikonen; hover ger --text. */
+  .theme-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-ui); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; transition: color .25s var(--ease), border-color .2s, transform .35s var(--ease), scale .16s var(--ease); }
+  .theme-toggle:hover { color: var(--text); border-color: var(--muted); transform: rotate(18deg); }
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
 
@@ -220,7 +244,7 @@
   .btn-arrow { display: inline-block; transition: transform .25s var(--ease); }
   .nav-cta:hover .btn-arrow { transform: translateX(4px); }
 
-  .menu-btn { display: none; width: 44px; height: 44px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); cursor: pointer; place-items: center; flex: 0 0 auto; }
+  .menu-btn { display: none; width: 44px; height: 44px; border-radius: 11px; border: 1px solid var(--line-ui); background: var(--glass); color: var(--text); cursor: pointer; place-items: center; flex: 0 0 auto; }
   .menu-btn svg { width: 22px; height: 22px; }
 
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -252,7 +276,7 @@
   /* ===== Mobil fullskärms-overlay ===== */
   .mobile-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 84px 32px 32px; overflow-y: auto; background: var(--bg); background: color-mix(in srgb, var(--bg) 96%, transparent); -webkit-backdrop-filter: blur(26px); backdrop-filter: blur(26px); opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility 0s linear .35s; }
   .mobile-overlay.open { opacity: 1; visibility: visible; transition-delay: 0s; }
-  .mobile-close { position: absolute; top: 22px; right: 22px; width: 46px; height: 46px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; }
+  .mobile-close { position: absolute; top: 22px; right: 22px; width: 46px; height: 46px; border-radius: var(--radius); border: 1px solid var(--line-ui); background: var(--glass); color: var(--text); display: grid; place-items: center; cursor: pointer; }
   .mobile-close svg { width: 24px; height: 24px; }
   .mobile-nav { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .mobile-nav a { font-family: var(--font-display); font-weight: 700; font-size: 30px; letter-spacing: -0.02em; color: var(--text); padding: 10px 16px; opacity: 0; transform: translateY(14px); }
@@ -327,7 +351,7 @@
   .brodsmulor a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
   /* HERO (always dark zone) */
-  .hero { position: relative; margin-top: -72px; padding: 152px 0 var(--space-section); overflow: hidden; background: var(--ink); color: #fff; }
+  .hero { position: relative; margin-top: -72px; padding: 152px 0 var(--space-section); overflow: hidden; background: var(--ink); color: var(--ink-text); }
 
   /* Sajtens enda dekorativa motiv (fas 5 pass 2): ett mjukt ljussken i
      accentfargen hogst upp. Har pa startsidans hjalte, och som
@@ -338,9 +362,9 @@
      vid 1.05/0.95. Textkolumnen fick 30 px till, bilden lika mycket mindre. */
   .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 56px; align-items: center; }
 
-  .hero h1 { font-size: var(--fs-hero); margin: 22px 0 20px; color: #fff; }
+  .hero h1 { font-size: var(--fs-hero); margin: 22px 0 20px; color: var(--ink-text); }
 
-  .hero-sub { font-size: 19px; color: #b6b6c8; max-width: 520px; margin-bottom: 26px; }
+  .hero-sub { font-size: 19px; color: var(--ink-muted); max-width: 520px; margin-bottom: 26px; }
 
   .check { width: 22px; height: 22px; flex: none; border-radius: 50%; background: rgba(99,102,241,0.16); display: grid; place-items: center; }
   .check svg { width: 13px; height: 13px; stroke: var(--accent); }
@@ -350,11 +374,11 @@
   .visual { position: relative; }
   /* Flexkolumn: bildytan behaller sitt 16/10-forhallande och lanken skjuts inte
      runt av olika textlangder. */
-  .browser { border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(180deg, #16161f, #0e0e15); box-shadow: var(--shadow); overflow: hidden; }
+  .browser { border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(180deg, #1B1D23, #121317); box-shadow: var(--shadow); overflow: hidden; }
   .browser-bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2c2c38; display: block; }
-  .browser-url { margin-left: 12px; font-size: 12px; color: #8A8A9C; background: var(--ink); padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
-  .browser-body { position: relative; aspect-ratio: 16/10; background: #0e0e15; }
+  .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2E3038; display: block; }
+  .browser-url { margin-left: 12px; font-size: 12px; color: #8E919C; background: var(--ink); padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .browser-body { position: relative; aspect-ratio: 16/10; background: #121317; }
   /* <picture> ar inline som standard och skulle lamna en baslinjeglipa under
      bilden. */
   .browser-body picture { display: block; width: 100%; height: 100%; }
@@ -375,7 +399,7 @@
      så sidbakgrunden lyste igenom kortets topp och tvättade ur rubrik och pris på det
      rekommenderade kortet. #EAE9FC är exakt samma ton komponerad över kortytan. Mörkt tema orört. */
   :root[data-theme="light"] .price-card.featured { background: linear-gradient(180deg, #EAE9FC, var(--bg-card)); }
-  .pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg,var(--primary-soft),var(--primary)); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 16px; border-radius: var(--radius-pill); white-space: nowrap; }
+  .pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 16px; border-radius: var(--radius-pill); white-space: nowrap; }
   .price-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .price-amount { font-family: var(--font-display); font-weight: 700; font-size: 40px; letter-spacing: -0.02em; }
   .price-amount .kr { font-size: 18px; color: var(--muted); font-weight: 400; }
@@ -397,7 +421,7 @@
   .form-card .sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
-  .field input, .field textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--line-strong); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; transition: border-color .2s, box-shadow .2s; }
+  .field input, .field textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--line-ui); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; transition: border-color .2s, box-shadow .2s; }
   .field input:focus, .field textarea:focus { outline: none; border-color: var(--primary-soft); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
   .field textarea { resize: vertical; min-height: 84px; }
   /* Utan egen regel arver falten webblasarens standardplatshallare #757575, som
@@ -540,6 +564,39 @@
   /* Hjaltesektionen behaller mork botten aven i ljust lage, sa den morknade
      ringen skulle falla dar (1,98:1 mot rgb(11,11,15)). Ljus ring i stallet. */
   :root[data-theme="light"] .hero :focus-visible { outline-color: var(--indigo-pale); }
+
+  /* Ljus sektion (fas 5 pass 2): en rytmbrytare, bara #ansvar pa startsidan.
+     Den satter egna tokens, sa allt inuti (rubrik, etikett, text, fokus)
+     foljer med i bada teman. --light-indigo far ljusa temats befintliga
+     accentvariant.
+     Kanterna: --fran och --till ar grannarnas faktiska farg (efter en
+     .sektion-ton ar det --bg-soft, inte --bg; annars blev det ett trappsteg
+     plus grannens kantlinje). Tonen gar i oklab med ease-steg (16/50/84 %)
+     over --tona, sa mitten inte blir ett grumligt gratt band. Utan stod for
+     color-mix galler den raka gradienten fore. */
+  .ljus-sektion { --ljus: #F0EEE8; --text: #17191F; --muted: #545761; --muted-dim: #62656F;
+    --line: rgba(23,25,31,0.08); --line-strong: rgba(23,25,31,0.14); --glass: rgba(23,25,31,0.03); --light-indigo: #4338CA;
+    --fran: var(--bg); --till: var(--bg); --tona: 128px;
+    color: var(--text); padding: calc(var(--space-section) + 48px) 0;
+    background: linear-gradient(180deg, var(--fran) 0, var(--ljus) var(--tona), var(--ljus) calc(100% - var(--tona)), var(--till) 100%); }
+  @supports (color: color-mix(in oklab, red, blue)) {
+    .ljus-sektion { background: linear-gradient(180deg,
+      var(--fran) 0,
+      color-mix(in oklab, var(--fran), var(--ljus) 16%) calc(var(--tona) * 0.25),
+      color-mix(in oklab, var(--fran), var(--ljus) 50%) calc(var(--tona) * 0.5),
+      color-mix(in oklab, var(--fran), var(--ljus) 84%) calc(var(--tona) * 0.75),
+      var(--ljus) var(--tona),
+      var(--ljus) calc(100% - var(--tona)),
+      color-mix(in oklab, var(--till), var(--ljus) 84%) calc(100% - var(--tona) * 0.75),
+      color-mix(in oklab, var(--till), var(--ljus) 50%) calc(100% - var(--tona) * 0.5),
+      color-mix(in oklab, var(--till), var(--ljus) 16%) calc(100% - var(--tona) * 0.25),
+      var(--till) 100%); }
+  }
+  /* Rubriken borjar 112 px ner pa mobil; tonzonen far inte na in under den. */
+  @media (max-width: 860px) { .ljus-sektion { --tona: 96px; } }
+  .sektion-ton + .ljus-sektion { --fran: var(--bg-soft); }
+  .sektion-ton:has(+ .ljus-sektion) { border-bottom-color: transparent; }
+  .ljus-sektion :focus-visible { outline-color: #3730A3; }
 
   /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
   .svc-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
@@ -799,7 +856,10 @@
   .care-switch { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--bg-card); }
   .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: var(--radius-pill); cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease), scale .16s var(--ease); }
   .care-opt:hover { color: var(--text); }
-  .care-opt.is-on { color: #fff; background: linear-gradient(180deg,var(--primary-soft),var(--primary)); }
+  /* Fas 5 pass 2: vit text pa gradientens ljusa ande (--primary-soft) gav 4,47:1.
+     Solid --primary ger 6,29:1. Kanten i --light-indigo markerar valt lage mot
+     vaxelns botten (5,77:1 morkt, 7,9:1 ljust); fyllningen ensam gav 2,74:1. */
+  .care-opt.is-on { color: #fff; background: var(--primary); box-shadow: inset 0 0 0 1px var(--light-indigo); }
   .care-opt:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
   .care-vat { margin: 0; color: var(--muted-dim); font-size: 13px; }
   .care-save { margin: 8px 0 0; font-size: 14px; font-weight: 600; color: var(--light-indigo); }
@@ -892,5 +952,5 @@
   .text-block .txt-m a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
   .teknikrad { margin-top: 28px; font-size: 14px; letter-spacing: 0.02em; color: var(--muted); }
   /* Arendetyp i kontaktformularet: samma utseende som ovriga falt. */
-  .field select { width: 100%; background: var(--bg-card); border: 1px solid var(--line-strong); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; }
+  .field select { width: 100%; background: var(--bg-card); border: 1px solid var(--line-ui); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; }
   .field select:focus { outline: none; border-color: var(--primary-soft); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
