@@ -1,0 +1,81 @@
+/* Arkiverat 2026-10-06, fas 5 pass 2. Laddas inte av nagon sida. */
+
+/* ---- token ---- */
+    --shadow-glow: 0 0 60px -10px rgba(79, 70, 229, 0.18);
+
+/* ---- Kornighet (.grain), tio sidor ---- */
+  /* grain overlay */
+  .grain { position: fixed; inset: 0; z-index: 9998; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ---- Iridescent hover pa priskorten, /skotsel/ ---- */
+  /* ===== FAS X – WOW ===== */
+  /* Iridescent hover (kort) */
+  .iridescent { position: relative; }
+  .iridescent::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.15), rgba(99,102,241,0.10) 40%, rgba(99,102,241,0.08) 60%, transparent 80%); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+  .iridescent:hover::before { opacity: 1; }
+  .iridescent::after { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; background: conic-gradient(from var(--ang,0deg) at var(--mx,50%) var(--my,50%), #6366F1, #A855F7, #6366F1); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; z-index: 2; }
+  .iridescent:hover::after { opacity: 0.6; animation: sheenRotate 3s linear infinite; }
+  @keyframes sheenRotate { to { --ang: 360deg; } }
+  /* Registreringen av --ang anvandes bara av sheenRotate ovan. */
+  @property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+/* ---- Punktmonster som foljer musen (.ambient-grid), tio sidor ---- */
+  /* Ambient grid (mus-följande punkt-grid) */
+  .ambient-grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .ambient-grid::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(99,102,241,0.15) 1px, transparent 1px); background-size: 60px 60px; -webkit-mask-image: radial-gradient(400px circle at var(--gx,50%) var(--gy,50%), black 20%, transparent 70%); mask-image: radial-gradient(400px circle at var(--gx,50%) var(--gy,50%), black 20%, transparent 70%); opacity: 0.4; }
+  :root[data-theme="light"] .ambient-grid::before { background-image: radial-gradient(circle, rgba(79,70,229,0.08) 1px, transparent 1px); opacity: 0.6; }
+
+/* ---- Natverk med noder i headern (.neural-canvas, .neural-spotlight), tio sidor ---- */
+  /* ---------- neuralt header-lager (bakom nav-innehållet) ---------- */
+  #navBar { overflow: hidden; }
+  #navBar > *:not(.neural-canvas):not(.neural-spotlight) { position: relative; z-index: 2; }
+  .neural-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; opacity: 0.55; pointer-events: none; transition: opacity .4s var(--ease); }
+  .neural-spotlight { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .3s ease; background: radial-gradient(320px circle at var(--nx,50%) var(--ny,50%), rgba(255,255,255,0.14), transparent 55%); }
+  header.spotlight-on .neural-spotlight { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .neural-canvas, .neural-spotlight { display: none !important; } }
+  @media (max-width: 767px) { .neural-canvas, .neural-spotlight { display: none !important; } }
+
+/* ---- Hjaltens vinjett ---- */
+  .hero-vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(820px 300px at 50% -50px, rgba(99,102,241,0.08), transparent 70%), radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(11,11,15,0.85)); }
+
+/* ---- Hjaltens ljussken fore forenkling (tva sken) ---- */
+  .hero-fallback { position: absolute; inset: 0; z-index: 0; background: radial-gradient(600px 420px at 78% 6%, rgba(79,70,229,0.12), transparent 70%), radial-gradient(520px 380px at 10% 36%, rgba(99,102,241,0.05), transparent 70%); }
+
+/* ---- Undersidornas monsterbilder och morkningslager (bg-*.webp), nio sidor ---- */
+  /* ===================================================================
+     FAS 2 – SÖMLÖSA SUBSIDE-BAKGRUNDER (motiv + djup-overlay)
+     Endast body.subpage (subsidor). Startsidan oberörd. Grön införs ej –
+     ev. grön ton kommer enbart från motivet i bg-ai-losningar (AI-undantag).
+     =================================================================== */
+  body.subpage::before { content: ""; position: fixed; inset: 0; z-index: -2; background: var(--ink) var(--bgimg) repeat; background-size: 520px; opacity: .48; }
+  /* Texturlagret ar #0B0B0F och saknade ljus-hantering: hela ljusa temat blev
+     grabrunt (uppmatt effektiv bakgrund #757579) och en mork rubrik matte
+     1.37:1 dar. I ljust lage tonas lagret ned till en antydan. */
+  :root[data-theme="light"] body.subpage::before { opacity: .06; }
+  body.subpage::after { content: ""; position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(120% 70% at 50% -10%, rgba(79,70,229,.24), transparent 60%),
+      linear-gradient(180deg, rgba(11,11,15,.42), rgba(11,11,15,.82)); }
+  /* Steg 1 (2026-10-05): djup-overlayn ar morkt #0B0B0F och gallde aven i ljust
+     tema. Den gjorde hela ljusa temat gra-morkt pa alla undersidor: ingressen
+     #55556A matte 1.3:1 mot den faktiskt malade bakgrunden (uppmatt pa
+     /webbdesign/, /om-oss/ och /konsult/). Texturlagret ovan tonas redan ned
+     i ljust lage; overlayn tas bort helt dar. */
+  :root[data-theme="light"] body.subpage::after { content: none; }
+  body[data-bg="webbdesign"] { --bgimg: url(/assets/bg-webbdesign.webp); }
+  body[data-bg="seo"] { --bgimg: url(/assets/bg-seo.webp); }
+  body[data-bg="ai-losningar"] { --bgimg: url(/assets/bg-ai-losningar.webp); }
+  body[data-bg="branding"] { --bgimg: url(/assets/bg-branding.webp); }
+  body[data-bg="case"] { --bgimg: url(/assets/bg-case.webp); }
+  body[data-bg="om-oss"] { --bgimg: url(/assets/bg-om-oss.webp); }
+  /* Skotsel ateranvander bg-seo (inga nya bildfiler) */
+  body[data-bg="skotsel"] { --bgimg: url(/assets/bg-seo.webp); }
+  /* per-sida läsbarhet: busiga motiv dämpas, lugna får synas mer */
+  body[data-bg="seo"]::before { opacity: .55; }
+  body[data-bg="skotsel"]::before { opacity: .55; }
+  body[data-bg="om-oss"]::before { opacity: .55; }
+  body[data-bg="ai-losningar"]::before { opacity: .55; }
+  body[data-bg="branding"]::before { opacity: .55; }
+  body[data-bg="case"]::before { opacity: .55; }
+  @media (max-width: 768px) { body.subpage::before { background-attachment: scroll; background-size: 380px; } }
