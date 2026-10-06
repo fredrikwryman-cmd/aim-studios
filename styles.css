@@ -35,7 +35,7 @@
     --line-ui: #696C76;
     --glass: rgba(255, 255, 255, 0.03);
     --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
-    --radius: 12px;
+    --radius: 10px;
     --radius-lg: 16px;
     --radius-pill: 100px;
     /* Fasta farger som INTE byter med temat: hjalten ar mork i bada teman.
@@ -58,7 +58,7 @@
     /* Grundavstand */
     --gutter: 24px;
     --space-section: 96px;
-    --space-head: 56px;
+    --space-head: 48px;
     --max: 1180px;
     /* Langre stycken: 550 px ger 55-66 tecken per rad i 18 px Inter (uppmatt
        2026-10-06). 780 px gav 82-92 och 640 px 64-78. */
@@ -77,7 +77,7 @@
     --light-indigo: #4338CA; /* F4: #818CF8 gav 2.74-2.98:1 pa ljust underlag. */
     --line: rgba(23, 25, 31, 0.08);
     --line-strong: rgba(23, 25, 31, 0.12);
-    --line-ui: #82858E;   /* 3,69:1 mot vitt, 3,35:1 mot --bg, 3,18:1 mot den ljusa sektionen */
+    --line-ui: #82858E;   /* 3,69:1 mot vitt, 3,35:1 mot --bg. Den ljusa sektionen har inga komponenter. */
     --glass: rgba(23, 25, 31, 0.02);
     --shadow: 0 24px 60px -24px rgba(23, 25, 31, 0.24);
   }
@@ -189,7 +189,7 @@
      DOM:en, vann vid lika z-index och lade badgen ovanpa menyraden. */
   #header { position: sticky; top: 0; left: 0; right: 0; z-index: 100; background: transparent; }
   .nav {
-    position: relative; display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px;
     height: var(--nav-h); max-width: 100%; margin: 0; padding: 0 32px;
     border: 1px solid transparent; border-top: none; border-radius: 0; background: transparent; /* p6: transparent -> ingen ljus harlinje mot mork bg */
     opacity: 1; transform: none; animation: navDropIn .8s var(--ease) .15s backwards; /* backwards, INTE both: ingen kvarvarande transform pa .nav -> backdrop-filter + sticky forblir intakta */
@@ -234,7 +234,7 @@
   /* Fas 5 pass 2: opacity 0.5 halverade aven kanten, som da matte 1,69-1,75:1
      (GV-03 kraver 3:1). Knappen ar nu hel och dampas i stallet med --muted pa
      ikonen; hover ger --text. */
-  .theme-toggle { width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--line-ui); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; transition: color .25s var(--ease), border-color .2s, transform .35s var(--ease), scale .16s var(--ease); }
+  .theme-toggle { width: 40px; height: 40px; border-radius: var(--radius); border: 1px solid var(--line-ui); background: var(--glass); color: var(--muted); display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; transition: color .25s var(--ease), border-color .2s, transform .35s var(--ease), scale .16s var(--ease); }
   .theme-toggle:hover { color: var(--text); border-color: var(--muted); transform: rotate(18deg); }
   .theme-toggle svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
   .theme-toggle.rotated svg { transform: rotate(180deg); }
@@ -244,7 +244,7 @@
   .btn-arrow { display: inline-block; transition: transform .25s var(--ease); }
   .nav-cta:hover .btn-arrow { transform: translateX(4px); }
 
-  .menu-btn { display: none; width: 44px; height: 44px; border-radius: 11px; border: 1px solid var(--line-ui); background: var(--glass); color: var(--text); cursor: pointer; place-items: center; flex: 0 0 auto; }
+  .menu-btn { display: none; width: 44px; height: 44px; border-radius: var(--radius); border: 1px solid var(--line-ui); background: var(--glass); color: var(--text); cursor: pointer; place-items: center; flex: 0 0 auto; }
   .menu-btn svg { width: 22px; height: 22px; }
 
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -270,7 +270,7 @@
     .theme-toggle { display: none; }
     .nav-right .nav-cta { display: none; }
     .menu-btn { display: grid; }
-    .nav { padding: 0 18px; height: 64px; }
+    .nav { padding: 0 16px; height: 64px; }
   }
 
   /* ===== Mobil fullskärms-overlay ===== */
@@ -291,8 +291,8 @@
   .mobile-overlay.open .mobile-nav a:nth-child(8){ animation-delay: .48s; }
   @keyframes mobileItemIn { to { opacity: 1; transform: none; } }
   .mobile-nav a:hover { color: var(--primary-soft); }
-  .mobile-cta { margin-top: 20px; width: 100%; max-width: 320px; height: 54px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #fff; background: linear-gradient(180deg, var(--primary-soft), var(--primary)); box-shadow: 0 12px 32px -8px rgba(79,70,229,0.6); }
-  .mobile-theme { margin-top: 4px; background: none; border: 0; color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; padding: 10px; }
+  .mobile-cta { margin-top: 24px; width: 100%; max-width: 320px; height: 54px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: var(--radius); font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #fff; background: linear-gradient(180deg, var(--primary-soft), var(--primary)); box-shadow: 0 12px 32px -8px rgba(79,70,229,0.6); }
+  .mobile-theme { margin-top: 8px; background: none; border: 0; color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; padding: 10px; }
   /* Stangknappen sitter absolut och slutar vid 68 px. Overlayn har darfor 84 px
      takhojd sa forsta menyposten aldrig hamnar bakom den. Under 820 px hojd
      racker inte utrymmet for att centrera atta poster - da toppstalls de i
@@ -321,7 +321,7 @@
   .mobile-nav a.active { color: var(--primary-soft); }
 
   /* ===== Tjänstesektion: "Läs mer"-länk ===== */
-  .svc-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
+  .svc-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
   .svc-more:hover { color: var(--indigo-pale); gap: 10px; }
 
   /* ===== Subsida: enkel innehålls-rubrik ===== */
@@ -333,15 +333,15 @@
   .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
   /* R1: undersidornas H1 saknade regel och foll pa webblasarens 2em = 32px,
      alltsa mindre an H2 pa samma sida. 56px satter den mellan hero (64) och H2 (48). */
-  .section-head h1 { font-size: var(--fs-h1); margin: 18px 0 16px; }
-  .section-head h2 { margin: 18px 0 16px; }
+  .section-head h1 { font-size: var(--fs-h1); margin: 16px 0 16px; }
+  .section-head h2 { margin: 16px 0 16px; }
   .section-head p { font-size: var(--fs-body); color: var(--muted); max-width: var(--text-max); }
   .section-head.center p { margin-left: auto; margin-right: auto; }
   /* Brodsmulor (BS-30). Speglar BreadcrumbList i sidans JSON-LD ord for ord.
      Ligger utanfor .reveal sa de syns utan skript och utan animation.
      min-height/min-width ger 44 x 44 px traffyta (GV-04) utan att texten vaxer.
      Snedstrecket ar dekor: alt-texten "" haller det borta fran skarmlasare. */
-  .brodsmulor { margin: -12px 0 6px; font-size: 14px; line-height: 1.4; }
+  .brodsmulor { margin: -12px 0 8px; font-size: 14px; line-height: 1.4; }
   .brodsmulor ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
   .brodsmulor:has(+ .section-head.center) ol { justify-content: center; }
   .brodsmulor li { display: flex; align-items: center; }
@@ -351,7 +351,7 @@
   .brodsmulor a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
   /* HERO (always dark zone) */
-  .hero { position: relative; margin-top: -72px; padding: 152px 0 var(--space-section); overflow: hidden; background: var(--ink); color: var(--ink-text); }
+  .hero { position: relative; margin-top: -72px; padding: calc(72px + var(--space-section)) 0 var(--space-section); overflow: hidden; background: var(--ink); color: var(--ink-text); }
 
   /* Sajtens enda dekorativa motiv (fas 5 pass 2): ett mjukt ljussken i
      accentfargen hogst upp. Har pa startsidans hjalte, och som
@@ -360,16 +360,16 @@
 
   /* 1.12/0.88 (fas 5): med Inter Tight 64 px blev "digitala" ensam pa en rad
      vid 1.05/0.95. Textkolumnen fick 30 px till, bilden lika mycket mindre. */
-  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 56px; align-items: center; }
+  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 48px; align-items: center; }
 
-  .hero h1 { font-size: var(--fs-hero); margin: 22px 0 20px; color: var(--ink-text); }
+  .hero h1 { font-size: var(--fs-hero); margin: 24px 0 16px; color: var(--ink-text); }
 
-  .hero-sub { font-size: 19px; color: var(--ink-muted); max-width: 520px; margin-bottom: 26px; }
+  .hero-sub { font-size: 19px; color: var(--ink-muted); max-width: 520px; margin-bottom: 32px; }
 
   .check { width: 22px; height: 22px; flex: none; border-radius: 50%; background: rgba(99,102,241,0.16); display: grid; place-items: center; }
   .check svg { width: 13px; height: 13px; stroke: var(--accent); }
 
-  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
 
   .visual { position: relative; }
   /* Flexkolumn: bildytan behaller sitt 16/10-forhallande och lanken skjuts inte
@@ -384,15 +384,15 @@
   .browser-body picture { display: block; width: 100%; height: 100%; }
   .browser-body img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 70px; } }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 64px; } }
 
   .case-name { font-family: var(--font-display); font-weight: 700; font-size: 19px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .case-row { font-size: 14px; color: var(--muted); margin: 9px 0; }
+  .case-row { font-size: 14px; color: var(--muted); margin: 8px 0; }
   .case-row b { color: var(--text); font-weight: 600; }
 
-  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   @media (max-width: 900px) { .price-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; } }
-  .price-card { padding: 32px 28px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); display: flex; flex-direction: column; position: relative; transition: transform .3s var(--ease); }
+  .price-card { padding: 32px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-card); display: flex; flex-direction: column; position: relative; transition: transform .3s var(--ease); }
   .price-card:hover { transform: translateY(-6px); }
   .price-card.featured { border-color: rgba(79,70,229,0.6); background: linear-gradient(180deg, rgba(79,70,229,0.12), var(--bg-card)); }
   /* Ljust tema: gradientens övre stopp måste vara SOLIDT. rgba(79,70,229,.12) är genomskinligt,
@@ -400,46 +400,46 @@
      rekommenderade kortet. #EAE9FC är exakt samma ton komponerad över kortytan. Mörkt tema orört. */
   :root[data-theme="light"] .price-card.featured { background: linear-gradient(180deg, #EAE9FC, var(--bg-card)); }
   .pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 16px; border-radius: var(--radius-pill); white-space: nowrap; }
-  .price-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .price-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
   .price-amount { font-family: var(--font-display); font-weight: 700; font-size: 40px; letter-spacing: -0.02em; }
   .price-amount .kr { font-size: 18px; color: var(--muted); font-weight: 400; }
-  .price-desc { font-size: 15px; color: var(--muted); margin: 10px 0 22px; min-height: 44px; }
-  .price-feats { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px; flex: 1; }
+  .price-desc { font-size: 15px; color: var(--muted); margin: 8px 0 24px; min-height: 44px; }
+  .price-feats { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; flex: 1; }
   .price-feats li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
   .price-feats .check { width: 20px; height: 20px; } .price-feats .check svg { width: 12px; height: 12px; }
 
   /* final + form */
-  .final { padding: 64px 0; }
-  .final-card { position: relative; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--line-strong); background: var(--bg-card); padding: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-  @media (max-width: 860px) { .final-card { grid-template-columns: 1fr; padding: 36px 28px; gap: 34px; } }
+  .final { padding: var(--space-section) 0; }
+  .final-card { position: relative; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--line-strong); background: var(--bg-card); padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  @media (max-width: 860px) { .final-card { grid-template-columns: 1fr; padding: 32px 24px; gap: 32px; } }
   .final-card h2 { margin-bottom: 16px; }
   .final-card .lead { font-size: 18px; color: var(--muted); }
-  .final-bullets { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .final-bullets { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 8px; }
   .final-bullets li { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 500; }
-  .form-card { position: relative; z-index: 1; background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 28px; }
-  .form-card h3 { font-size: 20px; margin-bottom: 4px; }
-  .form-card .sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
-  .field input, .field textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--line-ui); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; transition: border-color .2s, box-shadow .2s; }
+  .form-card { position: relative; z-index: 1; background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); padding: 32px; }
+  .form-card h3 { font-size: 20px; margin-bottom: 8px; }
+  .form-card .sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+  .field input, .field textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--line-ui); color: var(--text); border-radius: var(--radius); padding: 12px 14px; font-family: inherit; font-size: 15px; transition: border-color .2s, box-shadow .2s; }
   .field input:focus, .field textarea:focus { outline: none; border-color: var(--primary-soft); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
   .field textarea { resize: vertical; min-height: 84px; }
   /* Utan egen regel arver falten webblasarens standardplatshallare #757575, som
      ger 3.98-4.14:1 mot de morka korten i morkt tema. --muted-dim ar redan
      sajtens ton for nedtonad text och klarar bada teman. */
   input::placeholder, textarea::placeholder { color: var(--muted-dim); }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 460px) { .form-row { grid-template-columns: 1fr; } }
-  .form-submit { width: 100%; margin-top: 6px; }
+  .form-submit { width: 100%; margin-top: 8px; }
   /* --muted-dim gav 2.77:1 mot formularkortets ljusa botten - for lagt for en
      text som barer den rattsliga grunden. --muted ger 6.74:1 ljust / 8.00:1 morkt. */
-  .form-fine { text-align: center; font-size: 12px; color: var(--muted); margin: 18px 0 4px; line-height: 1.5; }
+  .form-fine { text-align: center; font-size: 12px; color: var(--muted); margin: 16px 0 8px; line-height: 1.5; }
   /* Global a-regel ar color:inherit + ingen understrykning, sa lanken maste markeras
      har. Den arver textfargen och far samma kontrast som texten omkring. */
   .form-fine a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
   .form-fine a:hover, .form-fine a:focus-visible { color: var(--text); }
   .form-fine a:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 3px; border-radius: 3px; }
-  .form-success { display: none; text-align: center; padding: 30px 10px; }
+  .form-success { display: none; text-align: center; padding: 32px 8px; }
   .form-success.show { display: block; animation: successIn .34s var(--ease); }
   .form-success .tick { width: 56px; height: 56px; border-radius: 50%; background: rgba(99,102,241,0.15); display: grid; place-items: center; margin: 0 auto 16px; }
   .form-success .tick svg { width: 28px; height: 28px; stroke: var(--accent); }
@@ -454,7 +454,7 @@
   .form-success.show .tick polyline { stroke-dasharray: 23; stroke-dashoffset: 23; animation: tickDraw .42s var(--ease) .18s forwards; }
   @keyframes tickDraw { to { stroke-dashoffset: 0; } }
   .err { border-color: var(--danger) !important; }
-  .form-error { display: none; text-align: center; font-size: 13px; color: var(--danger); margin-top: 10px; }
+  .form-error { display: none; text-align: center; font-size: 13px; color: var(--danger); margin-top: 8px; }
   /* #ef4444 ar avstamd for mork bakgrund (4,87:1) men ger bara 3,76:1 pa det
      vita kortet i ljust tema. Rott maste vara mork-rott dar for att klara 4,5:1.
      Overgangen ligger har intill regeln, inte sist i filen. */
@@ -466,12 +466,12 @@
   .reveal.in { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
-    :root { --space-section: 64px; --space-head: 40px; }
+    :root { --space-section: 64px; --space-head: 32px; }
     .hero { padding: 112px 0 64px; margin-top: -64px; }
-    .final { padding: 44px 0; }
+    .final { padding: var(--space-section) 0; }
   }
   @media (max-width: 560px) {
-    :root { --gutter: 18px; --fs-hero: clamp(36px, 9.8vw, 44px); --fs-h1: clamp(36px, 9.8vw, 44px); --fs-h2: clamp(28px, 7.8vw, 34px); --fs-body: 17px; }
+    :root { --gutter: 16px; --fs-hero: clamp(36px, 9.8vw, 44px); --fs-h1: clamp(36px, 9.8vw, 44px); --fs-h2: clamp(28px, 7.8vw, 34px); --fs-body: 17px; }
     .hero-sub { font-size: 17px; }
     .hero-cta { flex-direction: column; align-items: stretch; }
     .hero-cta .btn { width: 100%; }
@@ -525,24 +525,24 @@
   /* Introspåret kapas till 420 px i SPARET, inte bara pa innehallet. Med
      minmax(0,1fr) pa forsta sparet blev det uppmatta avstandet till Tjanster
      350 px trots gap: 52px - tomrummet hamnade i sparet, inte i gapet. */
-  .foot-grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr) minmax(0, 1fr); gap: 52px; padding: 68px 0 0; align-items: start; }
+  .foot-grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr) minmax(0, 1fr); gap: 48px; padding: 64px 0 0; align-items: start; }
   .foot-intro { max-width: 420px; }
   .foot-lead { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.6; color: var(--text); }
-  .foot-mail { display: inline-block; margin-top: 18px; color: var(--muted); font-size: 17px; font-weight: 500; line-height: 1.7; transition: color 0.2s; }
+  .foot-mail { display: inline-block; margin-top: 16px; color: var(--muted); font-size: 17px; font-weight: 500; line-height: 1.7; transition: color 0.2s; }
   .foot-mail:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-  .foot-col h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 18px; }
-  .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 10px; transition: color 0.2s, transform 0.2s; }
+  .foot-col h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 16px; }
+  .foot-col a, .foot-col span { display: block; color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 8px; transition: color 0.2s, transform 0.2s; }
   .foot-col a:hover { color: var(--text); transform: translateX(4px); }
   /* .foot-col .foot-note slar .foot-col span pa specificitet (0,2,0 mot 0,1,1) */
   .foot-col .foot-note { color: var(--muted-dim); }
-  .foot-bottom { margin-top: 40px; padding: 24px 0 64px; border-top: 1px solid var(--line); text-align: center; color: var(--muted-dim); font-size: 13px; line-height: 1.7; }
+  .foot-bottom { margin-top: 48px; padding: 24px 0 64px; border-top: 1px solid var(--line); text-align: center; color: var(--muted-dim); font-size: 13px; line-height: 1.7; }
   .foot-bottom a { color: var(--muted-dim); transition: color 0.2s; }
   .foot-bottom a:hover { color: var(--text); }
   /* Mobil: staplat i DOM-ordning - intro+mejl, TJANSTER, KONTAKT, bottenrad. */
-  @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr; gap: 28px; padding: 60px 0 0; } .foot-intro { max-width: none; } .foot-lead { font-size: 22px; } .foot-mail { font-size: 16px; margin-top: 14px; } .foot-bottom { margin-top: 32px; padding: 22px 0 60px; } }
+  @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr; gap: 32px; padding: 64px 0 0; } .foot-intro { max-width: none; } .foot-lead { font-size: 22px; } .foot-mail { font-size: 16px; margin-top: 16px; } .foot-bottom { margin-top: 32px; padding: 24px 0 64px; } }
 
   /* ---------- Tillgänglighet: skip-link + global fokus ---------- */
-  .skip-link { position: absolute; top: -56px; left: 8px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 10000; font-weight: 600; text-decoration: none; transition: top .2s var(--ease); }
+  .skip-link { position: absolute; top: -56px; left: 8px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: var(--radius); z-index: 10000; font-weight: 600; text-decoration: none; transition: top .2s var(--ease); }
   .skip-link:focus { top: 8px; }
   :focus-visible { outline: 3px solid #6366F1; outline-offset: 2px; }
   /* Tabb-fokus kan landa i ett .reveal-block som annu inte revealats och da
@@ -597,9 +597,13 @@
   .sektion-ton + .ljus-sektion { --fran: var(--bg-soft); }
   .sektion-ton:has(+ .ljus-sektion) { border-bottom-color: transparent; }
   .ljus-sektion :focus-visible { outline-color: #3730A3; }
+  /* Ljust tema (fas 5 pass 4): #F0EEE8 mot --bg #F5F4F0 var 1,05:1 och syntes
+     inte som brytare. #E7E4DA ger 1,16:1 mot --bg och 1,27:1 mot den vita
+     grannen; --muted-dim haller 4,57:1 och --muted 5,67:1 pa bandet. */
+  :root[data-theme="light"] .ljus-sektion { --ljus: #E7E4DA; }
 
   /* ---------- generiskt kort (används på om-oss) + responsiva subsid-rutnät ---------- */
-  .svc-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
+  .svc-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 32px; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
   .svc-card:hover { transform: translateY(-4px); border-color: var(--line-strong); box-shadow: 0 20px 50px -24px rgba(0,0,0,0.45); }
   /* .svc-card definieras efter .reveal och skrev tidigare over dess opacity-overgang,
      sa korten poppade in i stallet for att tona. Intoningen kors som keyframes:
@@ -610,9 +614,9 @@
      annars startar revealIn om fran opacity 0 medan fokus redan ligger inne. */
   .svc-card.reveal.in:focus-within { animation: none; }
   @keyframes revealIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 64px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
   .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 48px; }
-  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; gap: 36px; margin-top: 44px; } .values-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; gap: 32px; margin-top: 48px; } .values-grid { grid-template-columns: 1fr; } }
 
 
   /* =================================================================
@@ -620,16 +624,16 @@
      Casen ar inte kort utan uppslag: nummer, linje, titel, ingress,
      stor skarmbild i en enkel browserram, metadata och lank.
      ================================================================= */
-  .case-work { padding: 24px 0 130px; }
-  .case-feature + .case-feature { margin-top: 150px; }
+  .case-work { padding: 24px 0 var(--space-section); }
+  .case-feature + .case-feature { margin-top: var(--space-section); }
 
-  .case-head { display: flex; align-items: center; gap: 20px; }
+  .case-head { display: flex; align-items: center; gap: 16px; }
   .case-num { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.16em; color: var(--light-indigo); flex: none; font-variant-numeric: tabular-nums; }
   .case-rule { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
   .case-head .badge-live, .case-head .badge-wip, .case-head .badge-build { flex: none; }
 
-  .case-title { font-size: clamp(32px, 3.6vw, 52px); line-height: 1.06; letter-spacing: -0.025em; margin: 26px 0 0; }
-  .case-lead { font-family: var(--font-display); font-size: clamp(19px, 2.1vw, 27px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--muted); max-width: 620px; margin: 18px 0 0; }
+  .case-title { font-size: clamp(32px, 3.6vw, 52px); line-height: 1.06; letter-spacing: -0.025em; margin: 24px 0 0; }
+  .case-lead { font-family: var(--font-display); font-size: clamp(19px, 2.1vw, 27px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--muted); max-width: 620px; margin: 16px 0 0; }
 
   /* Skarmbilden. aspect-ratio 16/9 matchar kallbilderna 820x458 exakt, sa
      ingenting beskars - och utrymmet reserveras fore inladdning, CLS 0. */
@@ -668,7 +672,7 @@
 
   /* Metadata: taggrad, en sarskiljande mening, datapunkter och lank.
      Lanken star till hoger pa desktop, under pa mobil. */
-  .case-meta { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 26px 48px; align-items: end; margin-top: 34px; }
+  .case-meta { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 24px 48px; align-items: end; margin-top: 32px; }
   .case-tags { grid-column: 1 / -1; margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
   .case-tag-sep { color: var(--muted-dim); margin: 0 4px; }
   .case-sub { grid-column: 1 / -1; margin: 0; max-width: var(--text-max); font-size: 15px; line-height: 1.75; color: var(--muted); }
@@ -678,7 +682,7 @@
   .case-matt { grid-column: 1 / -1; font-size: 14px; line-height: 1.65; color: var(--muted); font-variant-numeric: tabular-nums; }
   .case-matt p { margin: 0; }
   .case-matt .case-matt-kalla { margin: 0 0 4px; font-size: 12px; color: var(--muted-dim); }
-  .case-data { grid-column: 1; display: flex; flex-wrap: wrap; gap: 22px 46px; margin: 0; }
+  .case-data { grid-column: 1; display: flex; flex-wrap: wrap; gap: 24px 48px; margin: 0; }
   .case-data > div { display: flex; flex-direction: column-reverse; gap: 5px; }
   .case-data dt { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-dim); }
   .case-data dd { margin: 0; font-family: var(--font-display); font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: -0.01em; color: var(--text); font-variant-numeric: tabular-nums; }
@@ -694,15 +698,15 @@
 
   @media (max-width: 860px) {
     .case-work { padding: 8px 0 96px; }
-    .case-feature + .case-feature { margin-top: 104px; }
-    .case-head { gap: 14px; }
-    .case-title { margin-top: 20px; }
-    .case-lead { margin-top: 14px; }
-    .case-shot { margin-top: 32px; border-radius: var(--radius); }
+    .case-feature + .case-feature { margin-top: 96px; }
+    .case-head { gap: 16px; }
+    .case-title { margin-top: 24px; }
+    .case-lead { margin-top: 16px; }
+    .case-shot { margin-top: 32px; border-radius: var(--radius-lg); }
     .case-chrome { padding: 11px 14px; }
     .case-chrome i { width: 8px; height: 8px; }
-    .case-meta { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; }
-    .case-data { grid-column: 1; gap: 20px 34px; }
+    .case-meta { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+    .case-data { grid-column: 1; gap: 24px 32px; }
     .case-data dd { font-size: 21px; }
     .case-act { grid-column: 1; justify-self: start; text-align: left; align-items: flex-start; }
   }
@@ -723,7 +727,7 @@
      overstyrning (#1c1206 pa #f5b544: 10,17:1). */
   .badge-build { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; border: 1px solid #f5b544; color: #1c1206; background: #f5b544; text-transform: uppercase; white-space: nowrap; }
 
-  .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
+  .case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--light-indigo); transition: gap .2s var(--ease), color .2s; }
 
   .case-note { font-size: 13px; color: var(--muted-dim); margin: 8px 0 0; font-style: italic; }
 
@@ -744,13 +748,13 @@
      kvar for samtliga tre.
      =================================================================== */
   .sticky-case { display: grid; grid-template-columns: 1fr; gap: 0; }
-  .sc-spalt { display: flex; flex-direction: column; gap: 56px; }
+  .sc-spalt { display: flex; flex-direction: column; gap: 48px; }
 
   /* Ramen ligger i basen, inte i .sc-pa. Lades den till forst nar skriptet
      kort skulle texten hoppa 18 px i sidled vid init. */
-  .sc-text { min-width: 0; border-left: 2px solid transparent; padding-left: 18px; }
+  .sc-text { min-width: 0; border-left: 2px solid transparent; padding-left: 16px; }
   .sc-text .case-name { font-size: 20px; }
-  .sc-text .case-link { margin-top: 14px; }
+  .sc-text .case-link { margin-top: 16px; }
 
   .sc-ram { position: relative; }
   .sc-skarm { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-soft); }
@@ -775,7 +779,7 @@
      768 px, blir bilden 187 px hog och borjar lasa som en miniatyr.
      Bilden ar den bindande faktorn, inte texten. */
   @media (min-width: 861px) {
-    .sticky-case { grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .sticky-case { grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
     .sc-spalt { grid-column: 1; gap: 0; }
     /* min-height ger varje case en skarmhojd att scrolla igenom. Det ar den
        strackan panelen star still over. */
@@ -801,13 +805,13 @@
      rutnatsceller och kan varvas mellan casen - samma bilder, inga
      dubbletter i markupen. */
   @media (max-width: 860px) {
-    .sticky-case { grid-template-columns: 1fr; row-gap: 18px; }
+    .sticky-case { grid-template-columns: 1fr; row-gap: 16px; }
     .sc-spalt, .sc-panel, .sc-ram { display: contents; }
     .sc-skarm { position: static; opacity: 1; }
     .sc-skarm:nth-child(1) { grid-row: 1; }
-    .sc-case[data-sc="0"]  { grid-row: 2; margin-bottom: 38px; }
+    .sc-case[data-sc="0"]  { grid-row: 2; margin-bottom: 32px; }
     .sc-skarm:nth-child(2) { grid-row: 3; }
-    .sc-case[data-sc="1"]  { grid-row: 4; margin-bottom: 38px; }
+    .sc-case[data-sc="1"]  { grid-row: 4; margin-bottom: 32px; }
     .sc-skarm:nth-child(3) { grid-row: 5; }
     .sc-case[data-sc="2"]  { grid-row: 6; }
     .sticky-case.sc-pa .sc-skarm { opacity: 1; }
@@ -829,13 +833,13 @@
      FAS 3 – undersidornas tillagg (Om oss, lopande skotsel)
      =================================================================== */
   /* Om oss: fyra kort i stallet for tre */
-  .values-grid h3 { font-size: 20px; margin-bottom: 10px; }
+  .values-grid h3 { font-size: 20px; margin-bottom: 8px; }
   .values-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
   @media (max-width: 1040px) { .values-grid.cols-4 { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 620px)  { .values-grid.cols-4 { grid-template-columns: 1fr; } }
 
   /* Om oss: porträtt fyller rutan helt (kvadratisk källa -> ingen beskärning) */
-  .about-visual { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 24px; border: 1px solid var(--line); }
+  .about-visual { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--line); }
   .about-visual picture { display: block; width: 100%; height: 100%; }
   .about-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 
@@ -852,7 +856,7 @@
   .text-block { max-width: var(--text-max); }
 
   /* ---- Löpande skötsel (prisväljare + kumulativa kort) ---- */
-  .care-switch-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0 0 34px; }
+  .care-switch-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0 0 32px; }
   .care-switch { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--bg-card); }
   .care-opt { appearance: none; border: 0; background: transparent; color: var(--muted); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 10px 22px; border-radius: var(--radius-pill); cursor: pointer; transition: color .25s var(--ease), background .25s var(--ease), scale .16s var(--ease); }
   .care-opt:hover { color: var(--text); }
@@ -875,16 +879,16 @@
   .care-save { overflow: hidden; max-height: 3em;
                transition: opacity .2s var(--ease), max-height .2s var(--ease), margin-top .2s var(--ease); }
   .care-save.is-collapsed { opacity: 0; max-height: 0; margin-top: 0; }
-  .care-inherit { margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .01em; color: var(--text); }
-  .care-grid .price-desc { min-height: 0; margin-bottom: 18px; }
+  .care-inherit { margin: 0 0 16px; font-size: 14px; font-weight: 700; letter-spacing: .01em; color: var(--text); }
+  .care-grid .price-desc { min-height: 0; margin-bottom: 16px; }
   .care-grid .price-feats li { align-items: flex-start; line-height: 1.6; }
   .care-grid .price-feats .check { flex: 0 0 20px; margin-top: 2px; }
-  .care-fine { margin-top: 30px; }
+  .care-fine { margin-top: 32px; }
   .care-fine-h { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
-  .care-fine ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-  .care-fine li { position: relative; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.75; }
+  .care-fine ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .care-fine li { position: relative; padding-left: 16px; color: var(--muted); font-size: 14px; line-height: 1.75; }
   .care-fine li::before { content: ''; position: absolute; left: 2px; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--line-strong); }
-  .care-extra { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.8; }
+  .care-extra { margin: 24px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.8; }
   @media (max-width: 560px) { .care-switch { width: 100%; justify-content: center; } .care-opt { flex: 1 1 0; padding: 10px 8px; font-size: 13px; } }
 
   /* ---------- Tryckrespons ---------- */
@@ -926,31 +930,59 @@
   /* Varannan sektion far den mjukare bakgrunden, som de gamla inline-stilarna gjorde. */
   .sektion-ton { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   /* Projektkortens typrad: uppdragstyp och status. */
-  .case-typ { margin: 2px 0 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .case-typ { margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
   .case-alla { margin-top: 48px; }
   /* Hur jag arbetar: lopande text med en avslutande rad i egen stil. */
-  .text-block .txt-m { color: var(--muted); margin-bottom: 20px; }
-  .slutrad { margin-top: 36px; padding-left: 18px; border-left: 2px solid var(--accent); font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.45; color: var(--text); }
+  .text-block .txt-m { color: var(--muted); margin-bottom: 16px; }
+  .slutrad { margin-top: 32px; padding-left: 16px; border-left: 2px solid var(--accent); font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.45; color: var(--text); }
   /* Prisraden pa /webbesiktning/: samma stil, men forst i texten. */
   .slutrad.slutrad-forst { margin-top: 0; margin-bottom: 24px; }
   /* Omraden och Praktiskt: lugn lista i tva spalter. */
-  .omraden { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; max-width: 860px; }
-  .omraden li { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+  .omraden { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; max-width: 860px; }
+  .omraden li { padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
   @media (max-width: 620px) { .omraden { grid-template-columns: 1fr; } }
   /* Projektleverans (2026-10-06): stegen ar en riktig <ol>, principerna en <ul>.
      Numret star i rubriken som text, sa det foljer med utan CSS. */
   ol.values-grid { list-style: none; padding: 0; }
   .steg-nr { color: var(--accent); margin-right: 4px; }
   .principer { list-style: none; max-width: var(--text-max); margin: 0; padding: 0; }
-  .principer li { position: relative; padding: 16px 0 16px 22px; border-bottom: 1px solid var(--line); font-size: 17px; line-height: 1.7; color: var(--muted); }
+  .principer li { position: relative; padding: 16px 0 16px 24px; border-bottom: 1px solid var(--line); font-size: 17px; line-height: 1.7; color: var(--muted); }
   .principer li:first-child { padding-top: 0; }
   .principer li::before { content: ""; position: absolute; left: 0; top: 29px; width: 8px; height: 2px; background: var(--accent); }
   .principer li:first-child::before { top: 13px; }
-  .form-efter { margin-top: 18px; font-size: 14px; color: var(--muted); }
+  .form-efter { margin-top: 16px; font-size: 14px; color: var(--muted); }
   .form-efter a,
   .principer a,
   .text-block .txt-m a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-  .teknikrad { margin-top: 28px; font-size: 14px; letter-spacing: 0.02em; color: var(--muted); }
+  .teknikrad { margin-top: 32px; font-size: 14px; letter-spacing: 0.02em; color: var(--muted); }
   /* Arendetyp i kontaktformularet: samma utseende som ovriga falt. */
-  .field select { width: 100%; background: var(--bg-card); border: 1px solid var(--line-ui); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 15px; }
+  .field select { width: 100%; background: var(--bg-card); border: 1px solid var(--line-ui); color: var(--text); border-radius: var(--radius); padding: 12px 14px; font-family: inherit; font-size: 15px; }
   .field select:focus { outline: none; border-color: var(--primary-soft); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
+
+  /* ===================================================================
+     TRAFFYTOR (fas 5 pass 4, GV-04: minst 44 x 44 px vid 390 px)
+     Textlankar far padding upp och ner med lika stor negativ marginal, sa
+     texten star kvar dar den stod. Kontroller med synlig ram eller fyllning
+     far en osynlig ::before som tacker 44 px; ytan de ritar ar oforandrad.
+     Lankar i lopande text omfattas inte.
+     =================================================================== */
+  .logo { padding-block: 6px; margin-block: -6px; }
+  .navlink { min-width: 44px; text-align: center; padding-block: 11px; margin-block: -5px; }
+  .navlink::after { bottom: 9px; }
+  .navlink.active::after { bottom: 6px; }
+  :is(.nav-cta, .theme-toggle, .care-opt) { position: relative; }
+  :is(.nav-cta, .theme-toggle, .care-opt)::before { content: ''; position: absolute; inset: -4px; }
+  .care-opt::before { inset: -4px 0; }
+  .svc-more, .case-link { padding-block: 10px; margin-top: 6px; margin-bottom: -10px; }
+  .sc-text .case-link { margin-top: 6px; }
+  /* Lanklistor i ett stycke ("Relaterat: ...") bryts pa mobil. Utan negativ
+     marginal under blir radavstandet 50 px
+     sa ytorna inte overlappar. */
+  p .svc-more { margin-bottom: 0; }
+  .case-cta { padding-block: 11px; margin-block: -11px; }
+  .foot-mail { padding-block: 9px; margin-top: 7px; margin-bottom: -9px; }
+  /* Sidfotens lankkolumner: 44 px per rad i stallet for 25,5 px text plus
+     8 px luft. Radavstandet vaxer darfor med 10,5 px; ytorna overlappar inte. */
+  .foot-col a { padding-block: calc((44px - 1.7em) / 2); margin-bottom: 0; }
+  .foot-bottom a { display: inline-block; padding-block: calc((44px - 1.7em) / 2); margin-block: calc((1.7em - 44px) / 2); }
+
