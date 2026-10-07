@@ -956,6 +956,11 @@
   .principer li:first-child { padding-top: 0; }
   .principer li::before { content: ""; position: absolute; left: 0; top: 29px; width: 8px; height: 2px; background: var(--accent); }
   .principer li:first-child::before { top: 13px; }
+  /* Grupperade fall (fas 5, /webbdesign/): underrubrik och forklaring i samma
+     li. Samma h3 som korten (20 px), och strecket flyttas upp till rubrikraden. */
+  .principer h3 { font-size: 20px; margin: 0 0 8px; color: var(--text); }
+  .principer li:has(> h3)::before { top: 26px; }
+  .principer li:first-child:has(> h3)::before { top: 10px; }
   .form-efter { margin-top: 16px; font-size: 14px; color: var(--muted); }
   .form-efter a,
   .principer a,
