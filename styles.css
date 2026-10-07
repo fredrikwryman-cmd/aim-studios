@@ -377,7 +377,11 @@
 
   .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
 
-  .visual { position: relative; }
+  .visual { position: relative; margin: 0; }
+  /* Projektnamn och status under hjaltens skarmbild: riktig text, inte inbakad
+     i bilden. Hjalten ar mork i bada teman, darav --ink-*. */
+  .hero-shot-cap { margin: 16px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-muted); }
+  .hero-shot-cap b { color: var(--ink-text); font-weight: 600; }
   /* Flexkolumn: bildytan behaller sitt 16/10-forhallande och lanken skjuts inte
      runt av olika textlangder. */
   .browser { border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(180deg, #1B1D23, #121317); box-shadow: var(--shadow); overflow: hidden; }

@@ -15,7 +15,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/inter-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/intertight-latin.woff2" />
 <link rel="stylesheet" href="/assets/fonts/fonts.css?v=169" />
-<link rel="stylesheet" href="styles.css?v=182" />
+<link rel="stylesheet" href="styles.css?v=183" />
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 <meta name="author" content="AiM Studios" />
 <meta name="robots" content="index, follow" />
@@ -105,14 +105,19 @@
         <a href="/konsult/" class="btn btn-secondary">Konsultuppdrag</a>
       </div>
     </div>
-    <div class="visual reveal">
+    <figure class="visual reveal">
       <div class="browser">
-        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">ditt-foretag.se</span></div>
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">adbyggprojekt.se</span></div>
         <div class="browser-body">
-          <picture><source srcset="assets/hero-poster.webp" type="image/webp"><img class="hero-shot" src="assets/hero-poster.jpg" width="1400" height="781" decoding="async" alt="Mörk webbplats med navigering, gradientknapp och två rader innehållskort, visad på en bildskärm i lila och grönt studioljus"></picture>
+          <picture>
+            <source type="image/avif" srcset="assets/hero-adbyggprojekt-640.avif 640w, assets/hero-adbyggprojekt-960.avif 960w, assets/hero-adbyggprojekt-1440.avif 1440w" sizes="(max-width: 900px) calc(100vw - 32px), 480px">
+            <source type="image/webp" srcset="assets/hero-adbyggprojekt-640.webp 640w, assets/hero-adbyggprojekt-960.webp 960w, assets/hero-adbyggprojekt-1440.webp 1440w" sizes="(max-width: 900px) calc(100vw - 32px), 480px">
+            <img class="hero-shot" src="assets/hero-adbyggprojekt-960.jpg" srcset="assets/hero-adbyggprojekt-640.jpg 640w, assets/hero-adbyggprojekt-960.jpg 960w, assets/hero-adbyggprojekt-1440.jpg 1440w" sizes="(max-width: 900px) calc(100vw - 32px), 480px" width="1440" height="900" fetchpriority="high" alt="Startsidan på adbyggprojekt.se: rubriken Vi leder ditt bygge över ett hus under uppförande i solnedgång, bredvid en byggskylt med AD Byggprojekts logotyp.">
+          </picture>
         </div>
       </div>
-    </div>
+      <figcaption class="hero-shot-cap"><b>AD Byggprojekt AB</b>, levererad och överlämnad.</figcaption>
+    </figure>
   </div>
 </section>
 
