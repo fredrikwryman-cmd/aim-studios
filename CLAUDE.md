@@ -65,8 +65,8 @@ Tio riktiga sidor, alla som `<mapp>/index.html` utom startsidan:
 sedan 2026-10-05). GitHub Pages kan inte skicka äkta 301 per sökväg; stubbarna
 använder meta refresh 0 s, `location.replace`, canonical mot målet och noindex.
 
-Två delade filer laddas av varje sida med header: `styles.css` (~100 kB) och
-`scripts.js` (~41 kB). `integritetspolicy.html` och `404.html` laddar bara
+Två delade filer laddas av varje sida med header: `styles.css` (~72 kB) och
+`scripts.js` (~19 kB, båda uppmätta 2026-10-07). `integritetspolicy.html` och `404.html` laddar bara
 `styles.css`. Det finns ingen komponentuppdelning — HTML upprepas
 per sida. Ändrar du navigering, sidfot eller huvud måste du ändra i alla.
 
@@ -162,9 +162,11 @@ ligger 20-40 poäng under PSI:s och får inte blandas ihop med värdena i
 att jämföra med lokala körningar på en gren.
 
 **Tre körningar per läge, före och efter. En enskild körning är inte bevis.**
-Speed Index är bimodalt på den här sajten och har svängt fyra gånger mellan
-körningar av identisk kod — orsaken är 23 oändliga animationer som aldrig
-låter sidan stabiliseras, dokumenterat i `plans/README.md`.
+Speed Index har svängt fyra gånger mellan körningar av identisk kod. Då
+förklarades det med 23 oändliga animationer (dokumenterat i `plans/README.md`).
+2026-10-07 finns bara en kvar, `logoGradient` på logotypen, men Speed Index
+svänger ändå: startsidan mobil gav 1 516, 2 746 och 4 324 ms i tre PSI-körningar
+samma dag. Orsaken är alltså inte utredd, och regeln om tre körningar gäller.
 
 Spretar siffrorna: kör **interfolierad A/B**. `git worktree` på föregående
 commit, två lokala portar, växelvis FÖRE och EFTER så maskinens dagsform
@@ -185,13 +187,12 @@ ställen som saknar den, och `improve-animations` för att granska helheten.
 
 - `404.html` saknar `<link rel="icon">` och ger därför `GET /favicon.ico → 404`
   i konsolen. Enda sidan utan. Förbefintligt, inte åtgärdat.
-- `scripts.js` ger en lång uppgift på cirka 1 s (Lighthouse mobil, simulerad
-  4x CPU) kort efter FCP, uppmätt på `/webbdesign/` 2026-10-05: 963–1 079 ms
-  både på `main` (e3e4f8a) och på steg 1-grenen. Den dominerar TBT. När FCP
-  kommer tidigare hamnar mer av den i TBT-fönstret, så TBT kan stiga fast
-  sidan gör mindre arbete – så gick steg 1 (TBT upp, all huvudtrådstid ned).
-  Fanns live före steg 1. Åtgärdas i ett eget pass: ta reda på vilka moduler
-  som bygger upp uppgiften och dela upp den.
+- `scripts.js` ger ingen lång uppgift längre. Uppmätt på `/webbdesign/` mobil
+  2026-10-07: 0 long tasks i tre av tre körningar, `scripts.js` 6–7 ms
+  skriptkörning och 2–3 ms parsning (labbdata från Lighthouse 13.5.0 via
+  PageSpeed Insights, 2026-10-07). Den tidigare långa uppgiften (963–1 079 ms,
+  uppmätt 2026-10-05) försvann när kalkylatorn och den ständigt vakna
+  rAF-loopen arkiverades.
 - BS-05 bryts på `/webboptimering` utan avslutande snedstreck: GitHub Pages
   svarar 301 till `/webboptimering/`, som är en redirect-stubb (meta refresh
   0 s + `location.replace`) till `/webbesiktning/`. Det blir en kedja, och
