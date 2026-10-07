@@ -1,0 +1,28 @@
+/* Scoped to the four service/about introductions. Homepage is unchanged. */
+.sidhero { position:relative; isolation:isolate; overflow:hidden; background:#101114; color:#F3F2EE; --text:#F3F2EE; --muted:#D0D2DB; --muted-dim:#B5B8C3; --light-indigo:#B6ACFF; --line:rgba(255,255,255,.16); --line-ui:#858997; min-height:620px; display:flex; align-items:center; }
+.sidhero-media { position:absolute; inset:0; z-index:-2; pointer-events:none; }
+.sidhero-media img { width:100%; height:100%; object-fit:cover; object-position:right center; display:block; }
+.sidhero::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:linear-gradient(90deg,rgba(16,17,20,.97) 0%,rgba(16,17,20,.93) 35%,rgba(16,17,20,.72) 51%,rgba(16,17,20,.12) 78%); }
+.sidhero > .wrap { width:100%; }
+.sidhero .section-head { max-width:600px; margin-left:0; text-align:left; }
+.sidhero .section-head p { color:var(--muted); }
+.sidhero h1,.sidhero h2 { color:var(--text); }
+.sidhero .reveal { opacity:1; transform:none; }
+.sidhero .brodsmulor,.sidhero .brodsmulor a { color:#D0D2DB; }
+.sidhero .btn-secondary { background:#191B21; color:#F3F2EE; border-color:#858997; }
+.sidhero .eyebrow { color:#D0D2DB; background:rgba(16,17,20,.7); border-color:#858997; }
+.sidhero :focus-visible { outline-color:#B6ACFF; }
+.sidhero-about { min-height:0; }
+.sidhero-about .sidhero-media img { object-position:right center; }
+.sidhero-about::before { background:linear-gradient(90deg,rgba(16,17,20,.8),rgba(16,17,20,.76) 72%,rgba(16,17,20,.35)); }
+.sidhero-about .section-head { margin-inline:auto; text-align:center; max-width:760px; }
+.sidhero-about .about-copy { padding:24px; border-radius:16px; background:rgba(16,17,20,.72); }
+@media(max-width:860px) {
+ .sidhero { min-height:640px; padding-bottom:180px; align-items:flex-start; }
+ .sidhero-media img { object-position:75% bottom; }
+ .sidhero::before { background:linear-gradient(180deg,rgba(16,17,20,.96),rgba(16,17,20,.87) 62%,rgba(16,17,20,.3)); }
+ .sidhero .section-head { max-width:600px; }
+ .sidhero-about { padding-bottom:64px; }
+ .sidhero-about::before { background:rgba(16,17,20,.72); }
+ .sidhero-about .about-copy { padding:16px; }
+}
