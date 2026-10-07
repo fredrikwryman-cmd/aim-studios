@@ -170,7 +170,12 @@
   /* Hjaltesektionen har hardkodad mork bakgrund (.hero) och byter INTE i ljust tema.
      .btn-secondary hamtar sin farg ur --text, som i ljust tema ar #0B0B0F - alltsa
      svart text pa svart botten, 1.00:1. Las knappen till ljus text just har. */
-  :root[data-theme="light"] .hero .btn-secondary { color: var(--ink-text); background: rgba(255,255,255,0.06); border-color: var(--ink-line-ui); }
+  /* Hjaltens sekundarknapp ligger over hjaltens bild. Fyllningen ar tackande,
+     i exakt den farg den genomskinliga gav mot --ink (morkt: 3 % vitt =
+     rgb(23,24,27); ljust: 6 % = rgb(30,31,34)), sa knappen ser likadan ut men
+     bilden aldrig kan lysa igenom texten. */
+  .hero .btn-secondary { background: rgb(23,24,27); }
+  :root[data-theme="light"] .hero .btn-secondary { color: var(--ink-text); background: rgb(30,31,34); border-color: var(--ink-line-ui); }
   /* Hjaltens etikett: samma skal som knappen ovan. Heron ar #0B0B0F i bada
      teman, sa ljust temas --muted (#55556A) gav 2.6:1 dar. */
   :root[data-theme="light"] .hero .eyebrow { color: var(--ink-muted); background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.14); }
@@ -357,7 +362,7 @@
   .brodsmulor a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
   /* HERO (always dark zone) */
-  .hero { position: relative; margin-top: -72px; padding: calc(72px + var(--space-section)) 0 var(--space-section); overflow: hidden; background: var(--ink); color: var(--ink-text); }
+  .hero { position: relative; margin-top: calc(-1 * var(--header-h)); padding: calc(var(--header-h) + var(--space-section)) 0 64px; overflow: hidden; background: var(--ink); color: var(--ink-text); }
 
   /* Sajtens enda dekorativa motiv (fas 5 pass 2): ett mjukt ljussken i
      accentfargen hogst upp. Har pa startsidans hjalte, och som
@@ -366,35 +371,44 @@
 
   /* 1.12/0.88 (fas 5): med Inter Tight 64 px blev "digitala" ensam pa en rad
      vid 1.05/0.95. Textkolumnen fick 30 px till, bilden lika mycket mindre. */
-  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 48px; align-items: center; }
+  .hero-grid { position: relative; z-index: 2; }
+  /* Textkolumnen 600 px (krav 560-620 vid 1440). */
+  .hero-copy { max-width: 600px; }
+
+  /* Bildytan (AIM-01, 2026-10-07). Over 900 px: fast storlek 1104 x 736 (3:2).
+     Bilden placeras sa att motivets framkant (38,4 % in = 424 px) alltid hamnar
+     24 px till hoger om textkolumnen (--hero-t = textens hogerkant). Det som
+     skars bort ar blockens hogra utstrackning och golvet. Bildens vanstra kant
+     ar uppmatt rgb(16,17,20) = --ink, och masken tonar in den. Gradienten ar
+     --ink med alfa fran vanster och slutar vid framkanten, sa motivet inte
+     morkas. Reservbakgrund utan bild: --ink och .hero-fallback. */
+  .hero { --hero-t: calc(max(var(--gutter), (100% - var(--max)) / 2 + var(--gutter)) + 600px); }
+  .hero-media { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .hero-media img { position: absolute; top: 0; left: max(calc(100% - 1104px), calc(var(--hero-t) + 24px - 424px)); width: 1104px; height: 736px; max-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%); mask-image: linear-gradient(90deg, transparent 0, #000 22%); }
+  .hero-media::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(16,17,20,0.92) 0, rgba(16,17,20,0.85) calc(var(--hero-t) - 40px), rgba(16,17,20,0) calc(var(--hero-t) + 24px)); }
+  @media (max-width: 900px) {
+    /* Egen mobilbild (800 x 640): motivet ligger nederst till hoger, ovre och
+       vanstra kanten tonade i --ink. Bilden skalar med bredden (max 480 px) och
+       hjaltens nedre luft (176 px) ar motivets band: hela motivet, aven
+       overblockets ovankant, ligger under knapparna (uppmatt 158-165 px fran
+       underkanten vid 390 px). */
+    .hero { padding-bottom: 176px; }
+    .hero-media img { top: auto; left: auto; right: 0; bottom: 0; width: min(100%, 480px); height: auto; aspect-ratio: 800 / 640;
+      -webkit-mask-image: none; mask-image: none; }
+    .hero-media::after { background: linear-gradient(90deg, rgba(16,17,20,0.85) 0, rgba(16,17,20,0) 40%); }
+  }
 
   .hero h1 { font-size: var(--fs-hero); margin: 24px 0 16px; color: var(--ink-text); }
 
-  .hero-sub { font-size: 19px; color: var(--ink-muted); max-width: 520px; margin-bottom: 32px; }
+  .hero-sub { font-size: 19px; color: var(--ink-muted); max-width: 560px; margin-bottom: 32px; }
 
   .check { width: 22px; height: 22px; flex: none; border-radius: 50%; background: rgba(99,102,241,0.16); display: grid; place-items: center; }
   .check svg { width: 13px; height: 13px; stroke: var(--accent); }
 
   .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
 
-  .visual { position: relative; margin: 0; }
-  /* Projektnamn och status under hjaltens skarmbild: riktig text, inte inbakad
-     i bilden. Hjalten ar mork i bada teman, darav --ink-*. */
-  .hero-shot-cap { margin: 16px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-muted); }
-  .hero-shot-cap b { color: var(--ink-text); font-weight: 600; }
-  /* Flexkolumn: bildytan behaller sitt 16/10-forhallande och lanken skjuts inte
-     runt av olika textlangder. */
-  .browser { border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(180deg, #1B1D23, #121317); box-shadow: var(--shadow); overflow: hidden; }
-  .browser-bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2E3038; display: block; }
-  .browser-url { margin-left: 12px; font-size: 12px; color: #8E919C; background: var(--ink); padding: 5px 12px; border-radius: 7px; flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
-  .browser-body { position: relative; aspect-ratio: 16/10; background: #121317; }
-  /* <picture> ar inline som standard och skulle lamna en baslinjeglipa under
-     bilden. */
-  .browser-body picture { display: block; width: 100%; height: 100%; }
-  .browser-body img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 64px; } }
 
   .case-name { font-family: var(--font-display); font-weight: 700; font-size: 19px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .case-row { font-size: 14px; color: var(--muted); margin: 8px 0; }
@@ -477,7 +491,7 @@
 
   @media (max-width: 768px) {
     :root { --space-section: 64px; --space-head: 32px; }
-    .hero { padding: 112px 0 64px; margin-top: -64px; }
+    .hero { padding-top: 112px; margin-top: -64px; }
     .final { padding: var(--space-section) 0; }
   }
   @media (max-width: 560px) {
