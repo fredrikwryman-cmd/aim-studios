@@ -362,7 +362,7 @@
   .brodsmulor a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
   /* HERO (always dark zone) */
-  .hero { position: relative; margin-top: calc(-1 * var(--header-h)); padding: calc(var(--header-h) + var(--space-section)) 0 64px; overflow: hidden; background: var(--ink); color: var(--ink-text); }
+  .hero { position: relative; margin-top: calc(-1 * var(--header-h)); padding: calc(var(--header-h) + var(--space-section)) 0 64px; z-index: 0; color: var(--ink-text); }
 
   /* Sajtens enda dekorativa motiv (fas 5 pass 2): ett mjukt ljussken i
      accentfargen hogst upp. Har pa startsidans hjalte, och som
@@ -375,6 +375,20 @@
   /* Textkolumnen 600 px (krav 560-620 vid 1440). */
   .hero-copy { max-width: 600px; }
 
+  /* Gemensam oppningsyta (2026-10-08): hjalten och Tva vagar ligger pa samma
+     grafitbakgrund (--ink). Bilden bor kvar i hjalten i samma storlek och tonas
+     nedat mot grafiten; Tva vagar ligger ovanpa bildlagret (z-index 1).
+     Ytan ar mork i bada teman, sa morka temats tokens satts har. Omslutaren
+     klipper i sidled (overflow: clip skapar ingen scrollbehallare). */
+  .oppning { position: relative; overflow: clip; background: var(--ink); color: var(--ink-text);
+    --text: var(--ink-text); --muted: var(--ink-muted); --muted-dim: #8E919C; --bg-card: #191B21;
+    --line: rgba(255,255,255,0.08); --line-strong: rgba(255,255,255,0.14); --line-ui: var(--ink-line-ui);
+    --glass: rgba(255,255,255,0.03); --light-indigo: #818CF8; }
+  :root[data-theme="light"] .oppning :focus-visible { outline-color: var(--indigo-pale); }
+  .oppning #vagar { position: relative; z-index: 1; padding-top: 32px; }
+  /* Korten: genomskinlig grafit (--bg-card vid 82 %), utan backdrop-filter. */
+  .oppning .svc-card { background: rgba(25,27,33,0.82); }
+
   /* Bildytan (AIM-01, 2026-10-07). Over 900 px: fast storlek 1104 x 736 (3:2).
      Bilden placeras sa att motivets framkant (38,4 % in = 424 px) alltid hamnar
      24 px till hoger om textkolumnen (--hero-t = textens hogerkant). Det som
@@ -385,7 +399,9 @@
   .hero { --hero-t: calc(max(var(--gutter), (100% - var(--max)) / 2 + var(--gutter)) + 600px); }
   .hero-media { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
   .hero-media img { position: absolute; top: 0; left: max(calc(100% - 1104px), calc(var(--hero-t) + 24px - 424px)); width: 1104px; height: 736px; max-width: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%); mask-image: linear-gradient(90deg, transparent 0, #000 22%); }
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%), linear-gradient(180deg, #000 70%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 22%), linear-gradient(180deg, #000 70%, transparent 100%);
+    mask-composite: intersect; }
   .hero-media::after { content: ""; position: absolute; inset: 0;
     background: linear-gradient(90deg, rgba(16,17,20,0.92) 0, rgba(16,17,20,0.85) calc(var(--hero-t) - 40px), rgba(16,17,20,0) calc(var(--hero-t) + 24px)); }
   @media (max-width: 900px) {
