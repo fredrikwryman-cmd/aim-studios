@@ -56,7 +56,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="/assets/sidhero/sidhero.css?v=1">
+<link rel="stylesheet" href="/assets/sidhero/sidhero.css?v=2">
 </head>
 <body class="subpage" data-bg="om-oss">
 <a href="#main" class="skip-link">Hoppa till innehåll</a>
@@ -111,7 +111,12 @@
 </header>
 <main id="main">
 <section class="section-pad subpage-hero sidhero sidhero-about">
-  <picture class="sidhero-media" aria-hidden="true"><img src="/assets/sidhero/om-oss-1024.webp" srcset="/assets/sidhero/om-oss-640.webp 640w, /assets/sidhero/om-oss-1024.webp 1024w" sizes="100vw" width="1024" height="1536" alt="" fetchpriority="high"></picture>
+  <picture class="sidhero-media" aria-hidden="true">
+    <source media="(max-width: 860px)" type="image/avif" srcset="/assets/sidhero/om-oss-mobil-520.avif 520w, /assets/sidhero/om-oss-mobil-1024.avif 1024w" sizes="100vw" width="1024" height="1536">
+    <source media="(max-width: 860px)" type="image/webp" srcset="/assets/sidhero/om-oss-mobil-520.webp 520w, /assets/sidhero/om-oss-mobil-1024.webp 1024w" sizes="100vw" width="1024" height="1536">
+    <source type="image/avif" srcset="/assets/sidhero/om-oss-desktop-768.avif 768w, /assets/sidhero/om-oss-desktop-1536.avif 1536w" sizes="100vw">
+    <img src="/assets/sidhero/om-oss-desktop-1536.webp" srcset="/assets/sidhero/om-oss-desktop-768.webp 768w, /assets/sidhero/om-oss-desktop-1536.webp 1536w" sizes="100vw" width="1536" height="1024" alt="" fetchpriority="high">
+  </picture>
   <div class="wrap">
     <nav class="brodsmulor" aria-label="Brödsmulor">
       <ol>

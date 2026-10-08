@@ -1,8 +1,23 @@
 /* Scoped to the four service/about introductions. Homepage is unchanged. */
-.sidhero { position:relative; isolation:isolate; overflow:hidden; background:#101114; color:#F3F2EE; --text:#F3F2EE; --muted:#D0D2DB; --muted-dim:#B5B8C3; --light-indigo:#B6ACFF; --line:rgba(255,255,255,.16); --line-ui:#858997; min-height:620px; display:flex; align-items:center; }
+.sidhero { position:relative; isolation:isolate; overflow:hidden; background:#101114; color:#F3F2EE; --text:#F3F2EE; --muted:#D0D2DB; --muted-dim:#B5B8C3; --light-indigo:#B6ACFF; --line:rgba(255,255,255,.16); --line-ui:#858997; min-height:620px; display:flex; align-items:center;
+  /* Overgang mot nasta sektion (2026-10-08): bildytan tonar ut i --bg, alltsa
+     exakt den farg nasta sektion har i aktuellt tema. Hjaltens nedre luft ar
+     minst overgangens hojd, sa texten alltid ligger ovanfor den. */
+  --sh-fade:160px; padding-bottom:calc(var(--sh-fade) + 32px); }
 .sidhero-media { position:absolute; inset:0; z-index:-2; pointer-events:none; }
 .sidhero-media img { width:100%; height:100%; object-fit:cover; object-position:right center; display:block; }
 .sidhero::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:linear-gradient(90deg,rgba(16,17,20,.97) 0%,rgba(16,17,20,.93) 35%,rgba(16,17,20,.72) 51%,rgba(16,17,20,.12) 78%); }
+/* Endast bakgrundslagret tonas: ::after ligger under innehallet (z-index -1). */
+.sidhero::after { content:""; position:absolute; left:0; right:0; bottom:0; height:var(--sh-fade); z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, transparent 0, var(--bg) 100%); }
+@supports (color: color-mix(in oklab, red, blue)) {
+  .sidhero::after { background:linear-gradient(180deg,
+    color-mix(in oklab, var(--bg) 0%, transparent) 0,
+    color-mix(in oklab, var(--bg) 16%, transparent) 25%,
+    color-mix(in oklab, var(--bg) 50%, transparent) 50%,
+    color-mix(in oklab, var(--bg) 84%, transparent) 75%,
+    var(--bg) 100%); }
+}
 .sidhero > .wrap { width:100%; }
 .sidhero .section-head { max-width:600px; margin-left:0; text-align:left; }
 .sidhero .section-head p { color:var(--muted); }
@@ -14,15 +29,34 @@
 .sidhero :focus-visible { outline-color:#B6ACFF; }
 .sidhero-about { min-height:0; }
 .sidhero-about .sidhero-media img { object-position:right center; }
-.sidhero-about::before { background:linear-gradient(90deg,rgba(16,17,20,.8),rgba(16,17,20,.76) 72%,rgba(16,17,20,.35)); }
+/* Om (v2): lugn vagg med diskret sidoljus. Overlagget ar latt sa att
+   materialstrukturen syns; texten bars av --ink-tonen i bilden. */
+.sidhero-about::before { background:linear-gradient(90deg,rgba(16,17,20,.62),rgba(16,17,20,.5) 60%,rgba(16,17,20,.22)); }
 .sidhero-about .section-head { margin-inline:auto; text-align:center; max-width:760px; }
-.sidhero-about .about-copy { padding:24px; border-radius:16px; background:rgba(16,17,20,.72); }
+.sidhero-about .about-copy { padding:24px; border-radius:16px; background:rgba(16,17,20,.55); }
 @media(max-width:860px) {
- .sidhero { min-height:640px; padding-bottom:180px; align-items:flex-start; }
- .sidhero-media img { object-position:75% bottom; }
- .sidhero::before { background:linear-gradient(180deg,rgba(16,17,20,.96),rgba(16,17,20,.87) 62%,rgba(16,17,20,.3)); }
+ /* Egna mobilbilder (1024 x 1536, morkt upptill). Bilden forankras nederst
+    till hoger, hogst 520 px bred, och tonas in i grafiten upptill, till
+    vanster och nedtill. Den nedre luften ar motivets band: (1 - motivets
+    startrad) x bildens hojd, sa texten slutar ovanfor motivet. */
+ .sidhero { --sh-fade:96px; --sh-motiv:.765; min-height:0; align-items:flex-start;
+   padding-bottom:calc(min(100vw, 520px) * var(--sh-motiv) + 24px); }
+ .sidhero-media img { position:absolute; top:auto; left:auto; right:0; bottom:0; width:min(100%, 520px); height:auto; aspect-ratio:2 / 3; object-fit:cover;
+   -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0, #000 10%);
+   -webkit-mask-composite:source-in;
+   mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0, #000 10%);
+   mask-composite:intersect; }
+ .sidhero::before { background:linear-gradient(180deg,rgba(16,17,20,.6) 0,rgba(16,17,20,.45) 40%,rgba(16,17,20,0) 62%); }
+ /* Motivets startrad i respektive mobilbild (uppmatt): 49 / 57 / 56 %. */
+ body[data-bg="webbdesign"] .sidhero { --sh-motiv:.765; }
+ body[data-bg="webbesiktning"] .sidhero { --sh-motiv:.645; }
+ body[data-bg="konsult"] .sidhero { --sh-motiv:.66; }
  .sidhero .section-head { max-width:600px; }
- .sidhero-about { padding-bottom:64px; }
- .sidhero-about::before { background:rgba(16,17,20,.72); }
+ /* Om: hela presentationen ligger pa bakgrunden; bilden tacker ytan och
+    forankras uppe till hoger sa sidoljuset loper langs kanten. */
+ .sidhero-about { padding-bottom:calc(var(--sh-fade) + 32px); }
+ .sidhero-about .sidhero-media img { inset:0; width:100%; height:100%; aspect-ratio:auto; object-position:right top;
+   -webkit-mask-image:none; mask-image:none; }
+ .sidhero-about::before { background:rgba(16,17,20,.5); }
  .sidhero-about .about-copy { padding:16px; }
 }
